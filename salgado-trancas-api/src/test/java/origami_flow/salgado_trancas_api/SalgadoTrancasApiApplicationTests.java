@@ -1,10 +1,10 @@
-package flow.origami.back_api;
+package origami_flow.salgado_trancas_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackApiApplicationTests {
+class SalgadoTrancasApiApplicationTests {
 
 	@Test
 	void contextLoads() {
