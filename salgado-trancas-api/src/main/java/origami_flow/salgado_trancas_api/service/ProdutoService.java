@@ -1,8 +1,11 @@
 package origami_flow.salgado_trancas_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.entity.Produto;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
 
 import java.util.List;
@@ -28,11 +31,11 @@ public class ProdutoService {
         produto.setId_produto(id);
         return produtoRepository.save(produto);
     }
-    public Boolean deletarProduto(Integer id){
+    public void deletarProduto(Integer id){
         if (!produtoRepository.existsById(id)){
-            return false;
+            throw new EntidadeNaoEncontradaException();
         }
         produtoRepository.deleteById(id);
-        return true;
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Produto deletado com sucesso");
     }
 }
