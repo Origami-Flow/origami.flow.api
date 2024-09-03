@@ -36,6 +36,5 @@ public class ProdutoService {
             throw new EntidadeNaoEncontradaException();
         }
         produtoRepository.deleteById(id);
-        throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Produto deletado com sucesso");
     }
 }

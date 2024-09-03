@@ -26,7 +26,7 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Produto> adicionarProduto(@RequestBody Produto produto) {
-        Produto produtoRetorno = produtoService.adicionarProduto(produto);m
+        Produto produtoRetorno = produtoService.adicionarProduto(produto);
 
         return ResponseEntity.status(201).body(produtoRetorno);
 
@@ -43,9 +43,7 @@ public class ProdutoController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer id) {
-        if (!produtoService.deletarProduto(id)) {
-            return ResponseEntity.status(404).build();
-        }
+        produtoService.deletarProduto(id);
         return ResponseEntity.status(200).build();
     }
 
