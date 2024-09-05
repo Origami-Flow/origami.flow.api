@@ -15,6 +15,7 @@ import origami_flow.salgado_trancas_api.dto.LivroApiExternoDto;
 import origami_flow.salgado_trancas_api.dto.LivroDto;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/livros")
@@ -22,7 +23,7 @@ public class LivroController {
     private static final Logger log = LoggerFactory.getLogger(LivroController.class);
 
     @GetMapping
-    public ResponseEntity<List<LivroDto>> listLivros(
+    public ResponseEntity<LivroApiExternoDto> listLivros(
             @RequestParam String title
     ) {
         RestClient client = RestClient.builder()
@@ -37,26 +38,31 @@ public class LivroController {
 
         log.info("Resposta da API: " + raw);
 
-        List<LivroDto> response = client.get()
+        LivroApiExternoDto response = client.get()
                 .uri("?title=" + title)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<LivroDto>>() {});
+                .body(new ParameterizedTypeReference<>() {});
+
+//        for(Map.Entry<?, ?> entry: response.entrySet()) {
+//            System.out.println(entry.getKey()+"\n");
+//            System.out.println(entry.getValue()+"\n");
+//        }
 
         if(response == null ){
             return ResponseEntity.noContent().build();
         }
 
-        List<LivroDto> resposta = response.stream().map(item ->LivroDto.builder()
+//        List<LivroDto> resposta = response.stream().map(item ->LivroDto.builder()
 //                .isbn(item.getIsbn())
-                .authors(item.getAuthors())
+//                .authors(item.getAuthors())
 //                .publishDate(item.getPublishDate())
 //                .coverUrl(item.getCoverUrl())
 //                .subjects(item.getSubjects())
 //                .subtitle(item.getSubtitle())
-                .title(item.getTitle())
-                .build()).toList();
+//                .title(item.getTitle())
+//                .build()).toList();
 
-        return ResponseEntity.ok(resposta);
+        return ResponseEntity.ok(response);
 
     }
 

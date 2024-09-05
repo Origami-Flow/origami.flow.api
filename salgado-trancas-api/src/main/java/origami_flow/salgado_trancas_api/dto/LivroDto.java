@@ -9,11 +9,11 @@ import java.util.List;
 @Builder
 public class LivroDto {
 
-    private String title;
+    private Integer numFound;
 //    private String subtitle;
-    private String authors;
+//    private String authors;
 //    private String publishDate;
-////    private String coverUrl;
+//    private String coverUrl;
 //    private List<String> subjects;
 //    private String isbn;
 
