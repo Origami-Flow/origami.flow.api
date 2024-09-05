@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
+import origami_flow.salgado_trancas_api.dto.ApiLivroDto;
 import origami_flow.salgado_trancas_api.dto.LivroApiExternoDto;
 import origami_flow.salgado_trancas_api.dto.LivroDto;
 
@@ -22,44 +23,39 @@ public class LivroController {
 
     @GetMapping
     public ResponseEntity<List<LivroDto>> listLivros(
-            @RequestParam String volumes
+            @RequestParam String title
     ) {
         RestClient client = RestClient.builder()
-                .baseUrl("https://www.googleapis.com/books/v1/")
+                .baseUrl("https://openlibrary.org/search.json")
                 .messageConverters(httpMessageConverters -> httpMessageConverters.add(new MappingJackson2HttpMessageConverter()))
                 .build();
 
         String raw = client.get()
-                .uri("/volumes?q=" + volumes)
+                .uri("?title=" + title)
                 .retrieve()
                 .body(String.class);
 
         log.info("Resposta da API: " + raw);
 
-        LivroApiExternoDto response = client.get()
-                .uri("/volumes?q=" + volumes)
+        List<LivroDto> response = client.get()
+                .uri("?title=" + title)
                 .retrieve()
-                .body(LivroApiExternoDto.class);
+                .body(new ParameterizedTypeReference<List<LivroDto>>() {});
 
-        if (response == null) {
+        if(response == null ){
             return ResponseEntity.noContent().build();
         }
 
-        List<LivroDto> resposta =
-                response.getItems().stream().map(item -> {
-                    LivroDto bancoDto = new LivroDto();
-                    bancoDto.setId(item.getId());
-                    bancoDto.setTitle(item.getTitle());
-                    bancoDto.setAuthors(item.getAuthors());
-                    bancoDto.setPublishedDate(item.getPublishedDate());
-                    bancoDto.setThumbnail(item.getThumbnail());
-                    bancoDto.setLanguage(item.getLanguage());
-                    bancoDto.setPageCount(item.getPageCount());
-                    bancoDto.setPreviewLink(item.getPreviewLink());
-                    bancoDto.setInfoLink(item.getInfoLink());
-                    bancoDto.setDownloadLinkPdf(item.getDownloadLinkPdf());
-                    return bancoDto;
-                }).toList();
+        List<LivroDto> resposta = response.stream().map(item ->LivroDto.builder()
+//                .isbn(item.getIsbn())
+                .authors(item.getAuthors())
+//                .publishDate(item.getPublishDate())
+//                .coverUrl(item.getCoverUrl())
+//                .subjects(item.getSubjects())
+//                .subtitle(item.getSubtitle())
+                .title(item.getTitle())
+                .build()).toList();
+
         return ResponseEntity.ok(resposta);
 
     }
