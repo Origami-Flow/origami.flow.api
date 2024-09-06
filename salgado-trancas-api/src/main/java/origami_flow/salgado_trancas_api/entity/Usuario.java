@@ -16,6 +16,6 @@ public abstract class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private String id_google;
+    private String token_google;
 
 }

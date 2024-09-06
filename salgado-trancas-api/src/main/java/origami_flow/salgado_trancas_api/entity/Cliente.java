@@ -19,7 +19,9 @@ public class Cliente extends Usuario {
     private Integer id_usuario;
     private LocalDate dt_nascimento;
     private String telefone;
-    private String tipo_de_cabelo ;
-    //private Enum <tipo_genero> fk_genero;
-
+    private String genero;
+    private String tipo_de_cabelo;
+    private String ocupacao;
+    @ManyToOne()
+    private Endereco endereco;
 }
