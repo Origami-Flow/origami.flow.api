@@ -1,20 +1,22 @@
 package origami_flow.salgado_trancas_api.dto;
 
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
-@Data
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LivroDto {
-
-    private Integer numFound;
-//    private String subtitle;
-//    private String authors;
-//    private String publishDate;
-//    private String coverUrl;
-//    private List<String> subjects;
-//    private String isbn;
-
+    private String id;
+    private String title;
+    private String authors;
+    private String publishedDate;
+    private String smallThumbnail;
+    private String thumbnail;
+    private String previewLink;
+    private Boolean isAvailable;
+    private String downloadLink;
 }

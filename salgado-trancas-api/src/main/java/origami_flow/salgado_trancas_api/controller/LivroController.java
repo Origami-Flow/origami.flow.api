@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
-import origami_flow.salgado_trancas_api.dto.ApiLivroDto;
+import origami_flow.salgado_trancas_api.dto.Item;
 import origami_flow.salgado_trancas_api.dto.LivroApiExternoDto;
 import origami_flow.salgado_trancas_api.dto.LivroDto;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/livros")
@@ -23,11 +22,11 @@ public class LivroController {
     private static final Logger log = LoggerFactory.getLogger(LivroController.class);
 
     @GetMapping
-    public ResponseEntity<LivroApiExternoDto> listLivros(
+    public ResponseEntity<List<Item>> listLivros(
             @RequestParam String title
     ) {
         RestClient client = RestClient.builder()
-                .baseUrl("https://openlibrary.org/search.json")
+                .baseUrl("https://www.googleapis.com/books/v1/volumes?q="+ title +"&filter=free-ebooks&langRestrict=pt-BR")
                 .messageConverters(httpMessageConverters -> httpMessageConverters.add(new MappingJackson2HttpMessageConverter()))
                 .build();
 
@@ -38,30 +37,47 @@ public class LivroController {
 
         log.info("Resposta da API: " + raw);
 
-        LivroApiExternoDto response = client.get()
+        LivroApiExternoDto result = client.get()
                 .uri("?title=" + title)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
 
-//        for(Map.Entry<?, ?> entry: response.entrySet()) {
-//            System.out.println(entry.getKey()+"\n");
-//            System.out.println(entry.getValue()+"\n");
-//        }
-
-        if(response == null ){
+        if(result == null ){
             return ResponseEntity.noContent().build();
         }
 
-//        List<LivroDto> resposta = response.stream().map(item ->LivroDto.builder()
-//                .isbn(item.getIsbn())
-//                .authors(item.getAuthors())
-//                .publishDate(item.getPublishDate())
-//                .coverUrl(item.getCoverUrl())
-//                .subjects(item.getSubjects())
-//                .subtitle(item.getSubtitle())
-//                .title(item.getTitle())
-//                .build()).toList();
+//        List<Item> items = result.getItems();
+        List<Item> response = result.getItems();
+//        List<LivroDto> response = items.stream()
+//                .map(item -> LivroDto.builder()
+//                        .id(item.getId())
+//                        .title(item.getVolumeInfo() != null ? item.getVolumeInfo().getTitle() : null)
+//                        .authors(item.getVolumeInfo() != null && item.getVolumeInfo().getAuthors() != null
+//                                ? String.join(", ", item.getVolumeInfo().getAuthors()) : null)
+//                        .publishedDate(item.getVolumeInfo() != null ? item.getVolumeInfo().getPublishedDate() : null)
+//                        .smallThumbnail(item.getVolumeInfo() != null && item.getVolumeInfo().getImageLinks() != null
+//                                ? item.getVolumeInfo().getImageLinks().getSmallThumbnail() : null)
+//                        .thumbnail(item.getVolumeInfo() != null && item.getVolumeInfo().getImageLinks() != null
+//                                ? item.getVolumeInfo().getImageLinks().getThumbnail() : null)
+//                        .previewLink(item.getVolumeInfo() != null ? item.getVolumeInfo().getPreviewLink() : null)
+//                        .isAvailable(item.getAccessInfo() != null && item.getAccessInfo().getPdf() != null
+//                                ? item.getAccessInfo().getPdf().getIsAvailable() : null)
+//                        .downloadLink(item.getAccessInfo() != null && item.getAccessInfo().getPdf() != null
+//                                ? item.getAccessInfo().getPdf().getDownloadLink() : null)
+//                        .build()
+//                )
+//                .collect(Collectors.toList());
 
+
+//        private String id;
+//        private String title;
+//        private String authors;
+//        private String publishedDate;
+//        private String smallThumbnail;
+//        private String thumbnail;
+//        private String previewLink;
+//        private Boolean isAvailable;
+//        private String downloadLink;
         return ResponseEntity.ok(response);
 
     }

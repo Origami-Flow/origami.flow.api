@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class LivroApiExternoDto {
 
-    @JsonProperty("numFound")
-    private Integer numFound;
+    @JsonProperty("items")
+    private List<Item> items;
+
 //    private String subtitle;
 //    private List<String> authors;
 //    private String publishDate;
