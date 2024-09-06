@@ -6,10 +6,10 @@ import origami_flow.salgado_trancas_api.dto.livro.Item;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LIvroMapper {
+public class LivroMapper {
     public static List<LivroDto> toLivroDtoList(List<Item> items) {
         return items.stream()
-                .map(LIvroMapper::toLivroDto)
+                .map(LivroMapper::toLivroDto)
                 .collect(Collectors.toList());
     }
 

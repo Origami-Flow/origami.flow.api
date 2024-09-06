@@ -10,7 +10,7 @@ import origami_flow.salgado_trancas_api.controller.LivroController;
 import origami_flow.salgado_trancas_api.dto.LivroApiExternoDto;
 import origami_flow.salgado_trancas_api.dto.LivroDto;
 import origami_flow.salgado_trancas_api.dto.livro.Item;
-import origami_flow.salgado_trancas_api.mapper.LIvroMapper;
+import origami_flow.salgado_trancas_api.mapper.LivroMapper;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class LivroService {
         }
 
         List<Item> items = result.getItems();
-        return LIvroMapper.toLivroDtoList(items);
+        return LivroMapper.toLivroDtoList(items);
     }
 
 
