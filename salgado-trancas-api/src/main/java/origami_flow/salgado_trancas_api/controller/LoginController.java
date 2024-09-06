@@ -3,7 +3,7 @@ package origami_flow.salgado_trancas_api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import origami_flow.salgado_trancas_api.entity.Usuario;
+import origami_flow.salgado_trancas_api.entity.UsuarioAbstract;
 import origami_flow.salgado_trancas_api.service.LoginService;
 
 @RequestMapping("/logins")
@@ -14,8 +14,8 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping
-    public ResponseEntity<Usuario> autenticar(@RequestParam String email, @RequestParam String senha) {
-        Usuario usuarioRetorno = loginService.autenticar(email,senha);
+    public ResponseEntity<UsuarioAbstract> autenticar(@RequestParam String email, @RequestParam String senha) {
+        UsuarioAbstract usuarioRetorno = loginService.autenticar(email,senha);
         if (usuarioRetorno == null) {
             return ResponseEntity.status(404).build();
         }

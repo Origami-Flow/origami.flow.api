@@ -16,8 +16,7 @@ public class TrancistaService {
         return trancistaRepository.findAll();
     }
 
-    public Trancista cadastrar(Trancista trancista) {
-        trancista.setId_trancista(null);
-        return trancistaRepository.save(trancista);
+    public Trancista listarTrancistaPorId(Integer id) {
+        return trancistaRepository.findById(id).orElse(null);
     }
 }

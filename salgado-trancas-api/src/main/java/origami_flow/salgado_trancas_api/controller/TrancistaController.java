@@ -21,9 +21,11 @@ public class TrancistaController {
         return ResponseEntity.status(200).body(listaTrancistas);
     }
 
-    @PostMapping
-    public ResponseEntity<Trancista> cadastrar(@RequestBody Trancista novoTrancista) {
-        Trancista trancistaResponse = trancistaService.cadastrar(novoTrancista);
-        return ResponseEntity.status(201).body(trancistaResponse);
+    @GetMapping("/{id}")
+    public ResponseEntity<Trancista> listarTrancistaPorId(@PathVariable Integer id) {
+        Trancista trancistaRetorno = trancistaService.listarTrancistaPorId(id);
+        if (trancistaRetorno == null) return ResponseEntity.status(404).build();
+        return ResponseEntity.status(200).body(trancistaRetorno);
     }
+
 }

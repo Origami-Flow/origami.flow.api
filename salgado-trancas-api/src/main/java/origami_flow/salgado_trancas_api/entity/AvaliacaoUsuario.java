@@ -19,7 +19,5 @@ public class AvaliacaoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_avaliacao;
     private String avaliacao;
-    private Integer nota;
-    private Integer cliente_fk;
-
+    private Double nota;
 }

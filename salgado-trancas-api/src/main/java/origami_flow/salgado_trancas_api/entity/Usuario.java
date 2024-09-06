@@ -1,21 +1,27 @@
 package origami_flow.salgado_trancas_api.entity;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Usuario {
-
-    private String nome;
-    private String email;
-    private String senha;
-    private String token_google;
-
+@NoArgsConstructor
+@Entity
+public class Usuario extends UsuarioAbstract {
+    private LocalDate dt_nascimento;
+    private String telefone;
+    private String genero;
+    private String tipo_cabelo;
+    private String cor_cabelo;
+    private String ocupacao;
+    @ManyToOne()
+    private Endereco endereco;
+    @ManyToOne()
+    private AvaliacaoUsuario avaliacaoUsuario;
 }

@@ -1,25 +1,26 @@
 package origami_flow.salgado_trancas_api.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class Produto {
+@AllArgsConstructor
+@MappedSuperclass
+public abstract class UsuarioAbstract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_produto;
+    private Integer id_usuario;
     private String nome;
-    private Integer quantidade;
-    private String marca;
-    private String descricao;
+    private String email;
+    private String senha;
+    private String token_google;
+
 }

@@ -3,7 +3,8 @@ package origami_flow.salgado_trancas_api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import origami_flow.salgado_trancas_api.entity.Cliente;
+import origami_flow.salgado_trancas_api.entity.Usuario;
+import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.service.CadastroService;
 
 @RestController
@@ -12,10 +13,15 @@ public class CadastroController {
     @Autowired
     private CadastroService cadastroService;
 
-    @PostMapping
-    public ResponseEntity<Cliente> cadastrarUsuario(@RequestBody Cliente cliente){
+    @PostMapping("/cliente")
+    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario cliente){
+        Usuario clienteRetorno = cadastroService.cadastrarUsuario(cliente);
+        return ResponseEntity.status(201).body(clienteRetorno);
+    }
 
-        cadastroService.cadastrarUsuario(cliente);
-        return ResponseEntity.status(201).body(cliente);
+    @PostMapping("/trancista")
+    public ResponseEntity<Trancista> cadastrarTrancista(@RequestBody Trancista novoTrancista) {
+        Trancista trancistaRetorno = cadastroService.cadastrarTrancista(novoTrancista);
+        return ResponseEntity.status(201).body(trancistaRetorno);
     }
 }
