@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 import origami_flow.salgado_trancas_api.dto.LivroDto;
 import origami_flow.salgado_trancas_api.dto.livro.Item;
@@ -22,13 +19,8 @@ import java.util.List;
 @RequestMapping("/livros")
 public class LivroController {
     private static final Logger log = LoggerFactory.getLogger(LivroController.class);
-
-    private final LivroService livroService;
-
-    public LivroController(LivroService livroService) {
-        this.livroService = livroService;
-    }
-
+    @Autowired
+    private LivroService livroService;
 
     @GetMapping
     public ResponseEntity<List<LivroDto>> listLivros(
@@ -45,4 +37,18 @@ public class LivroController {
 
     }
 
+    @GetMapping("/ordenados-titulo")
+    public ResponseEntity<List<LivroDto>> orderLivros (
+            @RequestParam String title,
+            @RequestParam(defaultValue = "asc") String order
+    ) {
+        log.info("Buscando livros e ordenando por titulo");
+        List<LivroDto> livros = livroService.buscarLivrosPorTituloOrdenado(title, order);
+
+        if (livros.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(livros);
+    }
 }
