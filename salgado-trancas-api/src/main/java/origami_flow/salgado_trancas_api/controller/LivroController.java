@@ -22,12 +22,14 @@ public class LivroController {
     @Autowired
     private LivroService livroService;
 
+    @CrossOrigin(origins = "*")
     @GetMapping
     public ResponseEntity<List<LivroDto>> listLivros(
-            @RequestParam String title
+            @RequestParam String title,
+            @RequestParam(defaultValue = "none") String order
     ) {
         log.info("Buscando livros com título: " + title);
-        List<LivroDto> livros = livroService.buscarLivrosPorTitulo(title);
+        List<LivroDto> livros = livroService.buscarLivrosPorTitulo(title, order);
 
         if (livros.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -35,20 +37,5 @@ public class LivroController {
 
         return ResponseEntity.ok(livros);
 
-    }
-
-    @GetMapping("/ordenados-titulo")
-    public ResponseEntity<List<LivroDto>> orderLivros (
-            @RequestParam String title,
-            @RequestParam(defaultValue = "asc") String order
-    ) {
-        log.info("Buscando livros e ordenando por titulo");
-        List<LivroDto> livros = livroService.buscarLivrosPorTituloOrdenado(title, order);
-
-        if (livros.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(livros);
     }
 }
