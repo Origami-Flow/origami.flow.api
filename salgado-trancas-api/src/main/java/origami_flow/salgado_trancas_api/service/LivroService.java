@@ -22,7 +22,7 @@ public class LivroService {
             throw new RequisicaoErradaException("Ordenação incorreta");
         }
         RestClient client = RestClient.builder()
-                .baseUrl("https://www.googleapis.com/books/v1/volumes?q=" + title + "&filter=free-ebooks&langRestrict=pt-BR")
+                .baseUrl("https://www.googleapis.com/books/v1/volumes?q=" + title )
                 .messageConverters(httpMessageConverters -> httpMessageConverters.add(new MappingJackson2HttpMessageConverter()))
                 .build();
 
