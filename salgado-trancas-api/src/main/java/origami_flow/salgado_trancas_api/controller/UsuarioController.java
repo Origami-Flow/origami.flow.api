@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +18,27 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> listarCliente() {
         List<Usuario> listaClientes = usuarioService.listarCliente();
-        if (listaClientes.isEmpty()) return ResponseEntity.status(204).build();
-        return ResponseEntity.status(200).body(listaClientes);
+        if (listaClientes.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(listaClientes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> listarClientePorId(@PathVariable Integer id) {
-        Usuario clienteRetorno = usuarioService.listarClientePorId(id);
-        if (clienteRetorno == null) return ResponseEntity.status(404).build();
-        return ResponseEntity.status(200).body(clienteRetorno);
+    public ResponseEntity<Usuario> clientePorId(@PathVariable Integer id) {
+        Usuario clienteRetorno = usuarioService.clientePorId(id);
+
+        return ResponseEntity.ok(clienteRetorno);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarClientePorId(@PathVariable Integer id, @RequestBody Usuario clienteAtualizado) {
+    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody @Valid Usuario clienteAtualizado) {
         Usuario clienteRetorno = usuarioService.atualizarCliente(id, clienteAtualizado);
-        if (clienteRetorno == null) return ResponseEntity.status(404).build();
-        return ResponseEntity.status(200).body(clienteRetorno);
+
+        return ResponseEntity.ok(clienteRetorno);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Integer id) {
         usuarioService.deletarCliente(id);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.noContent().build();
     }
 }

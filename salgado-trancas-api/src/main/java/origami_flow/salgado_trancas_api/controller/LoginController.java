@@ -14,11 +14,9 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping
-    public ResponseEntity<UsuarioAbstract> autenticar(@RequestParam String email, @RequestParam String senha) {
-        UsuarioAbstract usuarioRetorno = loginService.autenticar(email,senha);
-        if (usuarioRetorno == null) {
-            return ResponseEntity.status(404).build();
-        }
-        return ResponseEntity.status(200).body(usuarioRetorno);
+    public ResponseEntity<UsuarioAbstract> autenticar(@RequestBody UsuarioAbstract usuario) {
+        UsuarioAbstract usuarioRetorno = loginService.autenticar(usuario.getEmail(), usuario.getSenha());
+
+        return ResponseEntity.ok(usuarioRetorno);
     }
 }

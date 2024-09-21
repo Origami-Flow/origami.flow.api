@@ -24,17 +24,14 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
     public Produto atualizarProduto(Integer id, Produto produto){
-        if (!produtoRepository.existsById(id)){
-            return null;
-        }
+        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto");
 
         produto.setId_produto(id);
         return produtoRepository.save(produto);
     }
     public void deletarProduto(Integer id){
-        if (!produtoRepository.existsById(id)){
-            throw new EntidadeNaoEncontradaException();
-        }
+        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto ");
+
         produtoRepository.deleteById(id);
     }
 }

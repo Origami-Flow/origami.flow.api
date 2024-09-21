@@ -6,4 +6,6 @@ import origami_flow.salgado_trancas_api.entity.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     Usuario findByEmailAndSenha(String email, String senha);
+
+    boolean existsByTelefoneOrEmail(String telefone, String email);
 }
