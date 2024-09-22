@@ -17,11 +17,12 @@ import java.util.List;
 
 @Service
 public class LivroService {
-//    private static final Logger log = LoggerFactory.getLogger(LivroController.class);
-
-    public List<LivroDto> buscarLivrosPorTitulo(String title) {
+    public List<LivroDto> buscarLivrosPorTitulo(String title, String order) {
+        if (!order.equals("asc") && !order.equals("desc") && !order.equals("none")) {
+            throw new RequisicaoErradaException("Ordenação incorreta");
+        }
         RestClient client = RestClient.builder()
-                .baseUrl("https://www.googleapis.com/books/v1/volumes?q=" + title + "&filter=free-ebooks&langRestrict=pt-BR")
+                .baseUrl("https://www.googleapis.com/books/v1/volumes?q=" + title )
                 .messageConverters(httpMessageConverters -> httpMessageConverters.add(new MappingJackson2HttpMessageConverter()))
                 .build();
 
@@ -36,16 +37,15 @@ public class LivroService {
         }
 
         List<Item> items = result.getItems();
-        return LivroMapper.toLivroDtoList(items);
+        List<LivroDto> livros = LivroMapper.toLivroDtoList(items);
+
+        if (order.equals("asc") || order.equals("desc")) {
+            ordenarLivros(livros, order);
+        }
+        return livros;
     }
 
-    public List<LivroDto> buscarLivrosPorTituloOrdenado(String title, String order) {
-        if (!order.equals("asc") && !order.equals("desc")) {
-            throw new RequisicaoErradaException();
-        }
-
-        List<LivroDto> livros = buscarLivrosPorTitulo(title);
-
+    private List<LivroDto> ordenarLivros(List<LivroDto> livros, String order) {
         for (int i = 0; i < livros.size() - 1; i++) {
             int posicaoValor = i;
             for (int j = i + 1; j < livros.size(); j++) {
