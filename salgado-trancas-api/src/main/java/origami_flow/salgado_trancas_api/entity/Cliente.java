@@ -11,30 +11,50 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Usuario extends UsuarioAbstract {
+public class Cliente extends UsuarioAbstract {
 
-    @PastOrPresent
     @NotNull
-    private LocalDate dt_nascimento;
-    @Size(min = 11, max = 11)
+    @PastOrPresent
+    @Column(name = "dtNasc")
+    private LocalDate dtNascimento;
+
     @NotBlank
+    @Size(min = 11, max = 11)
     private String telefone;
+
     @NotBlank
     private String genero;
+
     @NotBlank
-    private String tipo_cabelo;
+    @Column(name = "tipo_cabelo")
+    private String tipoCabelo;
+
     @NotBlank
-    private String cor_cabelo;
+    @Column(name = "cor_cabelo")
+    private String corCabelo;
+
+    private boolean progressiva;
+
+    private  boolean primeiraTranca;
+
     @NotBlank
     private String ocupacao;
-    @ManyToOne()
+
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
-    @ManyToOne()
-    private AvaliacaoUsuario avaliacaoUsuario;
+
+    @OneToMany
+    private List<Atendimento> atendimento;
+
+
+    @OneToMany
+    private List<AvaliacaoCliente> avaliacoes;
 }

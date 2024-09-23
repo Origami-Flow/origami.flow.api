@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.UsuarioAbstract;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
-import origami_flow.salgado_trancas_api.repository.UsuarioRepository;
+import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 
 @Service
 public class LoginService {
     @Autowired
-    private UsuarioRepository clienteRepository;
+    private ClienteRepository clienteRepository;
     @Autowired
     private TrancistaRepository trancistaRepository;
 

@@ -2,10 +2,10 @@ package origami_flow.salgado_trancas_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.repository.AvaliacaoUsuarioRepository;
+import origami_flow.salgado_trancas_api.repository.AvaliacaoClienteRepository;
 
 @Service
-public class AvaliacaoUsuarioService {
+public class AvaliacaoClienteService {
     @Autowired
-    private AvaliacaoUsuarioRepository avaliacaoUsuarioRepository;
+    private AvaliacaoClienteRepository avaliacaoClienteRepository;
 }

@@ -1,9 +1,6 @@
 package origami_flow.salgado_trancas_api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,23 +11,27 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Produto {
+@AllArgsConstructor
+public class AvaliacaoCliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_produto;
+    private Integer id;
 
     @NotBlank
-    private String nome;
+    private String avaliacao;
 
     @NotNull
-    private Integer quantidade;
+    private Double nota;
 
-    @NotBlank
-    private String marca;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
-    @NotBlank
-    private String descricao;
+    @ManyToOne
+    @JoinColumn(name = "salao_id")
+    private Salao salao;
+
+
 }

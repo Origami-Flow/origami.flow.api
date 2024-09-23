@@ -2,20 +2,27 @@ package origami_flow.salgado_trancas_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.entity.Usuario;
+import origami_flow.salgado_trancas_api.dto.request.ClienteRequestDTO;
+import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
-import origami_flow.salgado_trancas_api.repository.UsuarioRepository;
+import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 
 @Service
 public class CadastroService {
     @Autowired
-    private UsuarioRepository clienteRepository;
+    private ClienteRepository clienteRepository;
     @Autowired
     private TrancistaRepository trancistaRepository;
 
-    public Usuario cadastrarUsuario(Usuario cliente){
+    public Cliente cadastrarUsuario(Cliente cliente){
+//        Cliente cliente = new Cliente();
+//        cliente.setNome(clienteRequestDTO.nome());
+//        cliente.setEmail(clienteRequestDTO.email());
+//        cliente.setSenha(clienteRequestDTO.senha());
+//        cliente.setTelefone(clienteRequestDTO.telefone());
+//        cliente.setGenero(clienteRequestDTO.genero());
         if (clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("telefone ou email ");
         cliente.setId_usuario(null);
         return clienteRepository.save(cliente);

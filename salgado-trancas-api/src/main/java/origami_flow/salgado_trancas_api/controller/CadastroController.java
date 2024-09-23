@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import origami_flow.salgado_trancas_api.entity.Usuario;
+import origami_flow.salgado_trancas_api.dto.request.ClienteRequestDTO;
+import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.service.CadastroService;
 
@@ -13,10 +14,10 @@ import origami_flow.salgado_trancas_api.service.CadastroService;
 public class CadastroController {
     @Autowired
     private CadastroService cadastroService;
-
+    
     @PostMapping("/cliente")
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody @Valid Usuario cliente){
-        Usuario clienteRetorno = cadastroService.cadastrarUsuario(cliente);
+    public ResponseEntity<Cliente> cadastrarUsuario(@RequestBody @Valid Cliente cliente){
+        Cliente clienteRetorno = cadastroService.cadastrarUsuario(cliente);
 
         return ResponseEntity.status(201).body(clienteRetorno);
     }
