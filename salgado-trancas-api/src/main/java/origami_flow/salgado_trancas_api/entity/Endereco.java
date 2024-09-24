@@ -50,6 +50,6 @@ public class Endereco {
     @OneToMany
     private List<Cliente> clientes;
 
-    @OneToOne(mappedBy = "endereco")
-    private Salao salao;
+//    @OneToOne(mappedBy = "endereco")
+//    private Salao salao;
 }

@@ -27,7 +27,7 @@ public class ClienteService {
 
     public Cliente atualizarCliente(Integer id, Cliente cliente) {
         if (clienteRepository.existsById(id)) {
-            cliente.setId_usuario(id);
+            cliente.setId(id);
             return clienteRepository.save(cliente);
         }
         throw new EntidadeNaoEncontradaException("Cliente ");

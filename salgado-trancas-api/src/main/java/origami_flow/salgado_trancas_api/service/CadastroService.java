@@ -24,13 +24,13 @@ public class CadastroService {
 //        cliente.setTelefone(clienteRequestDTO.telefone());
 //        cliente.setGenero(clienteRequestDTO.genero());
         if (clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("telefone ou email ");
-        cliente.setId_usuario(null);
+        cliente.setId(null);
         return clienteRepository.save(cliente);
     }
 
     public Trancista cadastrarTrancista(Trancista trancista) {
         if (trancistaRepository.existsByEmail(trancista.getEmail())) throw new EntidadeComConflitoException("email");
-        trancista.setId_usuario(null);
+        trancista.setId(null);
         return trancistaRepository.save(trancista);
     }
 }

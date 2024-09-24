@@ -51,10 +51,10 @@ public class Cliente extends UsuarioAbstract {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    @OneToMany
-    private List<Atendimento> atendimento;
-
-
-    @OneToMany
-    private List<AvaliacaoCliente> avaliacoes;
+//    @OneToMany
+//    private List<Atendimento> atendimento;
+//
+//
+//    @OneToMany
+//    private List<AvaliacaoCliente> avaliacoes;
 }

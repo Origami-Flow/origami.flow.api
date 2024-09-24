@@ -24,7 +24,7 @@ public class TrancistaService {
     public Trancista atualizarTrancista(Integer id, Trancista trancista){
         if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista");
 
-        trancista.setId_usuario(id);
+        trancista.setId(id);
         return trancistaRepository.save(trancista);
     }
 
