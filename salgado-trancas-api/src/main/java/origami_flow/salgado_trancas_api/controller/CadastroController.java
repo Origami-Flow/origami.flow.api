@@ -1,12 +1,14 @@
 package origami_flow.salgado_trancas_api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import origami_flow.salgado_trancas_api.dto.request.ClienteRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
+import origami_flow.salgado_trancas_api.dto.autenticacao.UsuarioCriacaoDto;
+import origami_flow.salgado_trancas_api.entity.UsuarioAbstract;
 import origami_flow.salgado_trancas_api.service.CadastroService;
 
 @RestController
@@ -16,10 +18,12 @@ public class CadastroController {
     private CadastroService cadastroService;
     
     @PostMapping("/cliente")
-    public ResponseEntity<Cliente> cadastrarUsuario(@RequestBody @Valid Cliente cliente){
+    @SecurityRequirement(name="Bearer")
+    public ResponseEntity<Cliente> cadastrarUsuario(@RequestBody @Valid UsuarioCriacaoDto cliente){
         Cliente clienteRetorno = cadastroService.cadastrarUsuario(cliente);
 
         return ResponseEntity.status(201).body(clienteRetorno);
+
     }
 
     @PostMapping("/trancista")
