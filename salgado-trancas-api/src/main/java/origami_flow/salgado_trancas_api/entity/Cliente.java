@@ -5,10 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import origami_flow.salgado_trancas_api.constans.ComprimentoCabeloEnum;
+import origami_flow.salgado_trancas_api.constans.GeneroEnum;
+import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,26 +18,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @Entity
 public class Cliente extends UsuarioAbstract {
 
-    @NotNull
-    @PastOrPresent
     @Column(name = "dtNasc")
     private LocalDate dtNascimento;
 
-    @NotBlank
-    @Size(min = 11, max = 11)
     private String telefone;
 
-    @NotBlank
-    private String genero;
+    private GeneroEnum genero;
 
-    @NotBlank
     @Column(name = "tipo_cabelo")
-    private String tipoCabelo;
+    private TipoCabeloEnum tipoCabelo;
 
-    @NotBlank
+    private ComprimentoCabeloEnum comprimentoCabelo;
+
     @Column(name = "cor_cabelo")
     private String corCabelo;
 
@@ -44,12 +41,11 @@ public class Cliente extends UsuarioAbstract {
 
     private  boolean primeiraTranca;
 
-    @NotBlank
     private String ocupacao;
 
-    @ManyToOne
-    @JoinColumn(name = "endereco_id")
-    private Endereco endereco;
+//    @ManyToOne
+//    @JoinColumn(name = "endereco_id")
+//    private Endereco endereco;
 
 //    @OneToMany
 //    private List<Atendimento> atendimento;

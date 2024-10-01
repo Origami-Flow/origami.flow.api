@@ -2,7 +2,6 @@ package origami_flow.salgado_trancas_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.dto.request.ClienteRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;

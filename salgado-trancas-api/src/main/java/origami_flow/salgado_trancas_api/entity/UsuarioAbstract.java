@@ -6,33 +6,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @MappedSuperclass
 public abstract class UsuarioAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    protected Integer id;
 
     @NotBlank
-    private String nome;
+    protected String nome;
 
     @NotBlank
-//    @Email
-    private String email;
+    protected String email;
 
     @NotBlank
-    private String senha;
+    protected String senha;
 
     @NotBlank
-    private String token_google;
+    protected String token_google;
 
 }
