@@ -24,10 +24,6 @@ public class Agenda {
     @Column(name = "data_agenda")
     private LocalDate dataAgenda;
 
-    @NotNull
-    @Column(name = "cliente_id")
-    private Integer clienteId;
-
     @ManyToOne
     @JoinColumn(name = "trancista_id")
     private Trancista trancista;

@@ -33,7 +33,6 @@ public class Atendimento {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @NotNull
     @ManyToMany
     @JoinTable(
         name = "auxiliar",

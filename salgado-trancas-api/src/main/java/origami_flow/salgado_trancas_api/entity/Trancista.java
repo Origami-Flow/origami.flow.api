@@ -21,9 +21,6 @@ public class Trancista extends UsuarioAbstract {
     @NotNull
     private String tipo;
 
-    @OneToMany
-    private List<Agenda> agendas;
-
     @ManyToMany(mappedBy = "trancistas")
     private List<Atendimento> atendimentos;
 }

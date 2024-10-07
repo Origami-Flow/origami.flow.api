@@ -1,9 +1,6 @@
 package origami_flow.salgado_trancas_api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,17 +17,15 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_produto;
+    private Integer id;
 
-    @NotBlank
     private String nome;
 
-    @NotNull
-    private Integer quantidade;
-
-    @NotBlank
     private String marca;
 
-    @NotBlank
-    private String descricao;
+    @Column(name = "valor_compra")
+    private Double valorCompra;
+
+    @Column(name = "valor_venda")
+    private Double valorVenda;
 }

@@ -23,11 +23,4 @@ public class Salao {
 
     @NotBlank
     private String nome;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_id")
-    private Endereco endereco;
-
-    @OneToMany
-    private List<AvaliacaoCliente> avaliacoes;
 }

@@ -43,14 +43,7 @@ public class Cliente extends UsuarioAbstract {
 
     private String ocupacao;
 
-//    @ManyToOne
-//    @JoinColumn(name = "endereco_id")
-//    private Endereco endereco;
-
-//    @OneToMany
-//    private List<Atendimento> atendimento;
-//
-//
-//    @OneToMany
-//    private List<AvaliacaoCliente> avaliacoes;
+    @ManyToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
 }
