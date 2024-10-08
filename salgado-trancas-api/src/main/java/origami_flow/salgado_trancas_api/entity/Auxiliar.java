@@ -6,25 +6,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Caixa {
-
+public class Auxiliar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_fechamento")
-    private LocalDate dataFechamento;
+    private String nome;
 
-    private Double lucro;
+    private String email;
+
+    private String cpf;
+
+    @Column(name = "valor_mao_de_obra")
+    private Double valorMaoDeObra;
 
     @ManyToOne
-    @JoinColumn(name = "salao_id")
-    private Salao salao;
+    private Trancista trancista;
+
+    @ManyToOne
+    private Atendimento atendimento;
 }

@@ -13,18 +13,16 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Caixa {
+public class Despesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_fechamento")
-    private LocalDate dataFechamento;
+    private Double valor;
 
-    private Double lucro;
+    private LocalDate data;
 
     @ManyToOne
-    @JoinColumn(name = "salao_id")
-    private Salao salao;
+    private Caixa caixa;
 }

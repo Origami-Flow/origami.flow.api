@@ -20,7 +20,4 @@ public class Trancista extends UsuarioAbstract {
 
     @NotNull
     private String tipo;
-
-    @ManyToMany(mappedBy = "trancistas")
-    private List<Atendimento> atendimentos;
 }

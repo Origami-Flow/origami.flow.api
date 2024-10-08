@@ -6,25 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Caixa {
+public class ProdutoAtendimentoUtilizado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_fechamento")
-    private LocalDate dataFechamento;
-
-    private Double lucro;
+    private String finalidade;
 
     @ManyToOne
-    @JoinColumn(name = "salao_id")
-    private Salao salao;
+    private Atendimento atendimento;
+
+    @ManyToOne
+    private Produto produto;
 }

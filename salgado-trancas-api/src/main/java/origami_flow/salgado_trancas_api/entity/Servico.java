@@ -18,11 +18,10 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "valor_cobrado_cliente")
-    private Double valorCobradoCliente;
+   private String tipo;
 
-    @Column(name = "custo_mao_obra")
-    private Double custoMaoObra;
+   @Column(name = "valor_servico")
+   private Double valorServico;
 
     @Column(name = "tempo_duracao")
     private Time tempoDuracao;

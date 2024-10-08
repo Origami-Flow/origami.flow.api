@@ -35,16 +35,13 @@ public class ClienteRequestDTO {
     @Size(min = 11, max = 11)
     private String telefone;
 
-    @NotBlank
     private GeneroEnum genero;
 
-    @NotBlank
     private TipoCabeloEnum tipoCabelo;
 
     @NotBlank
     private String corCabelo;
 
-    @NotBlank
     private ComprimentoCabeloEnum comprimentoCabelo;
 
     private boolean progressiva;

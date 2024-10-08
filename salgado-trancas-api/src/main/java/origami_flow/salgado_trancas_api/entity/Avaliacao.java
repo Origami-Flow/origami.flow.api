@@ -13,14 +13,14 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvaliacaoCliente {
+public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotBlank
-    private String avaliacao;
+    private String comentario;
 
     @NotNull
     private Double nota;

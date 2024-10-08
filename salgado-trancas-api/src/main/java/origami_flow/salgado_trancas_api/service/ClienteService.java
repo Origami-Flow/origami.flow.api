@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
@@ -10,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
-    @Autowired
-    private ClienteRepository clienteRepository;
+
+    private final ClienteRepository clienteRepository;
 
     public List<Cliente> listarCliente() {
         return clienteRepository.findAll();

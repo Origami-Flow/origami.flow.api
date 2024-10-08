@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +11,10 @@ import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TrancistaService {
-    @Autowired
-    private TrancistaRepository trancistaRepository;
+
+    private final TrancistaRepository trancistaRepository;
 
     public List<Trancista> listarTrancista() {
         return trancistaRepository.findAll();

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,21 +25,26 @@ public class Atendimento {
 
     @NotNull
     @Column(name = "datahora_inicio")
-    private LocalDateTime dataHoraInicio;
+    private Time dataHoraInicio;
 
     @NotNull
     @Column(name = "datahora_termino")
-    private LocalDateTime dataHoraTermino;
+    private Time dataHoraTermino;
+
+    private Double receita;
+
+    @Column(name = "data_realizado")
+    private LocalDate dataRealizado;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @ManyToMany
-    @JoinTable(
-        name = "auxiliar",
-        joinColumns = @JoinColumn(name = "atendimento_id"),
-        inverseJoinColumns = @JoinColumn(name = "trancista_id")
-    )
-    private List<Trancista> trancistas;
+    @ManyToOne
+    private Servico servico;
+
+    @ManyToOne
+    private Agenda agenda;
+
+    @ManyToOne
+    private  Caixa caixa;
 }

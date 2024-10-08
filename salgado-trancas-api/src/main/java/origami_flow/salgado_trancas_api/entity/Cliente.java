@@ -14,12 +14,13 @@ import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+
 @Entity
+@SuperBuilder
+//@Getter
+//@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cliente extends UsuarioAbstract {
 
     @Column(name = "dtNasc")
@@ -46,4 +47,84 @@ public class Cliente extends UsuarioAbstract {
     @ManyToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+
+    public LocalDate getDtNascimento() {
+        return dtNascimento;
+    }
+
+    public void setDtNascimento(LocalDate dtNascimento) {
+        this.dtNascimento = dtNascimento;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public GeneroEnum getGenero() {
+        return genero;
+    }
+
+    public void setGenero(GeneroEnum genero) {
+        this.genero = genero;
+    }
+
+    public TipoCabeloEnum getTipoCabelo() {
+        return tipoCabelo;
+    }
+
+    public void setTipoCabelo(TipoCabeloEnum tipoCabelo) {
+        this.tipoCabelo = tipoCabelo;
+    }
+
+    public ComprimentoCabeloEnum getComprimentoCabelo() {
+        return comprimentoCabelo;
+    }
+
+    public void setComprimentoCabelo(ComprimentoCabeloEnum comprimentoCabelo) {
+        this.comprimentoCabelo = comprimentoCabelo;
+    }
+
+    public String getCorCabelo() {
+        return corCabelo;
+    }
+
+    public void setCorCabelo(String corCabelo) {
+        this.corCabelo = corCabelo;
+    }
+
+    public boolean isProgressiva() {
+        return progressiva;
+    }
+
+    public void setProgressiva(boolean progressiva) {
+        this.progressiva = progressiva;
+    }
+
+    public boolean isPrimeiraTranca() {
+        return primeiraTranca;
+    }
+
+    public void setPrimeiraTranca(boolean primeiraTranca) {
+        this.primeiraTranca = primeiraTranca;
+    }
+
+    public String getOcupacao() {
+        return ocupacao;
+    }
+
+    public void setOcupacao(String ocupacao) {
+        this.ocupacao = ocupacao;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
 }

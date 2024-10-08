@@ -23,4 +23,7 @@ public class Salao {
 
     @NotBlank
     private String nome;
+
+    @OneToOne
+    private Endereco endereco;
 }
