@@ -11,6 +11,6 @@ public class EntidadeComConflitoException extends RuntimeException {
     }
 
     public EntidadeComConflitoException(String message) {
-        super(String.format("Este %s já foram utilizados" , message));
+        super(String.format("Este %s já foi utilizado" , message));
     }
 }

@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/trancistas")
+@RequiredArgsConstructor
 public class TrancistaController {
-    @Autowired
-    TrancistaService trancistaService;
+
+    private final TrancistaService trancistaService;
 
     @GetMapping
     public ResponseEntity<List<Trancista>> listarTrancista() {

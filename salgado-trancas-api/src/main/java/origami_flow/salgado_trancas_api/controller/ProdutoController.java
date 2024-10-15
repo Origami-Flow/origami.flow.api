@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,10 @@ import java.util.List;
 
 @RequestMapping("/produtos")
 @RestController
+@RequiredArgsConstructor
 public class ProdutoController {
-    @Autowired
-    private ProdutoService produtoService;
+
+    private final ProdutoService produtoService;
 
     @GetMapping
     public ResponseEntity<List<Produto>> listarTodosProdutos() {

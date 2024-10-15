@@ -18,7 +18,9 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-   private String tipo;
+   private String nome;
+
+   private String descricao;
 
    @Column(name = "valor_servico")
    private Double valorServico;

@@ -4,8 +4,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -21,16 +19,11 @@ public abstract class UsuarioAbstract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @NotBlank
     protected String nome;
 
-    @NotBlank
     protected String email;
 
-    @NotBlank
     protected String senha;
 
-    @NotBlank
-    protected String token_google;
-
+    protected String tokenGoogle;
 }

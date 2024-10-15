@@ -21,6 +21,7 @@ public class LoginService {
         if (usuarioEncontrado != null) {
             return usuarioEncontrado;
         }
+
         usuarioEncontrado = trancistaRepository.findByEmailAndSenha(email,senha);
         if (usuarioEncontrado !=null) {
             return usuarioEncontrado;

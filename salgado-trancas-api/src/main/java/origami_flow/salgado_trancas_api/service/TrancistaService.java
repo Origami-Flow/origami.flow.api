@@ -23,16 +23,15 @@ public class TrancistaService {
     public Trancista trancistaPorId(Integer id) {
         return trancistaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("trancista "));
     }
+
     public Trancista atualizarTrancista(Integer id, Trancista trancista){
         if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista");
-
         trancista.setId(id);
         return trancistaRepository.save(trancista);
     }
 
     public void deletar(Integer id){
         if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista ");
-
         trancistaRepository.deleteById(id);
     }
 }

@@ -18,22 +18,22 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
 
     public List<Produto> listarTodosProdutos(){
-
         return produtoRepository.findAll();
     }
+
     public Produto adicionarProduto(Produto produto){
         produto.setId(null);
         return produtoRepository.save(produto);
     }
+
     public Produto atualizarProduto(Integer id, Produto produto){
         if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto");
-
         produto.setId(id);
         return produtoRepository.save(produto);
     }
+
     public void deletarProduto(Integer id){
         if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto ");
-
         produtoRepository.deleteById(id);
     }
 }
