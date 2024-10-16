@@ -40,7 +40,11 @@ public class ClienteDetalheResponseDTO {
 
         private String cep;
 
+        private String uf;
+
         private String cidade;
+
+        private String bairro;
 
         private  String logradouro;
 

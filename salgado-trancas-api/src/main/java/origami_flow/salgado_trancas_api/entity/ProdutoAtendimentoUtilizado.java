@@ -20,7 +20,7 @@ public class ProdutoAtendimentoUtilizado {
     private String finalidade;
 
     @ManyToOne
-    private Atendimento atendimento;
+    private Evento evento;
 
     @ManyToOne
     private Produto produto;

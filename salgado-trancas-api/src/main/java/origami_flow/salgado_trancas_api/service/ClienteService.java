@@ -1,16 +1,13 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
-import origami_flow.salgado_trancas_api.mapper.ClienteMapper;
 import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +24,11 @@ public class ClienteService {
         return clienteRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("cliente"));
     }
 
+    public Cliente cadastrarCliente(Cliente cliente) {
+        clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail());
+        return clienteRepository.save(cliente);
+    }
+
     public Cliente atualizarCliente(Integer id, Cliente cliente) {
         if (!clienteRepository.existsById(id)) throw new EntidadeNaoEncontradaException("cliente ");
         cliente.setId(id);
@@ -38,15 +40,15 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public Cliente cadastrarEndereco(Integer id, Endereco endereco) {
+    public Cliente cadastrarEndereco(Integer id, String cep) {
         Cliente cliente = clientePorId(id);
-        cliente.setEndereco(enderecoService.cadastrar(endereco));
+        cliente.setEndereco(enderecoService.cadastrar(cep));
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarEndereco(Integer id, Endereco endereco) {
-        Cliente cliente = clientePorId(id);
-        Endereco enderecoAtualizado = enderecoService.atualizar(cliente.getEndereco().getId(), endereco);
+    public Cliente atualizarEndereco(Integer idCliente, String cep) {
+        Cliente cliente = clientePorId(idCliente);
+        Endereco enderecoAtualizado = enderecoService.atualizar(cliente.getEndereco().getId(), cep);
         cliente.setEndereco(enderecoAtualizado);
         return clienteRepository.save(cliente);
     }

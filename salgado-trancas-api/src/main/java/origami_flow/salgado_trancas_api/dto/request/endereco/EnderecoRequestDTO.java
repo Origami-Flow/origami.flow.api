@@ -34,5 +34,5 @@ public class EnderecoRequestDTO {
 
     @NotBlank
     @Size(min = 2, max = 2)
-    private String estado;
+    private String uf;
 }

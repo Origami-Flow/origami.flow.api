@@ -29,5 +29,5 @@ public class Auxiliar {
     private Trancista trancista;
 
     @ManyToOne
-    private Atendimento atendimento;
+    private Evento evento;
 }

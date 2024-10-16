@@ -10,14 +10,13 @@ import lombok.Setter;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Atendimento {
+public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +24,13 @@ public class Atendimento {
 
     @NotNull
     @Column(name = "datahora_inicio")
-    private Time dataHoraInicio;
+    private LocalDateTime dataHoraInicio;
 
     @NotNull
     @Column(name = "datahora_termino")
-    private Time dataHoraTermino;
+    private LocalDateTime dataHoraTermino;
 
-    private Double receita;
-
-    @Column(name = "data_realizado")
-    private LocalDate dataRealizado;
+    private String tipoEvento;
 
     @ManyToOne
     private Cliente cliente;

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import origami_flow.salgado_trancas_api.dto.request.cliente.ClienteRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.cadastro.CadastroRequestDTO;
+import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.mapper.ClienteMapper;
@@ -22,9 +23,9 @@ public class CadastroController {
     private final CadastroService cadastroService;
     
     @PostMapping("/cliente")
-    public ResponseEntity<Cliente> cadastrarUsuario(@RequestBody @Valid ClienteRequestDTO cliente){
-        Cliente clienteRetorno = cadastroService.cadastrarUsuario(clienteMapper.toClienteEntity(cliente));
-        return ResponseEntity.status(201).body(clienteRetorno);
+    public ResponseEntity<ClienteDetalheResponseDTO> cadastrarUsuario(@RequestBody @Valid CadastroRequestDTO cadastroRequestDTO) {
+        Cliente clienteRetorno = cadastroService.cadastrarCliente(clienteMapper.toClienteEntity(cadastroRequestDTO), cadastroRequestDTO.getCep());
+        return ResponseEntity.created(null).body(clienteMapper.toClienteDetalheResponseDTO(clienteRetorno));
     }
 
     @PostMapping("/trancista")

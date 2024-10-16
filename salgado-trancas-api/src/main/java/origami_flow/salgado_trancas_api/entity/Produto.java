@@ -26,4 +26,6 @@ public class Produto {
 
     @Column(name = "valor_venda")
     private Double valorVenda;
+
+    private String funcionalidade;
 }

@@ -48,15 +48,9 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/enderecos")
-    public ResponseEntity<ClienteDetalheResponseDTO> cadastrarEndereco(@PathVariable Integer id, @RequestBody @Valid EnderecoRequestDTO enderecoDTO) {
-        Cliente cliente = clienteService.cadastrarEndereco(id, enderecoMapper.toEnderecoEntity(enderecoDTO));
-        return ResponseEntity.created(null).body(clienteMapper.toClienteDetalheResponseDTO(cliente));
-    }
-
     @PutMapping("/{id}/enderecos")
-    public ResponseEntity<ClienteDetalheResponseDTO> atualizarEndereco(@PathVariable Integer id, @RequestBody @Valid EnderecoRequestDTO enderecoDTO) {
-        Cliente cliente = clienteService.atualizarEndereco(id, enderecoMapper.toEnderecoEntity(enderecoDTO));
+    public ResponseEntity<ClienteDetalheResponseDTO> atualizarEndereco(@PathVariable Integer id, @RequestParam String cep) {
+        Cliente cliente = clienteService.atualizarEndereco(id,cep);
         return ResponseEntity.ok(clienteMapper.toClienteDetalheResponseDTO(cliente));
     }
 }

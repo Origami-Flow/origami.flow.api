@@ -15,11 +15,16 @@ public class EnderecoDetalheResponseDTO {
 
     private String cep;
 
+    private String uf;
+
     private String cidade;
+
+    private String bairro;
 
     private  String logradouro;
 
     private Integer numero;
 
     private String complemento;
+
 }

@@ -5,21 +5,19 @@ import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
-import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CadastroService {
 
-    private final ClienteRepository clienteRepository;
+    private final ClienteService clienteService;
 
     private final TrancistaRepository trancistaRepository;
 
-    public Cliente cadastrarUsuario(Cliente cliente){
-        if (clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("telefone ou email ");
-        cliente.setId(null);
-        return clienteRepository.save(cliente);
+    public Cliente cadastrarCliente(Cliente cliente, String cep){
+        Cliente clienteCadastrado = clienteService.cadastrarCliente(cliente);
+        return clienteService.cadastrarEndereco(clienteCadastrado.getId(), cep);
     }
 
     public Trancista cadastrarTrancista(Trancista trancista) {
