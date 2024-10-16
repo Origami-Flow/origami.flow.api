@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,9 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
             new AntPathRequestMatcher("/usuarios/login/**"),
+            new AntPathRequestMatcher("/usuarios"),
+            new AntPathRequestMatcher("/usuarios/**"),
+            new AntPathRequestMatcher("/usuarios/*"),
             new AntPathRequestMatcher("/login/**"),
             new AntPathRequestMatcher("/login"),
             new AntPathRequestMatcher("/usuarios/login"),
@@ -62,17 +66,14 @@ public class SecurityConfiguracao {
     };
 
 
-    // O método "public SecurityFilterChain
-    //filterChain(HttpSecurity http)" é responsável por configurar o CORS e os endpoints que não
-    //exigem autenticação, incluindo o endpoint de login
-    // @Bean = Dar autorização para injetar metodo em outras classes usando authorize, reconhece que é spring
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer<HttpSecurity>::disable)  // Use o método lambda para desabilitar o CSRF
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(URLS_PERMITIDAS)
+                .csrf(CsrfConfigurer<HttpSecurity>::disable)
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(URLS_PERMITIDAS)
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -82,7 +83,6 @@ public class SecurityConfiguracao {
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        // Adiciona o filtro JWT antes do filtro de autenticação padrão
         http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -92,22 +92,22 @@ public class SecurityConfiguracao {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(new
-                AutenticacaoProvider(autenticacaoService, passwordEncoder()));
+        authenticationManagerBuilder.authenticationProvider(new AutenticacaoProvider(autenticacaoService, passwordEncoder()));
         return authenticationManagerBuilder.build();
     }
+
     @Bean
-    public AutenticacaoEntryPoint jwtAuthenticationEntryPointBean(){
+    public AutenticacaoEntryPoint jwtAuthenticationEntryPointBean() {
         return new AutenticacaoEntryPoint();
     }
 
     @Bean
-    public Filter jwtAuthenticationFilterBean() {
+    public AutenticacaoFilter jwtAuthenticationFilterBean() {
         return new AutenticacaoFilter(autenticacaoService, jwtAuthenticationUtilBean());
     }
 
     @Bean
-    public GerenciadorTokenJwt jwtAuthenticationUtilBean(){
+    public GerenciadorTokenJwt jwtAuthenticationUtilBean() {
         return new GerenciadorTokenJwt();
     }
 
@@ -117,7 +117,7 @@ public class SecurityConfiguracao {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracao = new CorsConfiguration();
         configuracao.applyPermitDefaultValues();
         configuracao.setAllowedMethods(
@@ -134,13 +134,8 @@ public class SecurityConfiguracao {
         configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
 
         UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
-        origem.registerCorsConfiguration("/**",configuracao);
+        origem.registerCorsConfiguration("/**", configuracao);
 
         return origem;
     }
-
-
-
-
-
 }

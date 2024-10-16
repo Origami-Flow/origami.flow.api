@@ -22,52 +22,57 @@ import java.util.Objects;
 // "AutenticacaoFilter" é uma classe do Spring Security responsável por processar as solicitações
 //de autenticação do usuário e realizar a validação das credenciais fornecidas pelo usuário.
 public class AutenticacaoFilter extends OncePerRequestFilter {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
+
     private final AutenticacaoService autenticacaoService;
+
     private final GerenciadorTokenJwt jwtTokenManager;
 
-    public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager){
+    public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager) {
         this.autenticacaoService = autenticacaoService;
         this.jwtTokenManager = jwtTokenManager;
     }
-    //Após a autenticação bem-sucedida, o "AutenticacaoFilter" é responsável por gerar o token de
-    //acesso e retorná-lo ao cliente. O token é geralmente armazenado pelo cliente e enviado em
-    //cada solicitação subsequente para validar a autenticação do usuário.
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String username = null;
         String jwtToken = null;
 
-        String requestTokenHeader= request.getHeader("Authorization");
+        String requestTokenHeader = request.getHeader("Authorization");
 
-        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")){
-            jwtToken= requestTokenHeader.substring(7);
+        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
 
-            try{
+            try {
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
-            } catch (ExpiredJwtException exception){
+            } catch (ExpiredJwtException exception) {
+
                 LOGGER.info("[FALHA AUTENTICACAO] - Token expirado, usuario: {} - {}",
                         exception.getClaims().getSubject(), exception.getMessage());
 
                 LOGGER.trace("[FALHA AUTENTICACAO] - stack trace: %s", exception);
 
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
             }
+
         }
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            addUsernameInContext(request,username,jwtToken);
+            addUsernameInContext(request, username, jwtToken);
         }
-        filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request, response);
     }
 
-    private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken){
+    private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
+
         UserDetails userDetails = autenticacaoService.loadUserByUsername(username);
-        if (jwtTokenManager.validateToken(jwtToken,userDetails)) {
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =new
-                    UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
+
+        if (jwtTokenManager.validateToken(jwtToken, userDetails)) {
+
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
 
             usernamePasswordAuthenticationToken
                     .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -3,6 +3,7 @@ package jwt.api.service.usuario.autenticacao;
 import jwt.api.domain.Usuario;
 import jwt.api.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,18 +15,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class AutenticacaoService implements UserDetailsService {
-
     private final UsuarioRepository usuarioRepository;
 
+    // Método da interface implementada
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioOptional= usuarioRepository.findByEmail(username);
 
-        if (usuarioOptional.isEmpty()) {
-            throw  new UsernameNotFoundException(String.format("usuario: %s não encontrado", username));
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(username);
+
+        if (usuarioOpt.isEmpty()) {
+
+            throw new UsernameNotFoundException(String.format("usuario: %s nao encontrado", username));
         }
-        return new UsuarioDetalhesDto(usuarioOptional.get());
+
+        return new UsuarioDetalhesDto(usuarioOpt.get());
     }
-
-
 }

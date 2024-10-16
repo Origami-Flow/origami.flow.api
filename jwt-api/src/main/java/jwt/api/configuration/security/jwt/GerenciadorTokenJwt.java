@@ -19,20 +19,24 @@ import java.util.stream.Collectors;
 //O "GerenciadorTokenJwt" é uma classe responsável por gerar e validar tokens JWT (JSON
 //Web Tokens) usados para autenticar usuários em um sistema seguro
 public class GerenciadorTokenJwt {
+
     @Value("${jwt.secret}")
-    private  String secret;
+    private String secret;
+
     @Value("${jwt.validity}")
-    private  long jwtTokenValidity;
+    private long jwtTokenValidity;
 
-    public  String getUsernameFromToken(String token){
-        return  getClaimForToken(token, Claims::getSubject);
-    }
-    public Date getExpirationDateFromToken(String token){
-        return  getClaimForToken(token, Claims::getExpiration);
+    public String getUsernameFromToken(String token) {
+        return getClaimForToken(token, Claims::getSubject);
     }
 
-    public String generateToken(final Authentication authentication){
-        //Para verificacoes de permissões;
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimForToken(token, Claims::getExpiration);
+    }
+
+    public String generateToken(final Authentication authentication) {
+
+        // Para verificacoes de permissões;
         final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
@@ -40,12 +44,13 @@ public class GerenciadorTokenJwt {
                 .signWith(parseSecret()).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidity * 1_000)).compact();
     }
-    private <T> T getClaimForToken(String token, Function<Claims, T> claimsResolver) {
+
+    public <T> T getClaimForToken(String token, Function<Claims, T> claimsResolver) {
         Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-    public boolean validateToken(String token, UserDetails userDetails){
+    public boolean validateToken(String token, UserDetails userDetails) {
         String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
@@ -65,6 +70,4 @@ public class GerenciadorTokenJwt {
     private SecretKey parseSecret() {
         return Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));
     }
-
-
 }
