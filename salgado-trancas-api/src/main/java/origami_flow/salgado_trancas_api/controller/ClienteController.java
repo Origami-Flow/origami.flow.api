@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.request.cliente.ClienteRequestDTO;
-import origami_flow.salgado_trancas_api.dto.request.endereco.EnderecoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.mapper.ClienteMapper;
