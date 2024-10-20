@@ -40,7 +40,4 @@ public class Evento {
 
     @ManyToOne
     private Agenda agenda;
-
-    @ManyToOne
-    private  Caixa caixa;
 }

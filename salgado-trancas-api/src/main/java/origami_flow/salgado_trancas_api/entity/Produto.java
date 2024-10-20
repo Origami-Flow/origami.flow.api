@@ -27,5 +27,11 @@ public class Produto {
     @Column(name = "valor_venda")
     private Double valorVenda;
 
+    @Column(name = "quantidade_embalagem")
+    private Integer quantidadeEmbalagem;
+
+    @Column(name = "unidade_medida")
+    private String unidadeMedida;
+
     private String funcionalidade;
 }

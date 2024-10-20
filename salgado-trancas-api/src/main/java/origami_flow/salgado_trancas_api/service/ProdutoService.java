@@ -1,11 +1,11 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import origami_flow.salgado_trancas_api.entity.Estoque;
 import origami_flow.salgado_trancas_api.entity.Produto;
+import origami_flow.salgado_trancas_api.entity.Salao;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
 
@@ -17,13 +17,22 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
+    private final EstoqueService estoqueService;
+
+    private final SalaoService salaoService;
+
     public List<Produto> listarTodosProdutos(){
         return produtoRepository.findAll();
     }
 
-    public Produto adicionarProduto(Produto produto){
-        produto.setId(null);
-        return produtoRepository.save(produto);
+    //Em revisao
+    public Produto cadastrarProduto(Produto produto, Integer idSalao ,Integer quantidade){
+        Salao salao = salaoService.salaoPorId(idSalao);
+        if(produtoRepository.existsByNome(produto.getNome())) throw new EntidadeComConflitoException("produto");
+        Produto produtoSalvo = produtoRepository.save(produto);
+        Estoque estoque = Estoque.builder().quantidade(quantidade).produto(produtoSalvo).salao(salao).build();
+        estoqueService.cadastraProdutoNoEstoque(estoque);
+        return produtoSalvo;
     }
 
     public Produto atualizarProduto(Integer id, Produto produto){

@@ -2,10 +2,11 @@ package origami_flow.salgado_trancas_api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Produto;
+import origami_flow.salgado_trancas_api.mapper.ProdutoMapper;
 import origami_flow.salgado_trancas_api.service.ProdutoService;
 
 import java.util.List;
@@ -17,22 +18,21 @@ public class ProdutoController {
 
     private final ProdutoService produtoService;
 
+    private final ProdutoMapper produtoMapper;
+
     @GetMapping
     public ResponseEntity<List<Produto>> listarTodosProdutos() {
         List<Produto> lista = produtoService.listarTodosProdutos();
 
-        if (lista.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
+        if (lista.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(lista);
     }
 
+    //Em revisao
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@RequestBody @Valid Produto produto) {
-        Produto produtoRetorno = produtoService.adicionarProduto(produto);
-
+    public ResponseEntity<Produto> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
+        Produto produtoRetorno = produtoService.cadastrarProduto(produtoMapper.toProdutoEntity(produtoRequestDTO), produtoRequestDTO.getIdSalao(), produtoRequestDTO.getQuantidade());
         return ResponseEntity.created(null).body(produtoRetorno);
-
     }
 
     @PutMapping("/{id}")

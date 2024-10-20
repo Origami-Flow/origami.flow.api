@@ -1,4 +1,4 @@
-package origami_flow.salgado_trancas_api.dto.request.cliente;
+package origami_flow.salgado_trancas_api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import origami_flow.salgado_trancas_api.constans.ComprimentoCabeloEnum;
 import origami_flow.salgado_trancas_api.constans.GeneroEnum;
 import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
 
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteRequestDTO {
+public class CadastroRequestDTO {
 
     @NotBlank
     private String nome;
@@ -34,24 +33,20 @@ public class ClienteRequestDTO {
 
     @NotNull
     @Past
-    private LocalDate dtNascimento;
+    private LocalDate dataNascimento;
 
     @NotBlank
     @Size(min = 11, max = 11)
     private String telefone;
 
-    private GeneroEnum genero;
-
     @NotBlank
     private String ocupacao;
 
+    @NotBlank
+    @Size(min = 8, max = 8)
+    private String cep;
+
+    private GeneroEnum genero;
+
     private TipoCabeloEnum tipoCabelo;
-
-    private String corCabelo;
-
-    private ComprimentoCabeloEnum comprimentoCabelo;
-
-    private boolean progressiva;
-
-    private boolean primeiraTranca;
 }

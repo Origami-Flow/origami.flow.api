@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import origami_flow.salgado_trancas_api.dto.request.cadastro.CadastroRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;

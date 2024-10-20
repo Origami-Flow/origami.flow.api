@@ -4,11 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import origami_flow.salgado_trancas_api.dto.request.cliente.ClienteRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.ClienteAtualizacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.mapper.ClienteMapper;
-import origami_flow.salgado_trancas_api.mapper.EnderecoMapper;
 import origami_flow.salgado_trancas_api.service.ClienteService;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteMapper clienteMapper;
-    private final EnderecoMapper enderecoMapper;
+
     private final ClienteService clienteService;
 
     @GetMapping
@@ -35,9 +34,10 @@ public class ClienteController {
         return ResponseEntity.ok(clienteMapper.toClienteDetalheResponseDTO(clienteRetorno));
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable Integer id, @RequestBody @Valid ClienteRequestDTO clienteDTO) {
-        Cliente clienteRetorno = clienteService.atualizarCliente(id, clienteMapper.toClienteEntity(clienteDTO));
+    public ResponseEntity<Cliente> atualizar(@PathVariable Integer id, @RequestBody @Valid ClienteAtualizacaoRequestDTO clienteAtualizacaoRequestDTO) {
+        Cliente clienteRetorno = clienteService.atualizarCliente(id, clienteMapper.toClienteEntity(clienteAtualizacaoRequestDTO));
         return ResponseEntity.ok(clienteRetorno);
     }
 
@@ -47,7 +47,7 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/enderecos")
+    @PutMapping("/{id}/endereco")
     public ResponseEntity<ClienteDetalheResponseDTO> atualizarEndereco(@PathVariable Integer id, @RequestParam String cep) {
         Cliente cliente = clienteService.atualizarEndereco(id,cep);
         return ResponseEntity.ok(clienteMapper.toClienteDetalheResponseDTO(cliente));
