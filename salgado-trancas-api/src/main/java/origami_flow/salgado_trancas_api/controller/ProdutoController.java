@@ -42,10 +42,17 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoRetorno);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer id) {
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/filtro-nome")
+    public ResponseEntity<Produto> buscarPorNome(@RequestParam String nome) {
+
+        Produto produto = produtoService.buscarProdutoNome(nome);
+
+        return ResponseEntity.ok(produto);
+    }
 }
