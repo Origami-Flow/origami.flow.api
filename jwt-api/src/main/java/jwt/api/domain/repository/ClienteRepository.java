@@ -1,14 +1,14 @@
 package jwt.api.domain.repository;
 
-import jwt.api.domain.Usuario;
+import jwt.api.domain.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface AutenticationRepository extends JpaRepository<Cliente, Integer> {
 
-    Optional<Usuario> findByEmail(String email);
+    Optional<Cliente> findByEmail(String email);
 
 }

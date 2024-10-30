@@ -24,7 +24,7 @@ public class CadastroController {
     
     @PostMapping("/cliente")
     public ResponseEntity<ClienteDetalheResponseDTO> cadastrarUsuario(@RequestBody @Valid CadastroRequestDTO cadastroRequestDTO) {
-        Cliente clienteRetorno = cadastroService.cadastrarCliente(clienteMapper.toClienteEntity(cadastroRequestDTO), cadastroRequestDTO.getCep());
+        Cliente clienteRetorno = cadastroService.cadastrarCliente(cadastroRequestDTO, cadastroRequestDTO.getCep());
         return ResponseEntity.created(null).body(clienteMapper.toClienteDetalheResponseDTO(clienteRetorno));
     }
 

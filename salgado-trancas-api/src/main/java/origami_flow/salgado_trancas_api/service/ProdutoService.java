@@ -8,6 +8,7 @@ import origami_flow.salgado_trancas_api.entity.Salao;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
+import origami_flow.salgado_trancas_api.utils.ConexaoApiJwt;
 
 import java.util.List;
 

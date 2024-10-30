@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import jwt.api.service.usuario.UsuarioService;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @PostMapping
+    @PostMapping("/cadastro")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto){
         usuarioService.criar(usuarioCriacaoDto);
