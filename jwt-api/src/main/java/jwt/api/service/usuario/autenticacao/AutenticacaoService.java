@@ -1,9 +1,8 @@
 package jwt.api.service.usuario.autenticacao;
 
-import jwt.api.domain.Usuario;
-import jwt.api.domain.repository.UsuarioRepository;
+import jwt.api.domain.Cliente;
+import jwt.api.domain.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,13 +14,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class AutenticacaoService implements UserDetailsService {
-    private final UsuarioRepository usuarioRepository;
+    private final ClienteRepository clienteRepository;
 
     // Método da interface implementada
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(username);
+        Optional<Cliente> usuarioOpt = clienteRepository.findByEmail(username);
 
         if (usuarioOpt.isEmpty()) {
 

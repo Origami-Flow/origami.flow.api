@@ -25,5 +25,5 @@ public abstract class UsuarioAbstract {
 
     protected String senha;
 
-    protected String tokenGoogle;
+    protected String token;
 }

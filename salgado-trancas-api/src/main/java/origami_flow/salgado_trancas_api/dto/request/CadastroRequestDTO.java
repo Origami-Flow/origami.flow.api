@@ -29,8 +29,6 @@ public class CadastroRequestDTO {
     @Size(min = 8, max = 128)
     private String senha;
 
-    private String tokenGoogle;
-
     @NotNull
     @Past
     private LocalDate dataNascimento;
@@ -49,4 +47,7 @@ public class CadastroRequestDTO {
     private GeneroEnum genero;
 
     private TipoCabeloEnum tipoCabelo;
+
+    @NotBlank
+    private String corCabelo;
 }
