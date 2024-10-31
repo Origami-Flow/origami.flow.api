@@ -1,4 +1,4 @@
-package jwt.api.service.usuario.dto;
+package jwt.api.service.usuario.autenticacao.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

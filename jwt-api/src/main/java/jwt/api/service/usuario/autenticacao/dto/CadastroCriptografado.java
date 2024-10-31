@@ -1,22 +1,19 @@
 package jwt.api.service.usuario.autenticacao.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
-
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class JwtTokenResponse {
-
-    private Integer id;
+public class CadastroCriptografado {
 
     private String nome;
 
     private String email;
 
     private String senha;
-
-    private String token;
 }

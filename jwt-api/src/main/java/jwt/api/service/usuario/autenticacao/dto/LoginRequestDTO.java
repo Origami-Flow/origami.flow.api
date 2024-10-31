@@ -8,7 +8,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioLoginDto {
+@ToString
+public class LoginRequestDTO {
 
     @Schema(description = "E-mail do usuário", example = "john@doe.com")
     private String email;

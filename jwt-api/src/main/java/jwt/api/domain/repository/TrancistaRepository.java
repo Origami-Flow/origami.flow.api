@@ -1,14 +1,13 @@
 package jwt.api.domain.repository;
 
-import jwt.api.domain.Usuario;
+import jwt.api.domain.Trancista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface TrancistaRepository extends JpaRepository<Trancista, Integer> {
 
-    Optional<Usuario> findByEmail(String email);
-
+    Optional<Trancista> findByEmail(String email);
 }

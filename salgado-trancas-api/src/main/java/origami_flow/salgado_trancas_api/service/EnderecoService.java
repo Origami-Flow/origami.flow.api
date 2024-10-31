@@ -24,7 +24,7 @@ public class EnderecoService {
         Cep cepEncontrado = ViaCepClient.findCep(cep);
         if (cepEncontrado.getCep() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Endereco endereco = enderecoMapper.toEnderecoEntity(cepEncontrado);
-        if (enderecoRepository.existsByNumeroAndComplemento(endereco.getNumero(), endereco.getComplemento())) throw new EntidadeComConflitoException("endereço");
+        if (enderecoRepository.existsByCep(cep)) throw new EntidadeComConflitoException("endereço");
         return enderecoRepository.save(endereco);
     }
 

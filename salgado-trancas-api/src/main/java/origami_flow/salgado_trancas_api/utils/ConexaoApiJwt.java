@@ -44,9 +44,14 @@ public class ConexaoApiJwt {
         throw new ResponseStatusException(response.getStatusCode());
     }
 
-//    public static void validationToke(String token) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("Authorization", "Bearer " + token);
-//    }
+    public static ResponseEntity<Void> validationToke(String token) {
+        String apiUrl = "http://localhost:8081/auth/validation";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<Void> response = restTemplate.postForEntity(apiUrl, request, Void.class);
+        System.out.println(response.getStatusCode());
+        return response;
+    }
 }

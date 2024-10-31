@@ -1,6 +1,6 @@
 package jwt.api.service.usuario.autenticacao.dto;
 
-import jwt.api.domain.Usuario;
+import jwt.api.domain.Cliente;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,10 +14,10 @@ public class UsuarioDetalhesDto implements UserDetails {
 
     private final String senha;
 
-    public UsuarioDetalhesDto(Usuario usuario) {
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-        this.senha = usuario.getSenha();
+    public UsuarioDetalhesDto(Cliente cliente) {
+        this.nome = cliente.getNome();
+        this.email = cliente.getEmail();
+        this.senha = cliente.getSenha();
     }
 
     public String getNome() {
