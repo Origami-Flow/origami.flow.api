@@ -9,6 +9,7 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
 import origami_flow.salgado_trancas_api.utils.ConexaoApiJwt;
+import origami_flow.salgado_trancas_api.utils.PesquisaBinaria;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class ProdutoService {
     private final EstoqueService estoqueService;
 
     private final SalaoService salaoService;
+
+    private final PesquisaBinaria pesquisaBinaria;
 
     public List<Produto> listarTodosProdutos(){
         return produtoRepository.findAll();
@@ -45,5 +48,18 @@ public class ProdutoService {
     public void deletarProduto(Integer id){
         if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto ");
         produtoRepository.deleteById(id);
+    }
+
+    public Produto buscarProdutoNome(String nome) {
+        List<Produto> produtos = produtoRepository.findAllByOrderByNome();
+
+
+        Produto produtoEncontrado = pesquisaBinaria.buscarProdutoPorNome(produtos, nome);
+
+        if( produtoEncontrado == null){
+            throw new EntidadeNaoEncontradaException("Produto");
+        }
+
+        return produtoEncontrado;
     }
 }
