@@ -1,6 +1,11 @@
 package origami_flow.salgado_trancas_api.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +23,29 @@ public class LoginController {
 
     private final LoginService loginService;
 
+    @Operation(
+            summary = "Autenticar cliente",
+            description = "Autentica um cliente com credenciais válidas e retorna um token JWT."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida, token JWT retornado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtTokenResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Falha na autenticação, credenciais inválidas")
+    })
     @PostMapping("/cliente")
     public ResponseEntity<JwtTokenResponse> autenticarCliente(@RequestBody LoginRequestDTO loginRequestDTO) {
         return loginService.autenticarCliente(loginRequestDTO);
     }
 
+    @Operation(
+            summary = "Autenticar trancista",
+            description = "Autentica uma trancista com credenciais válidas e retorna um token JWT."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida, token JWT retornado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtTokenResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Falha na autenticação, credenciais inválidas")
+    })
     @PostMapping("/trancista")
     public ResponseEntity<JwtTokenResponse> autenticarTrancista(@RequestBody LoginRequestDTO loginRequestDTO) {
         return loginService.autenticarTrancista(loginRequestDTO);
