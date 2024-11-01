@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import origami_flow.salgado_trancas_api.entity.Evento;
 
-@RestController
+//@RestController
 public class AtendimentoController {
 
     @PostMapping

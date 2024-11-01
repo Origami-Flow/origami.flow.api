@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginRequestDTO {
 
+
     @NotBlank
+    @Schema(description = "Email do usuário para autenticação", example = "jean.santos@example.com")
     private String email;
 
     @NotBlank
+    @Schema(description = "Senha do usuário para autenticação", example = "jean1234")
     private String senha;
 
     public @NotBlank String getEmail() {

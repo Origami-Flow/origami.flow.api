@@ -41,6 +41,8 @@ public class SalaoService {
 
     public Salao atualizarEndereco(Integer idSalao, String cep) {
         Salao salao = salaoPorId(idSalao);
+        if (salao == null) throw new EntidadeNaoEncontradaException("salão");
+
         Endereco endereco = enderecoService.atualizar(salao.getEndereco().getId(), cep);
         salao.setEndereco(endereco);
         return salaoRepository.save(salao);

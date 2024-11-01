@@ -1,10 +1,17 @@
 package origami_flow.salgado_trancas_api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.request.ProdutoRequestDTO;
+import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.estoque.EstoqueDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Produto;
 import origami_flow.salgado_trancas_api.mapper.ProdutoMapper;
 import origami_flow.salgado_trancas_api.service.ProdutoService;
@@ -20,6 +27,12 @@ public class ProdutoController {
 
     private final ProdutoMapper produtoMapper;
 
+    @Operation(summary = "Listar todos os produtos", description = "Retorna uma lista de todos os produtos cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "204", description = "Nenhum produto encontrado")
+    })
     @GetMapping
     public ResponseEntity<List<Produto>> listarTodosProdutos() {
         List<Produto> lista = produtoService.listarTodosProdutos();
@@ -28,6 +41,12 @@ public class ProdutoController {
         return ResponseEntity.ok(lista);
     }
 
+    @Operation(summary = "Adicionar um novo produto", description = "Cadastra um novo produto com as informações fornecidas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produto criado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Entidade duplicada")
+    })
     //Em revisao
     @PostMapping
     public ResponseEntity<Produto> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
@@ -35,6 +54,12 @@ public class ProdutoController {
         return ResponseEntity.created(null).body(produtoRetorno);
     }
 
+    @Operation(summary = "Atualizar um produto", description = "Atualiza as informações de um produto específico com base no ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Produto> atualizarProduto(@RequestBody @Valid Produto produto, @PathVariable Integer id) {
         Produto produtoRetorno = produtoService.atualizarProduto(id, produto);
@@ -42,12 +67,23 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoRetorno);
     }
 
+    @Operation(summary = "Deletar um produto", description = "Remove um produto específico com base no ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Produto deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer id) {
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Buscar produto por nome", description = "Busca um produto com base no nome fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto com o nome especificado não encontrado")
+    })
     @GetMapping("/filtro-nome")
     public ResponseEntity<Produto> buscarPorNome(@RequestParam String nome) {
 
