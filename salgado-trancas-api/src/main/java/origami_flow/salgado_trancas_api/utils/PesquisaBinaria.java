@@ -3,16 +3,13 @@ package origami_flow.salgado_trancas_api.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Produto;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PesquisaBinaria {
 
 
-    public static Produto buscarProdutoPorNome(List<Produto> produtos, String nome) {
+    public static Produto buscarProdutoPorNome(Lista<Produto> produtos, String nome) {
         int inicio = 0;
         int fim = produtos.size() - 1;
 
@@ -29,7 +26,6 @@ public class PesquisaBinaria {
                 fim = meio - 1;
             }
         }
-
         return null;
     }
 }

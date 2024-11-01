@@ -8,7 +8,7 @@ import origami_flow.salgado_trancas_api.entity.Salao;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
-import origami_flow.salgado_trancas_api.utils.ConexaoApiJwt;
+import origami_flow.salgado_trancas_api.utils.Lista;
 import origami_flow.salgado_trancas_api.utils.PesquisaBinaria;
 
 import java.util.List;
@@ -29,7 +29,10 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    //Em revisao
+    public Produto produtoPorId(Integer id){
+        return produtoRepository.findById(id).orElseThrow(EntidadeNaoEncontradaException::new);
+    }
+
     public Produto cadastrarProduto(Produto produto, Integer idSalao ,Integer quantidade){
         Salao salao = salaoService.salaoPorId(idSalao);
         if(produtoRepository.existsByNome(produto.getNome())) throw new EntidadeComConflitoException("produto");
@@ -40,26 +43,22 @@ public class ProdutoService {
     }
 
     public Produto atualizarProduto(Integer id, Produto produto){
-        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto");
+        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto");
         produto.setId(id);
         return produtoRepository.save(produto);
     }
 
     public void deletarProduto(Integer id){
-        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("Produto ");
+        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto ");
         produtoRepository.deleteById(id);
     }
 
     public Produto buscarProdutoNome(String nome) {
         List<Produto> produtos = produtoRepository.findAllByOrderByNome();
-
-
-        Produto produtoEncontrado = pesquisaBinaria.buscarProdutoPorNome(produtos, nome);
-
-        if( produtoEncontrado == null){
-            throw new EntidadeNaoEncontradaException("Produto");
-        }
-
+        Lista<Produto> listaProdutos = new Lista<>();
+        produtos.forEach(listaProdutos::add);
+        Produto produtoEncontrado = pesquisaBinaria.buscarProdutoPorNome(listaProdutos, nome);
+        if( produtoEncontrado == null) throw new EntidadeNaoEncontradaException("produto");
         return produtoEncontrado;
     }
 }

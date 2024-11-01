@@ -9,9 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoAtualizacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.ProdutoRequestDTO;
-import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.dto.response.estoque.EstoqueDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.produto.ProdutoDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Produto;
 import origami_flow.salgado_trancas_api.mapper.ProdutoMapper;
 import origami_flow.salgado_trancas_api.service.ProdutoService;
@@ -34,11 +35,16 @@ public class ProdutoController {
             @ApiResponse(responseCode = "204", description = "Nenhum produto encontrado")
     })
     @GetMapping
-    public ResponseEntity<List<Produto>> listarTodosProdutos() {
+    public ResponseEntity<List<ProdutoDetalheResponseDTO>> listarTodosProdutos() {
         List<Produto> lista = produtoService.listarTodosProdutos();
-
         if (lista.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(lista);
+        return ResponseEntity.ok(lista.stream().map(produtoMapper::toProdutoDetalheResponseDTO).toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDetalheResponseDTO> produtoPorId(@PathVariable Integer id) {
+        Produto produto = produtoService.produtoPorId(id);
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produto));
     }
 
     @Operation(summary = "Adicionar um novo produto", description = "Cadastra um novo produto com as informações fornecidas.")
@@ -47,11 +53,10 @@ public class ProdutoController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
             @ApiResponse(responseCode = "409", description = "Entidade duplicada")
     })
-    //Em revisao
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
+    public ResponseEntity<ProdutoDetalheResponseDTO> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
         Produto produtoRetorno = produtoService.cadastrarProduto(produtoMapper.toProdutoEntity(produtoRequestDTO), produtoRequestDTO.getIdSalao(), produtoRequestDTO.getQuantidade());
-        return ResponseEntity.created(null).body(produtoRetorno);
+        return ResponseEntity.created(null).body(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 
     @Operation(summary = "Atualizar um produto", description = "Atualiza as informações de um produto específico com base no ID.")
@@ -61,10 +66,9 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@RequestBody @Valid Produto produto, @PathVariable Integer id) {
-        Produto produtoRetorno = produtoService.atualizarProduto(id, produto);
-
-        return ResponseEntity.ok(produtoRetorno);
+    public ResponseEntity<ProdutoDetalheResponseDTO> atualizarProduto(@RequestBody @Valid ProdutoAtualizacaoRequestDTO produtoAtualizacaoRequestDTO, @PathVariable Integer id) {
+        Produto produtoRetorno = produtoService.atualizarProduto(id, produtoMapper.toProdutoEntity(produtoAtualizacaoRequestDTO));
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 
     @Operation(summary = "Deletar um produto", description = "Remove um produto específico com base no ID.")
@@ -85,10 +89,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto com o nome especificado não encontrado")
     })
     @GetMapping("/filtro-nome")
-    public ResponseEntity<Produto> buscarPorNome(@RequestParam String nome) {
-
+    public ResponseEntity<ProdutoDetalheResponseDTO> buscarPorNome(@RequestParam String nome) {
         Produto produto = produtoService.buscarProdutoNome(nome);
-
-        return ResponseEntity.ok(produto);
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produto));
     }
 }

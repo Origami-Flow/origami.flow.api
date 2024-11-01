@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,24 @@ public class EstoqueController {
         return ResponseEntity.ok(produtosEmEstoque.stream().map(estoqueMapper::toEstoqueDetalheResponseDTO).toList());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EstoqueDetalheResponseDTO> ProdutoPorId(@PathVariable Integer id) {
+        Estoque produto = estoqueService.estoquePorId(id);
+        return ResponseEntity.ok(estoqueMapper.toEstoqueDetalheResponseDTO(produto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EstoqueDetalheResponseDTO> atualizarEstoque(@PathVariable Integer id, @RequestParam Integer quantidade) {
+        Estoque produto = estoqueService.atualizarEstoque(id, quantidade);
+        return ResponseEntity.ok(estoqueMapper.toEstoqueDetalheResponseDTO(produto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerEstoque(@PathVariable Integer id) {
+        estoqueService.removerDoEstoque(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Exportar estoque para CSV",
             description = "Exporta a lista de produtos em estoque para um arquivo CSV ordenado pelo valor de compra.")
     @ApiResponses(value = {
@@ -52,10 +71,7 @@ public class EstoqueController {
     })
     @GetMapping("/csv")
     public void exportarCsvEstoque() {
-        List<Estoque> lista = estoqueService.listarProdutosEmEstoque();
-        System.out.println(lista);
-        Ordenacao.quickSortValorCompra(lista, 0, lista.size()-1);
-        System.out.println(lista);
-        ExportCsv.exportar(lista);
+        List<Estoque> listaOrdenada = estoqueService.ordenar();
+        estoqueService.exportar(listaOrdenada);
     }
 }
