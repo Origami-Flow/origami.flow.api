@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/estoques")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class EstoqueController {
 
     private final EstoqueService estoqueService;
@@ -44,18 +46,31 @@ public class EstoqueController {
         return ResponseEntity.ok(produtosEmEstoque.stream().map(estoqueMapper::toEstoqueDetalheResponseDTO).toList());
     }
 
+    @Operation(summary = "Busca produto por ID", description = "Retorna os detalhes do produto específico pelo seu ID.")
+    @ApiResponses(value ={
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<EstoqueDetalheResponseDTO> ProdutoPorId(@PathVariable Integer id) {
         Estoque produto = estoqueService.estoquePorId(id);
         return ResponseEntity.ok(estoqueMapper.toEstoqueDetalheResponseDTO(produto));
     }
 
+    @Operation(summary = "Atualiza um estoque", description = "Retorna os detalhes do produto específico pelo seu ID.")
+    @ApiResponses(value ={
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.class)))
+    })
     @PutMapping("/{id}")
     public ResponseEntity<EstoqueDetalheResponseDTO> atualizarEstoque(@PathVariable Integer id, @RequestParam Integer quantidade) {
         Estoque produto = estoqueService.atualizarEstoque(id, quantidade);
         return ResponseEntity.ok(estoqueMapper.toEstoqueDetalheResponseDTO(produto));
     }
-
+    @Operation(summary = "Remove um estoque", description = "Remove um estoque do sistema com base em seu ID")
+    @ApiResponse(responseCode = "204", description = "Estoque deletado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Estoque não encontrado")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerEstoque(@PathVariable Integer id) {
         estoqueService.removerDoEstoque(id);

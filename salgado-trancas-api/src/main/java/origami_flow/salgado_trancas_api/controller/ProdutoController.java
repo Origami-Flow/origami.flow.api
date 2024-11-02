@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequestMapping("/produtos")
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ProdutoController {
 
     private final ProdutoService produtoService;
@@ -41,6 +43,12 @@ public class ProdutoController {
         return ResponseEntity.ok(lista.stream().map(produtoMapper::toProdutoDetalheResponseDTO).toList());
     }
 
+    @Operation(summary = "Buscar produto por ID", description = "Retorna os detalhes de um produto especifico pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode ="404", description = "Produto não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoDetalheResponseDTO> produtoPorId(@PathVariable Integer id) {
         Produto produto = produtoService.produtoPorId(id);
