@@ -24,7 +24,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/livros")
-@SecurityRequirement(name = "bearerAuth")
 public class LivroController {
     private static final Logger log = LoggerFactory.getLogger(LivroController.class);
     @Autowired
@@ -40,7 +39,7 @@ public class LivroController {
             @ApiResponse(responseCode = "204", description = "Nenhum livro encontrado com o título especificado"),
             @ApiResponse(responseCode = "400", description = "Parâmetros inválidos fornecidos na requisição")
     })
-    @CrossOrigin(origins = "*")
+
     @GetMapping
     public ResponseEntity<List<LivroDto>> listLivros(
             @Parameter(description = "Título ou parte do título do livro para a busca", example = "Machado", required = true)
