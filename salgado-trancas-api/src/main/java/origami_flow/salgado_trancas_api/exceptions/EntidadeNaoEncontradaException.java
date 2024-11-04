@@ -11,6 +11,6 @@ public class EntidadeNaoEncontradaException extends RuntimeException {
     }
 
     public EntidadeNaoEncontradaException(String message) {
-        super(message);
+        super(String.format("%s não encontrado (a)", message));
     }
 }

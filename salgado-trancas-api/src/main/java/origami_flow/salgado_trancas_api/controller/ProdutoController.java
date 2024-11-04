@@ -1,50 +1,104 @@
 package origami_flow.salgado_trancas_api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoAtualizacaoRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoRequestDTO;
+import origami_flow.salgado_trancas_api.dto.response.estoque.EstoqueDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.produto.ProdutoDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Produto;
+import origami_flow.salgado_trancas_api.mapper.ProdutoMapper;
 import origami_flow.salgado_trancas_api.service.ProdutoService;
 
 import java.util.List;
 
 @RequestMapping("/produtos")
 @RestController
+@RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ProdutoController {
-    @Autowired
-    private ProdutoService produtoService;
 
+    private final ProdutoService produtoService;
+
+    private final ProdutoMapper produtoMapper;
+
+    @Operation(summary = "Listar todos os produtos", description = "Retorna uma lista de todos os produtos cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "204", description = "Nenhum produto encontrado")
+    })
     @GetMapping
-    public ResponseEntity<List<Produto>> listarTodosProdutos() {
+    public ResponseEntity<List<ProdutoDetalheResponseDTO>> listarTodosProdutos() {
         List<Produto> lista = produtoService.listarTodosProdutos();
-
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.status(200).body(lista);
+        if (lista.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(lista.stream().map(produtoMapper::toProdutoDetalheResponseDTO).toList());
     }
 
+    @Operation(summary = "Buscar produto por ID", description = "Retorna os detalhes de um produto especifico pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode ="404", description = "Produto não encontrado")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDetalheResponseDTO> produtoPorId(@PathVariable Integer id) {
+        Produto produto = produtoService.produtoPorId(id);
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produto));
+    }
+
+    @Operation(summary = "Adicionar um novo produto", description = "Cadastra um novo produto com as informações fornecidas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produto criado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Entidade duplicada")
+    })
     @PostMapping
-    public ResponseEntity<Produto> adicionarProduto(@RequestBody Produto produto) {
-        Produto produtoRetorno = produtoService.adicionarProduto(produto);
-
-        return ResponseEntity.status(201).body(produtoRetorno);
-
+    public ResponseEntity<ProdutoDetalheResponseDTO> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
+        Produto produtoRetorno = produtoService.cadastrarProduto(produtoMapper.toProdutoEntity(produtoRequestDTO), produtoRequestDTO.getIdSalao(), produtoRequestDTO.getQuantidade());
+        return ResponseEntity.created(null).body(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 
+    @Operation(summary = "Atualizar um produto", description = "Atualiza as informações de um produto específico com base no ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@RequestBody Produto produto, @PathVariable Integer id) {
-        Produto produtoRetorno = produtoService.atualizarProduto(id, produto);
-        if (produtoRetorno == null) {
-            return ResponseEntity.status(404).build();
-        }
-        return ResponseEntity.status(200).body(produtoRetorno);
+    public ResponseEntity<ProdutoDetalheResponseDTO> atualizarProduto(@RequestBody @Valid ProdutoAtualizacaoRequestDTO produtoAtualizacaoRequestDTO, @PathVariable Integer id) {
+        Produto produtoRetorno = produtoService.atualizarProduto(id, produtoMapper.toProdutoEntity(produtoAtualizacaoRequestDTO));
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 
-    @DeleteMapping("{id}")
+    @Operation(summary = "Deletar um produto", description = "Remove um produto específico com base no ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Produto deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Integer id) {
         produtoService.deletarProduto(id);
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Buscar produto por nome", description = "Busca um produto com base no nome fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto com o nome especificado não encontrado")
+    })
+    @GetMapping("/filtro-nome")
+    public ResponseEntity<ProdutoDetalheResponseDTO> buscarPorNome(@RequestParam String nome) {
+        Produto produto = produtoService.buscarProdutoNome(nome);
+        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produto));
+    }
 }
