@@ -11,7 +11,6 @@ import origami_flow.salgado_trancas_api.dto.response.cadastro.CadastroCriptograf
 public class ConexaoApiJwt {
 
     public static ResponseEntity<CadastroCriptografadoResponse> criptografarCadastro(CadastroRequestDTO cadastroRequestDTO) {
-//        String apiUrl = System.getenv("api.cadastro");
         String apiUrl = "http://localhost:8081/auth/cadastro";
         RestTemplate  restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
