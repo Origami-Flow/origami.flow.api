@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,10 +22,14 @@ public class Agenda {
     private Integer id;
 
     @NotNull
-    @Column(name = "data_agenda")
-    private LocalDate dataAgenda;
+    private Integer dia;
+
+    @NotBlank
+    private String mes;
+
+    @NotNull
+    private Integer ano;
 
     @ManyToOne
-    @JoinColumn(name = "trancista_id")
     private Trancista trancista;
 }

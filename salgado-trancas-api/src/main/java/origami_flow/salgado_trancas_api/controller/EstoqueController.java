@@ -9,16 +9,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.dto.response.estoque.EstoqueDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Estoque;
 import origami_flow.salgado_trancas_api.mapper.EstoqueMapper;
 import origami_flow.salgado_trancas_api.service.EstoqueService;
-import origami_flow.salgado_trancas_api.utils.ExportCsv;
-import origami_flow.salgado_trancas_api.utils.Ordenacao;
 
 import java.util.List;
 
