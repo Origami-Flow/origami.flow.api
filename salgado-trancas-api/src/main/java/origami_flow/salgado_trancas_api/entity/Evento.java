@@ -35,5 +35,5 @@ public class Evento {
     private Servico servico;
 
     @ManyToOne
-    private Agenda agenda;
+    private Trancista trancista;
 }
