@@ -1,7 +1,5 @@
 package origami_flow.salgado_trancas_api.dto.request;
 
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,27 +12,17 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventoRequestDTO {
+public class EventoAtualizacaoRequestDTO {
 
-    @NotNull
-    @FutureOrPresent
     private LocalDateTime dataHoraInicio;
 
-    @NotNull
-    @FutureOrPresent
     private LocalDateTime dataHoraTermino;
 
-    @NotNull
     private TipoEventoEnum tipoEvento;
 
-    @NotNull
-    private Integer clienteId;
+    private Integer idServico;
 
-    @NotNull
-    private Integer servicoId;
-
-    @NotNull
-    private Integer trancistaId;
+    private Integer idTrancista;
 
     private Integer auxiliarId;
 }

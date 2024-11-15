@@ -31,7 +31,7 @@ public class ServicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ServicoDetalheResponseDTO> buscarPorId(@PathVariable Integer id) {
-        Servico servico = servicoService.buscarPorId(id);
+        Servico servico = servicoService.servicoPorId(id);
         return ResponseEntity.ok(servicoMapper.toResponseDTO(servico));
     }
 

@@ -19,7 +19,7 @@ public class ServicoService {
         return servicoRepository.findAll();
     }
 
-    public Servico buscarPorId(Integer idServico) {
+    public Servico servicoPorId(Integer idServico) {
         return servicoRepository.findById(idServico).orElseThrow(()-> new EntidadeNaoEncontradaException("servico"));
     }
 
@@ -29,7 +29,7 @@ public class ServicoService {
     }
 
     public Servico atualizarServico(Servico novoServico, Integer idServico) {
-        Servico servico = buscarPorId(idServico);
+        Servico servico = servicoPorId(idServico);
         servico.setNome(novoServico.getNome() != null ? novoServico.getNome() : servico.getNome());
         servico.setDescricao(novoServico.getDescricao() != null ? novoServico.getDescricao() : servico.getDescricao());
         servico.setTempoDuracao(novoServico.getTempoDuracao() != null ? novoServico.getTempoDuracao() : servico.getTempoDuracao());

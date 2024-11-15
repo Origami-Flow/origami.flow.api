@@ -1,8 +1,6 @@
 package origami_flow.salgado_trancas_api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +26,15 @@ public class Cliente extends UsuarioAbstract {
 
     private String telefone;
 
+    @Enumerated(EnumType.STRING)
     private GeneroEnum genero;
 
     @Column(name = "tipo_cabelo")
+    @Enumerated(EnumType.STRING)
     private TipoCabeloEnum tipoCabelo;
 
     @Column(name = "comprimento_cabelo")
+    @Enumerated(EnumType.STRING)
     private ComprimentoCabeloEnum comprimentoCabelo;
 
     @Column(name = "cor_cabelo")

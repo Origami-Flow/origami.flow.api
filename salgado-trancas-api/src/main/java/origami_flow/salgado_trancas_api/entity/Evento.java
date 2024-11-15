@@ -26,6 +26,7 @@ public class Evento {
     @Column(name = "datahora_termino")
     private LocalDateTime dataHoraTermino;
 
+    @Enumerated(EnumType.STRING)
     private TipoEventoEnum tipoEvento;
 
     @ManyToOne
@@ -36,4 +37,7 @@ public class Evento {
 
     @ManyToOne
     private Trancista trancista;
+
+    @ManyToOne
+    private Auxiliar auxiliar;
 }
