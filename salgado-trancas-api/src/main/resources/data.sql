@@ -42,4 +42,3 @@ INSERT INTO trancista (
           'tokenExemplo123',
           'Trancista'
          );
-

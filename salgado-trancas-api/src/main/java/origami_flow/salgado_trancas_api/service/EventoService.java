@@ -2,10 +2,8 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.entity.Cliente;
+import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 import origami_flow.salgado_trancas_api.entity.Evento;
-import origami_flow.salgado_trancas_api.entity.Servico;
-import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.EventoRepository;
@@ -29,14 +27,11 @@ public class EventoService {
     private final AuxiliarService auxiliarService;
 
     public Evento criarEvento(Evento evento, Integer clienteId, Integer servicoId, Integer trancistaId, Integer auxiliarId) {
-        Trancista trancista = trancistaService.trancistaPorId(trancistaId);
-        Cliente cliente = clienteService.clientePorId(clienteId);
-        Servico servico = servicoService.servicoPorId(servicoId);
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos, evento)) throw new EntidadeComConflitoException("evento");
-        evento.setCliente(cliente);
-        evento.setTrancista(trancista);
-        evento.setServico(servico);
+        evento.setCliente(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ?  clienteService.clientePorId(clienteId) : null);
+        evento.setTrancista(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? trancistaService.trancistaPorId(trancistaId) : null);
+        evento.setServico(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? servicoService.servicoPorId(servicoId) : null);
         evento.setAuxiliar(auxiliarId != null ? auxiliarService.auxiliarPorId(auxiliarId) : null);
         return eventoRepository.save(evento);
     }

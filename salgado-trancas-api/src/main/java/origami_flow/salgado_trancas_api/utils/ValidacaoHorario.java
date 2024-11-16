@@ -2,6 +2,7 @@ package origami_flow.salgado_trancas_api.utils;
 
 import origami_flow.salgado_trancas_api.entity.Evento;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ValidacaoHorario {

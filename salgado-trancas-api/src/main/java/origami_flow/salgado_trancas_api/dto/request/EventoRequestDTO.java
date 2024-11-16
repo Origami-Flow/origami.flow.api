@@ -27,13 +27,10 @@ public class EventoRequestDTO {
     @NotNull
     private TipoEventoEnum tipoEvento;
 
-    @NotNull
     private Integer clienteId;
 
-    @NotNull
     private Integer servicoId;
 
-    @NotNull
     private Integer trancistaId;
 
     private Integer auxiliarId;
