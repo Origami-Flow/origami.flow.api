@@ -20,6 +20,6 @@ public class AtendimentoRealizado {
     @ManyToOne
     private Evento evento;
 
-    @ManyToOne
-    private Caixa caixa;
+/*    @ManyToOne
+    private Caixa caixa;*/
 }

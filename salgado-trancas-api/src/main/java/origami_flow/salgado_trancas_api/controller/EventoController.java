@@ -3,6 +3,8 @@ package origami_flow.salgado_trancas_api.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
+import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 import origami_flow.salgado_trancas_api.dto.request.EventoAtualizacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.EventoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.EventoDetalheResponseDTO;
@@ -70,5 +72,11 @@ public class EventoController {
     public ResponseEntity<Void> removerEvento(@PathVariable Integer id) {
         eventoService.apagarEvento(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/status/evento/{id}")
+    public ResponseEntity<EventoDetalheResponseDTO> atualizarStatusEvento(@RequestParam StatusEventoEnum statusEvento, @PathVariable Integer id){
+         Evento eventoAtualizado = eventoService.atualizarStatus(id,statusEvento);
+         return ResponseEntity.ok(eventoMapper.toDto(eventoAtualizado));
     }
 }

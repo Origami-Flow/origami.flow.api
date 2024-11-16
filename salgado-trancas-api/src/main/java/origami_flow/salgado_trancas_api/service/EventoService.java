@@ -1,8 +1,11 @@
 package origami_flow.salgado_trancas_api.service;
 
+import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
+import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
@@ -26,6 +29,8 @@ public class EventoService {
 
     private final AuxiliarService auxiliarService;
 
+    private final AtendimentoRealizadoService atendimentoRealizadoService;
+
     public Evento criarEvento(Evento evento, Integer clienteId, Integer servicoId, Integer trancistaId, Integer auxiliarId) {
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos, evento)) throw new EntidadeComConflitoException("evento");
@@ -42,6 +47,16 @@ public class EventoService {
 
     public Evento eventoPorId(Integer id) {
         return eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
+    }
+
+    public Evento atualizarStatus(Integer id, StatusEventoEnum statusEvento){
+        Evento evento =eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
+        evento.setStatusEvento(statusEvento);
+        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+            AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
+            atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado,evento);
+        }
+            return evento;
     }
 
     public void apagarEvento (Integer eventoId) {

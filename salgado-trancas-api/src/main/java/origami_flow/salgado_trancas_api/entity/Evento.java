@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 
 import java.time.LocalDateTime;
@@ -26,8 +27,13 @@ public class Evento {
     @Column(name = "datahora_termino")
     private LocalDateTime dataHoraTermino;
 
+    @Column(name = "tipo_evento")
     @Enumerated(EnumType.STRING)
     private TipoEventoEnum tipoEvento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name= "status_evento")
+    private StatusEventoEnum statusEvento;
 
     @ManyToOne
     private Cliente cliente;

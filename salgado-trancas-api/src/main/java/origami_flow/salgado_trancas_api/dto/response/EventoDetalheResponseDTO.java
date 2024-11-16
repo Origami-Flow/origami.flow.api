@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public class EventoDetalheResponseDTO {
     private LocalDateTime dataHoraTermino;
 
     private TipoEventoEnum tipoEvento;
+
+    private StatusEventoEnum statusEvento;
 
     private ClienteResponseDTO cliente;
 

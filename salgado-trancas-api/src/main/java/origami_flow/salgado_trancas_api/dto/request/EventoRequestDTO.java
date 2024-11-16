@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,9 @@ public class EventoRequestDTO {
 
     @NotNull
     private TipoEventoEnum tipoEvento;
+
+    @NotNull
+    private StatusEventoEnum statusEvento;
 
     private Integer clienteId;
 
