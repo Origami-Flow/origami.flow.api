@@ -24,19 +24,19 @@ public class AtendimentoRealizadoController {
     public ResponseEntity<List<AtendimentoRealizadoDetalheResponseDTO>> listarAtendimentosRealizados(){
         List<AtendimentoRealizado> lista = atendimentoRealizadoService.listarAtendimentosRealizados();
         if (lista.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(lista.stream().map(atendimentoRealizadoMapper::toAtendimentoRealizadoEntity).toList());
+        return ResponseEntity.ok(lista.stream().map(atendimentoRealizadoMapper::toDto).toList());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<AtendimentoRealizadoDetalheResponseDTO> atendimentoRealizadoPorId(@PathVariable Integer id){
         AtendimentoRealizado atendimentoRealizado = atendimentoRealizadoService.atendimentoRealizadoPorId(id);
-        return ResponseEntity.ok(atendimentoRealizadoMapper.toAtendimentoRealizadoEntity(atendimentoRealizado));
+        return ResponseEntity.ok(atendimentoRealizadoMapper.toDto(atendimentoRealizado));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<AtendimentoRealizadoDetalheResponseDTO> atualizarAtendimentoRealizado(@PathVariable Integer id, @RequestBody AtendimentoRealizado atendimentoRealizado){
         AtendimentoRealizado atendimentoRealizadoRetorno = atendimentoRealizadoService.atualizarAtendimento(id,atendimentoRealizado);
-        return ResponseEntity.ok(atendimentoRealizadoMapper.toAtendimentoRealizadoEntity(atendimentoRealizado));
+        return ResponseEntity.ok(atendimentoRealizadoMapper.toDto(atendimentoRealizadoRetorno));
     }
 
     @DeleteMapping("{id}")

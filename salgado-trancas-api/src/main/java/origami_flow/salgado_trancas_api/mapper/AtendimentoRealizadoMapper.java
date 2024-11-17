@@ -7,5 +7,5 @@ import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 @Mapper(componentModel = "spring")
 public interface AtendimentoRealizadoMapper {
 
-    AtendimentoRealizadoDetalheResponseDTO toAtendimentoRealizadoEntity(AtendimentoRealizado atendimentoRealizado);
+    AtendimentoRealizadoDetalheResponseDTO toDto(AtendimentoRealizado atendimentoRealizado);
 }

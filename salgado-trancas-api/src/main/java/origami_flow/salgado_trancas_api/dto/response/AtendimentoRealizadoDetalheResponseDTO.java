@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +19,10 @@ import java.time.LocalDateTime;
 public class AtendimentoRealizadoDetalheResponseDTO {
 
     private Integer id;
+
     private Double receita;
-    private Evento evento;
+
+    private EventoResponseDTO evento;
 
     @Data
     @Builder
@@ -29,8 +32,10 @@ public class AtendimentoRealizadoDetalheResponseDTO {
 
         private Integer id;
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime dataHoraInicio;
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime dataHoraTermino;
 
         private TipoEventoEnum tipoEvento;

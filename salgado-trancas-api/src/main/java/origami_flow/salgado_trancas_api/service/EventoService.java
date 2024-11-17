@@ -1,8 +1,9 @@
 package origami_flow.salgado_trancas_api.service;
 
-import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
@@ -52,11 +53,11 @@ public class EventoService {
     public Evento atualizarStatus(Integer id, StatusEventoEnum statusEvento){
         Evento evento =eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
         evento.setStatusEvento(statusEvento);
-        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) && evento.getStatusEvento().equals(StatusEventoEnum.FINALIZADO)){
             AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
             atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado,evento);
         }
-            return evento;
+        return eventoRepository.save(evento);
     }
 
     public void apagarEvento (Integer eventoId) {
@@ -70,6 +71,7 @@ public class EventoService {
 
     public Evento atualizarEvento(Evento eventoAtualizado, Integer idEvento, Integer idServico, Integer idTrancista, Integer idAuxiliar) {
         Evento evento = eventoPorId(idEvento);
+        if (evento.getStatusEvento().equals(StatusEventoEnum.FINALIZADO)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Evento já finalizado");
         evento.setDataHoraInicio(eventoAtualizado.getDataHoraInicio() != null ? eventoAtualizado.getDataHoraInicio() : evento.getDataHoraInicio());
         evento.setDataHoraTermino(eventoAtualizado.getDataHoraTermino() != null ? eventoAtualizado.getDataHoraTermino() : evento.getDataHoraTermino());
         evento.setTipoEvento(eventoAtualizado.getTipoEvento() != null ? eventoAtualizado.getTipoEvento() : evento.getTipoEvento());

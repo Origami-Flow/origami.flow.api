@@ -1,7 +1,10 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 import origami_flow.salgado_trancas_api.entity.Caixa;
@@ -24,7 +27,6 @@ public class AtendimentoRealizadoService {
     }
 
     public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento){
-        if (!evento.getStatusEvento().equals(StatusEventoEnum.FINALIZADO))  return null;
         atendimentoRealizado.setReceita(CalculoServicoPrestado.calcularReceita(evento));
         atendimentoRealizado.setEvento(evento);
         return atendimentoRealizadoRepository.save(atendimentoRealizado);

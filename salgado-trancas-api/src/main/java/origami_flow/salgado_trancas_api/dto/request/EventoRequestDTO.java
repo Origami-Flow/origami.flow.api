@@ -18,11 +18,9 @@ import java.time.LocalDateTime;
 public class EventoRequestDTO {
 
     @NotNull
-    @FutureOrPresent
     private LocalDateTime dataHoraInicio;
 
     @NotNull
-    @FutureOrPresent
     private LocalDateTime dataHoraTermino;
 
     @NotNull
