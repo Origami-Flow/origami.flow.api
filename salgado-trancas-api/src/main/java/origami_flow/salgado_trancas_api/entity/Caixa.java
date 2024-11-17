@@ -25,6 +25,5 @@ public class Caixa {
     private Double lucro;
 
     @ManyToOne
-    @JoinColumn(name = "salao_id")
     private Salao salao;
 }

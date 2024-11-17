@@ -16,7 +16,7 @@ public class EstoqueService {
 
     private final EstoqueRepository estoqueRepository;
 
-    public void cadastraProdutoNoEstoque(Estoque estoque) {
+    public void cadastrarProdutoNoEstoque(Estoque estoque) {
         estoqueRepository.save(estoque);
     }
 

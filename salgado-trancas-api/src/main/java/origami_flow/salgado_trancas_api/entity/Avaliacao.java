@@ -26,12 +26,11 @@ public class Avaliacao {
     private Double nota;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "salao_id")
     private Salao salao;
 
-
+    @ManyToOne
+    private AtendimentoRealizado atendimentorealizado;
 }

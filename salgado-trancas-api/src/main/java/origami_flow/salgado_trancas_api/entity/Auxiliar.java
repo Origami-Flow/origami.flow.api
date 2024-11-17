@@ -25,9 +25,4 @@ public class Auxiliar {
     @Column(name = "valor_mao_de_obra")
     private Double valorMaoDeObra;
 
-    @ManyToOne
-    private Trancista trancista;
-
-    @ManyToOne
-    private Evento evento;
 }

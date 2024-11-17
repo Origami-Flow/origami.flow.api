@@ -38,7 +38,7 @@ public class ProdutoService {
         if(produtoRepository.existsByNome(produto.getNome())) throw new EntidadeComConflitoException("produto");
         Produto produtoSalvo = produtoRepository.save(produto);
         Estoque estoque = Estoque.builder().quantidade(quantidade).produto(produtoSalvo).salao(salao).build();
-        estoqueService.cadastraProdutoNoEstoque(estoque);
+        estoqueService.cadastrarProdutoNoEstoque(estoque);
         return produtoSalvo;
     }
 
