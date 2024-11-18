@@ -47,4 +47,9 @@ public class SalaoService {
         salao.setEndereco(endereco);
         return salaoRepository.save(salao);
     }
+
+    public void deletarSalao(Integer id) {
+        if (!salaoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("salao");
+        salaoRepository.deleteById(id);
+    }
 }

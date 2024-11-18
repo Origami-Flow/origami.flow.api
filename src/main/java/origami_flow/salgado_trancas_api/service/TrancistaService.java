@@ -24,9 +24,13 @@ public class TrancistaService {
         return trancistaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("trancista "));
     }
 
-    public Trancista atualizarTrancista(Integer id, Trancista trancista){
-        if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista");
-        trancista.setId(id);
+    public Trancista atualizarTrancista(Integer id, Trancista trancistaAtualizado) {
+        Trancista trancista = trancistaPorId(id);
+        trancista.setNome(trancistaAtualizado.getNome() != null ? trancistaAtualizado.getNome() : trancista.getNome());
+        trancista.setEmail(trancistaAtualizado.getEmail() != null ? trancistaAtualizado.getEmail() : trancista.getEmail());
+        trancista.setTelefone(trancistaAtualizado.getTelefone() != null ? trancistaAtualizado.getTelefone() : trancista.getTelefone());
+        trancista.setSenha(trancistaAtualizado.getSenha() != null ? trancistaAtualizado.getSenha() : trancista.getSenha());
+        trancista.setTipo(trancistaAtualizado.getTipo() != null ? trancistaAtualizado.getTipo() : trancista.getTipo());
         return trancistaRepository.save(trancista);
     }
 

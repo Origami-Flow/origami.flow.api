@@ -24,6 +24,4 @@ public abstract class UsuarioAbstract {
     protected String email;
 
     protected String senha;
-
-    protected String token;
 }
