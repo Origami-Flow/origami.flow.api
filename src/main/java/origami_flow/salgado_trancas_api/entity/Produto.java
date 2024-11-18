@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import origami_flow.salgado_trancas_api.constans.TipoProdutoEnum;
 
 @Entity
 @Setter
@@ -33,5 +34,6 @@ public class Produto {
     @Column(name = "unidade_medida")
     private String unidadeMedida;
 
-    private String funcionalidade;
+    @Enumerated(EnumType.STRING)
+    private TipoProdutoEnum tipo;
 }
