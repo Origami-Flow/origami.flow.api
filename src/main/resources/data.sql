@@ -1,5 +1,5 @@
 INSERT INTO cliente (
-    nome, email, senha, token,
+    id, nome, email, senha,
     data_nascimento, telefone, genero, tipo_cabelo,
     comprimento_cabelo, cor_cabelo, progressiva,
     primeira_tranca, ocupacao, endereco_id
@@ -7,7 +7,6 @@ INSERT INTO cliente (
           'João Silva',
           'joao.silva@example.com',
           'senha123',
-          'tokenExemplo123',
           '1990-05-15',
           '1234567890',
           'MASCULINO',
@@ -31,11 +30,10 @@ INSERT INTO servico (
          );
 
 INSERT INTO trancista (
-    nome, email, senha, token, tipo
+    id, nome, email, senha, tipo
 ) VALUES (
           'Maria Silva',
           'maria.silva@exemplo.com',
           'senhaSegura123',
-          'tokenExemplo123',
           'Trancista'
          );

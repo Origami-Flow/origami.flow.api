@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import origami_flow.salgado_trancas_api.constans.TipoProdutoEnum;
 
 @Data
 @Builder
@@ -48,7 +49,7 @@ public class EstoqueDetalheResponseDTO {
         @Schema(description = "Valor de venda do produto", example = "25.99")
         private Double valorVenda;
 
-        @Schema(description = "Funcionalidade do produto", example = "Limpeza e hidratação")
-        private String funcionalidade;
+        @Schema(description = "Finalidade do produto", example = "LOJA")
+        private TipoProdutoEnum tipo;
     }
 }

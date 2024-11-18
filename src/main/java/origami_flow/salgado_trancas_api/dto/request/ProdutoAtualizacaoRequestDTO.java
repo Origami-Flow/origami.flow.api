@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import origami_flow.salgado_trancas_api.constans.TipoProdutoEnum;
 
 @Data
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class ProdutoAtualizacaoRequestDTO {
     @Schema(description = "Unidade de medida do produto", example = "ml")
     private String unidadeMedida;
 
-    @NotBlank
-    @Schema(description = "Funcionalidade do produto", example = "Limpeza e hidratação")
-    private String funcionalidade;
+    @NotNull
+    @Schema(description = "Finalidade do produto", example = "LOJA")
+    private TipoProdutoEnum tipo;
 }
