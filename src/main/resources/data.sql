@@ -4,7 +4,6 @@ INSERT INTO cliente (
     comprimento_cabelo, cor_cabelo, progressiva,
     primeira_tranca, ocupacao, endereco_id
 ) VALUES (
-             1,
           'João Silva',
           'joao.silva@example.com',
           'senha123',
@@ -14,16 +13,15 @@ INSERT INTO cliente (
           'A1',
           'COMPRIDO',
           'CASTANHO',
-          true,
-          false,
+          1,
+          0,
           'Engenheiro',
           null
          );
 
 INSERT INTO servico (
-    id, nome, descricao, tempo_duracao, valor_servico, valor_sinal
+    nome, descricao, tempo_duracao, valor_servico, valor_sinal
 ) VALUES (
-             1,
           'Corte de Cabelo',
           'Corte estilo degradê com finalização',
           '01:30:00',
@@ -34,7 +32,6 @@ INSERT INTO servico (
 INSERT INTO trancista (
     id, nome, email, senha, tipo
 ) VALUES (
-             1,
           'Maria Silva',
           'maria.silva@exemplo.com',
           'senhaSegura123',
