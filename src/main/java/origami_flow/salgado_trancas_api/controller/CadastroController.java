@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.TrancistaRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.trancista.TrancistaDetalheResposeDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
 import origami_flow.salgado_trancas_api.mapper.ClienteMapper;
+import origami_flow.salgado_trancas_api.mapper.TrancistaMapper;
 import origami_flow.salgado_trancas_api.service.CadastroService;
 
 @RestController
@@ -26,6 +29,9 @@ import origami_flow.salgado_trancas_api.service.CadastroService;
 public class CadastroController {
 
     private final ClienteMapper clienteMapper;
+
+    private final TrancistaMapper trancistaMapper;
+
     private final CadastroService cadastroService;
 
     @Operation(summary = "Cadastra um novo cliente", description = "Endpoint para cadastrar um novo cliente a partir das informações enviadas.")
@@ -49,8 +55,8 @@ public class CadastroController {
                     content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/trancista")
-    public ResponseEntity<Trancista> cadastrarTrancista(@RequestBody @Valid Trancista novoTrancista) {
-        Trancista trancistaRetorno = cadastroService.cadastrarTrancista(novoTrancista);
-        return ResponseEntity.status(201).body(trancistaRetorno);
+    public ResponseEntity<TrancistaDetalheResposeDTO> cadastrarTrancista(@RequestBody @Valid TrancistaRequestDTO trancistaRequestDTO) {
+        Trancista trancistaRetorno = cadastroService.cadastrarTrancista(trancistaMapper.toEntity(trancistaRequestDTO));
+        return ResponseEntity.created(null).body(trancistaMapper.toDTO(trancistaRetorno));
     }
 }

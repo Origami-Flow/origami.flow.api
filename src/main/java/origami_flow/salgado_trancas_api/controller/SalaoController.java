@@ -90,4 +90,10 @@ public class SalaoController {
         Salao salao = salaoService.atualizarEndereco(id, cep);
         return ResponseEntity.ok(salaoMapper.toSalaoDetalheResponseDTO(salao));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirSalao(@PathVariable Integer id) {
+        salaoService.deletarSalao(id);
+        return ResponseEntity.noContent().build();
+    }
 }
