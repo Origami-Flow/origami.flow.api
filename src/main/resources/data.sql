@@ -4,36 +4,39 @@ INSERT INTO cliente (
     comprimento_cabelo, cor_cabelo, progressiva,
     primeira_tranca, ocupacao, endereco_id
 ) VALUES (
-          'João Silva',
-          'joao.silva@example.com',
-          'senha123',
-          '1990-05-15',
-          '1234567890',
-          'MASCULINO',
-          'A1',
-          'COMPRIDO',
-          'CASTANHO',
-          1,
-          0,
-          'Engenheiro',
-          null
+             1,
+             'João Silva',
+             'joao.silva@example.com',
+             'senha123',
+             '1990-05-15',
+             '1234567890',
+             'MASCULINO',
+             'A1',
+             'COMPRIDO',
+             'CASTANHO',
+             true,
+             false,
+             'Engenheiro',
+             null
          );
 
 INSERT INTO servico (
-    nome, descricao, tempo_duracao, valor_servico, valor_sinal
+    id, nome, descricao, tempo_duracao, valor_servico, valor_sinal
 ) VALUES (
-          'Corte de Cabelo',
-          'Corte estilo degradê com finalização',
-          '01:30:00',
-          50.00,
-          10.00
+             1,
+             'Corte de Cabelo',
+             'Corte estilo degradê com finalização',
+             '01:30:00',
+             50.00,
+             10.00
          );
 
 INSERT INTO trancista (
     id, nome, email, senha, tipo
 ) VALUES (
-          'Maria Silva',
-          'maria.silva@exemplo.com',
-          'senhaSegura123',
-          'Trancista'
+             1,
+             'Maria Silva',
+             'maria.silva@exemplo.com',
+             'senhaSegura123',
+             'Trancista'
          );
