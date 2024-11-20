@@ -19,10 +19,16 @@ public class Despesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String nome;
+
     private Double valor;
 
     private LocalDate data;
 
     @ManyToOne
     private Caixa caixa;
+
+    @ManyToOne
+    private Produto produto;
+
 }

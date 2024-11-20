@@ -22,7 +22,11 @@ public class Caixa {
     @Column(name = "data_fechamento")
     private LocalDate dataFechamento;
 
-    private Double lucro;
+    @Column(name = "receita_total")
+    private Double receitaTotal;
+
+    @Column(name = "despesa_total")
+    private Double despesaTotal;
 
     @ManyToOne
     private Salao salao;
