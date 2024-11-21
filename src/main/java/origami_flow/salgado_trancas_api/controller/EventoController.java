@@ -77,4 +77,11 @@ public class EventoController {
          Evento eventoAtualizado = eventoService.finalizarEvento(id);
          return ResponseEntity.ok(eventoMapper.toDto(eventoAtualizado));
     }
+
+    @GetMapping("/buscar-semana")
+    public ResponseEntity<List<EventoDetalheResponseDTO>> buscarSemana(@RequestParam LocalDate inicioSemana, @RequestParam LocalDate fimSemana) {
+        List<Evento> eventos = eventoService.buscarPorData(inicioSemana, fimSemana);
+        if (eventos.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
+    }
 }

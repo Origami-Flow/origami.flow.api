@@ -35,6 +35,7 @@ public class AuxiliarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuxiliarDetalheResponseDTO> buscarAuxiliarPorId(@PathVariable Integer id) {
-
+        Auxiliar auxiliar = auxiliarService.auxiliarPorId(id);
+        return ResponseEntity.ok(auxiliarMapper.toDto(auxiliar));
     }
 }

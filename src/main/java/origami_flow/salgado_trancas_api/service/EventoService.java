@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -86,5 +87,9 @@ public class EventoService {
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos ,evento)) throw new EntidadeComConflitoException("evento");
         return eventoRepository.save(evento);
+    }
+
+    public List<Evento> buscarPorData(LocalDate dataInicio, LocalDate dataFim) {
+        return eventoRepository.findByData(dataInicio, dataFim);
     }
 }
