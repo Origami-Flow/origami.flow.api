@@ -21,4 +21,8 @@ public class AuxiliarService {
     public Auxiliar auxiliarPorId(Integer id) {
         return auxiliarRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("auxiliar"));
     }
+
+    public List<Auxiliar> listarPorNome(String nome) {
+        return auxiliarRepository.buscarPorNome(nome);
+    }
 }

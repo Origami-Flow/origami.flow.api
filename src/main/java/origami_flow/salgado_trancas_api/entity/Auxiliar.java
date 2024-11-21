@@ -20,8 +20,6 @@ public class Auxiliar {
 
     private String email;
 
-    private String cpf;
-
     @Column(name = "valor_mao_de_obra")
     private Double valorMaoDeObra;
 
