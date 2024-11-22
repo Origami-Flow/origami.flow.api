@@ -84,4 +84,11 @@ public class EventoController {
         if (eventos.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
     }
+
+    @GetMapping("/buscar-mês")
+    public ResponseEntity<List<EventoDetalheResponseDTO>> buscarMes(@RequestParam LocalDate inicioMes, @RequestParam LocalDate fimMes) {
+        List<Evento> eventos = eventoService.buscarPorData(inicioMes, fimMes);
+        if (eventos.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
+    }
 }
