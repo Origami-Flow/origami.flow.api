@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,6 +36,7 @@ public class EventoService {
     public Evento criarEvento(Evento evento, Integer clienteId, Integer servicoId, Integer trancistaId, Integer auxiliarId) {
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos, evento)) throw new EntidadeComConflitoException("evento");
+        evento.setStatusEvento(StatusEventoEnum.PROGRAMADO);
         evento.setCliente(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ?  clienteService.clientePorId(clienteId) : null);
         evento.setTrancista(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? trancistaService.trancistaPorId(trancistaId) : null);
         evento.setServico(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? servicoService.servicoPorId(servicoId) : null);
@@ -50,10 +52,14 @@ public class EventoService {
         return eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
     }
 
-    public Evento atualizarStatus(Integer id, StatusEventoEnum statusEvento){
-        Evento evento =eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
-        evento.setStatusEvento(statusEvento);
-        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) && evento.getStatusEvento().equals(StatusEventoEnum.FINALIZADO)){
+    public Evento finalizarEvento(Integer id){
+        Evento evento = eventoPorId(id);
+        if (evento.getStatusEvento() == StatusEventoEnum.FINALIZADO) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"evento já finalizado");
+        }else {
+            evento.setStatusEvento(StatusEventoEnum.FINALIZADO);
+        }
+        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
             AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
             atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado,evento);
         }
@@ -81,5 +87,9 @@ public class EventoService {
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos ,evento)) throw new EntidadeComConflitoException("evento");
         return eventoRepository.save(evento);
+    }
+
+    public List<Evento> buscarPorData(LocalDate dataInicio, LocalDate dataFim) {
+        return eventoRepository.findByData(dataInicio, dataFim);
     }
 }
