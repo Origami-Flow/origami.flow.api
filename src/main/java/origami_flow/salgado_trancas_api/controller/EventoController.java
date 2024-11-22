@@ -78,16 +78,9 @@ public class EventoController {
          return ResponseEntity.ok(eventoMapper.toDto(eventoAtualizado));
     }
 
-    @GetMapping("/buscar-semana")
-    public ResponseEntity<List<EventoDetalheResponseDTO>> buscarSemana(@RequestParam LocalDate inicioSemana, @RequestParam LocalDate fimSemana) {
-        List<Evento> eventos = eventoService.buscarPorData(inicioSemana, fimSemana);
-        if (eventos.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
-    }
-
-    @GetMapping("/buscar-mês")
-    public ResponseEntity<List<EventoDetalheResponseDTO>> buscarMes(@RequestParam LocalDate inicioMes, @RequestParam LocalDate fimMes) {
-        List<Evento> eventos = eventoService.buscarPorData(inicioMes, fimMes);
+    @GetMapping("/buscar-intervalo-tempo")
+    public ResponseEntity<List<EventoDetalheResponseDTO>> buscarSemana(@RequestParam LocalDate inicioIntervalo, @RequestParam LocalDate fimIntervalo) {
+        List<Evento> eventos = eventoService.buscarPorData(inicioIntervalo, fimIntervalo);
         if (eventos.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
     }

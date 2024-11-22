@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    @Query("select c from Cliente c where lower(c.nome) like lower(:nome) ")
+    @Query("select c from Cliente c where lower(c.nome) like concat('%',lower(:nome),'%') ")
     List<Cliente> buscarPorNome(String nome);
 
     boolean existsByTelefoneOrEmail(String telefone, String email);
