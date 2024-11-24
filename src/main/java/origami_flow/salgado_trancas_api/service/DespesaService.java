@@ -9,6 +9,7 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.DespesaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,6 +21,8 @@ public class DespesaService {
     private final ProdutoService produtoService;
 
     private final CaixaService caixaService;
+
+    private final EventoService eventoService;
 
     public List<Despesa> listarTodasDepespesas(){
         return despesaRepository.findAll();
@@ -46,7 +49,12 @@ public class DespesaService {
         return despesaRepository.save(despesa);
     }
 
-    public Double totalDespesasMensal(int ano, int mes){
-        return despesaRepository.getTotalDespesaMensal(ano, mes);
+    public void deletarDespesa(Integer id){
+        if (despesaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("despesa");
+        despesaRepository.deleteById(id);
+    }
+
+    public Double totalDespesasMensal(LocalDate inicio, LocalDate fim){
+        return despesaRepository.getTotalDespesaMensal(inicio, fim);
     }
 }
