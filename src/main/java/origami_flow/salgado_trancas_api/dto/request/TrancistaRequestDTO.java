@@ -1,10 +1,12 @@
 package origami_flow.salgado_trancas_api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import origami_flow.salgado_trancas_api.constans.UserRolesEnum;
 
 @Data
 @Builder
@@ -19,10 +21,13 @@ public class TrancistaRequestDTO {
     private String email;
 
     @NotBlank
-    private String telefone;
+    private String senha;
+
+    @NotNull
+    private UserRolesEnum role;
 
     @NotBlank
-    private String senha;
+    private String telefone;
 
     @NotBlank
     private String tipo;

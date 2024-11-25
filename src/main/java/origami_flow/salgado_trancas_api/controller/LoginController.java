@@ -35,7 +35,7 @@ public class LoginController {
     })
     @PostMapping("/cliente")
     public ResponseEntity<JwtTokenResponse> autenticarCliente(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return loginService.autenticarCliente(loginRequestDTO);
+        return ResponseEntity.ok(loginService.autenticarCliente(loginRequestDTO));
     }
 
     @Operation(
@@ -49,6 +49,6 @@ public class LoginController {
     })
     @PostMapping("/trancista")
     public ResponseEntity<JwtTokenResponse> autenticarTrancista(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return loginService.autenticarTrancista(loginRequestDTO);
+        return ResponseEntity.ok(loginService.autenticarTrancista(loginRequestDTO));
     }
 }
