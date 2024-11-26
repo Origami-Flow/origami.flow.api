@@ -24,7 +24,7 @@ public class ExportCsv {
                         estoque.getProduto().getUnidadeMedida(),
                         estoque.getProduto().getValorCompra(),
                         estoque.getProduto().getValorVenda(),
-                        estoque.getProduto().getFuncionalidade(),
+                        estoque.getProduto().getTipo(),
                         estoque.getQuantidade()
                 ));
             }

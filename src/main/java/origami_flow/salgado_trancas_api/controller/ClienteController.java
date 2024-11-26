@@ -87,4 +87,11 @@ public class ClienteController {
         Cliente cliente = clienteService.atualizarEndereco(id,cep);
         return ResponseEntity.ok(clienteMapper.toClienteDetalheResponseDTO(cliente));
     }
+
+    @GetMapping("/nome-cliente")
+    public ResponseEntity<List<ClienteDetalheResponseDTO>> listarNomeCliente(@RequestParam String nome) {
+        List<Cliente> clientes = clienteService.listarPorNome(nome);
+        if (clientes.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(clientes.stream().map(clienteMapper::toClienteDetalheResponseDTO).toList());
+    }
 }

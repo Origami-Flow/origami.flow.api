@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import origami_flow.salgado_trancas_api.dto.request.TrancistaAtualizacaoRequestDTO;
+import origami_flow.salgado_trancas_api.dto.response.trancista.TrancistaDetalheResposeDTO;
 import origami_flow.salgado_trancas_api.entity.Trancista;
+import origami_flow.salgado_trancas_api.mapper.TrancistaMapper;
 import origami_flow.salgado_trancas_api.service.TrancistaService;
 
 import java.util.List;
@@ -23,6 +26,8 @@ public class TrancistaController {
 
     private final TrancistaService trancistaService;
 
+    private final TrancistaMapper trancistaMapper;
+
     @Operation(summary = "Listar todos os trancistas", description = "Retorna uma lista de todos os trancistas cadastrados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de trancistas retornada com sucesso",
@@ -30,10 +35,10 @@ public class TrancistaController {
             @ApiResponse(responseCode = "204", description = "Nenhum trancista encontrado")
     })
     @GetMapping
-    public ResponseEntity<List<Trancista>> listarTrancista() {
+    public ResponseEntity<List<TrancistaDetalheResposeDTO>> listarTrancista() {
         List<Trancista> listaTrancistas = trancistaService.listarTrancista();
         if (listaTrancistas.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(listaTrancistas);
+    return ResponseEntity.ok(listaTrancistas.stream().map(trancistaMapper::toDTO).toList());
     }
 
     @Operation(summary = "Buscar trancista por ID", description = "Retorna um trancista específico com base no ID fornecido.")
@@ -43,10 +48,20 @@ public class TrancistaController {
             @ApiResponse(responseCode = "404", description = "Trancista não encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Trancista> trancistaPorId(@PathVariable Integer id) {
+    public ResponseEntity<TrancistaDetalheResposeDTO> trancistaPorId(@PathVariable Integer id) {
         Trancista trancistaRetorno = trancistaService.trancistaPorId(id);
+        return ResponseEntity.ok(trancistaMapper.toDTO(trancistaRetorno));
+    }
 
-        return ResponseEntity.ok(trancistaRetorno);
+    @PutMapping("/{id}")
+    public ResponseEntity<TrancistaDetalheResposeDTO> atualizarTrancista(@PathVariable Integer id, @RequestBody TrancistaAtualizacaoRequestDTO trancistaAtualizacaoRequestDTO) {
+        Trancista trancistaAtualizada = trancistaService.atualizarTrancista(id, trancistaMapper.toEntity(trancistaAtualizacaoRequestDTO));
+        return ResponseEntity.ok(trancistaMapper.toDTO(trancistaAtualizada));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarTrancista(@PathVariable Integer id) {
+        trancistaService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

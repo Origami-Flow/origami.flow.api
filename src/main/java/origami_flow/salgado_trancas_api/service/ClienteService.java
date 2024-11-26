@@ -52,4 +52,8 @@ public class ClienteService {
         cliente.setEndereco(enderecoAtualizado);
         return clienteRepository.save(cliente);
     }
+
+    public List<Cliente> listarPorNome(String nome) {
+        return clienteRepository.buscarPorNome(nome);
+    }
 }
