@@ -12,7 +12,7 @@ import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.entity.Servico;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.AtendimentoRealizadoRepository;
-import origami_flow.salgado_trancas_api.utils.CalculoServicoPrestado;
+import origami_flow.salgado_trancas_api.utils.Calculos;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class AtendimentoRealizadoService {
     }
 
     public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento){
-        atendimentoRealizado.setReceita(CalculoServicoPrestado.calcularReceita(evento));
+        atendimentoRealizado.setReceita(Calculos.calcularReceita(evento));
         atendimentoRealizado.setEvento(evento);
         return atendimentoRealizadoRepository.save(atendimentoRealizado);
     }
