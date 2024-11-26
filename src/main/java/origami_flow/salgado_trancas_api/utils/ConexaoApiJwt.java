@@ -1,13 +1,9 @@
 package origami_flow.salgado_trancas_api.utils;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.LoginRequestDTO;
-import origami_flow.salgado_trancas_api.dto.response.JwtTokenResponse;
-import origami_flow.salgado_trancas_api.dto.response.cadastro.CadastroCriptografadoResponse;
 
 public class ConexaoApiJwt {
 
@@ -29,8 +25,6 @@ public class ConexaoApiJwt {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
         return response;
     }
 }
