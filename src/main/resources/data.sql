@@ -1,5 +1,5 @@
 INSERT INTO cliente (
-    nome, email, senha,
+    nome, email, senha, role,
     data_nascimento, telefone, genero, tipo_cabelo,
     comprimento_cabelo, cor_cabelo, progressiva,
     primeira_tranca, ocupacao, endereco_id
@@ -7,6 +7,7 @@ INSERT INTO cliente (
              'João Silva',
              'joao.silva@example.com',
              'senha123',
+             'USER',
              '1990-05-15',
              '1234567890',
              'MASCULINO',
@@ -30,13 +31,23 @@ INSERT INTO servico (
          );
 
 INSERT INTO trancista (
-    nome, email, senha, tipo
+    nome, email, senha, role, tipo
 ) VALUES (
              'Maria Silva',
              'maria.silva@exemplo.com',
              'senhaSegura123',
+             'ADMIN',
              'Trancista'
          );
+
+
+INSERT INTO auxiliar (
+     nome, email, valor_mao_de_obra
+) VALUES (
+          'João da Silva',
+          'joao.silva@email.com',
+          150.75
+);
 
 INSERT INTO endereco (
     numero, bairro, cep, cidade, complemento, estado, logradouro, regiao, uf
@@ -91,4 +102,4 @@ INSERT INTO estoque (
              2,
              30,
              1
-         );
+      );

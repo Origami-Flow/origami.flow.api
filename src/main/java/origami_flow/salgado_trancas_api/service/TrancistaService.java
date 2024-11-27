@@ -38,4 +38,8 @@ public class TrancistaService {
         if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista ");
         trancistaRepository.deleteById(id);
     }
+
+    public Trancista buscarPorEmail(String email) {
+        return trancistaRepository.buscarPorEmail(email).orElseThrow(()-> new EntidadeNaoEncontradaException("trancista"));
+    }
 }

@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+
     private final EnderecoService enderecoService;
 
     public List<Cliente> listarCliente() {
@@ -55,5 +57,9 @@ public class ClienteService {
 
     public List<Cliente> listarPorNome(String nome) {
         return clienteRepository.buscarPorNome(nome);
+    }
+
+    public Cliente buscarPorEmail(String email) {
+        return clienteRepository.buscarPorEmail(email).orElseThrow(() -> new EntidadeNaoEncontradaException("cliente"));
     }
 }
