@@ -11,7 +11,7 @@ import origami_flow.salgado_trancas_api.entity.Endereco;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SalaoDetalheResponseDTO {
+public class  SalaoDetalheResponseDTO {
 
     @Schema(description = "Identificador único do salão", example = "1")
     private Integer id;
