@@ -25,30 +25,18 @@ public class LoginController {
     private final LoginService loginService;
 
     @Operation(
-            summary = "Autenticar cliente",
-            description = "Autentica um cliente com credenciais válidas e retorna um token JWT."
+            summary = "Autenticar usuário",
+            description = "Autentica o usuário com credenciais válidas e retorna um token JWT."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida, token JWT retornado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtTokenResponse.class))),
             @ApiResponse(responseCode = "401", description = "Falha na autenticação, credenciais inválidas")
     })
-    @PostMapping("/cliente")
+    @PostMapping
     public ResponseEntity<JwtTokenResponse> autenticarCliente(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok(loginService.autenticarCliente(loginRequestDTO));
+        return ResponseEntity.ok(loginService.autenticarUsuario(loginRequestDTO));
     }
 
-    @Operation(
-            summary = "Autenticar trancista",
-            description = "Autentica uma trancista com credenciais válidas e retorna um token JWT."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida, token JWT retornado",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtTokenResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Falha na autenticação, credenciais inválidas")
-    })
-    @PostMapping("/trancista")
-    public ResponseEntity<JwtTokenResponse> autenticarTrancista(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok(loginService.autenticarTrancista(loginRequestDTO));
-    }
+
 }

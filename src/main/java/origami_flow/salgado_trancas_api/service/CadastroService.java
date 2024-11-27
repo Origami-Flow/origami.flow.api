@@ -16,7 +16,7 @@ public class CadastroService {
 
     private final ClienteService clienteService;
 
-    private final TrancistaRepository trancistaRepository;
+    private final TrancistaService trancistaService;
 
     private final CadastroMapper CadastroMapper;
 
@@ -28,8 +28,8 @@ public class CadastroService {
     }
 
     public Trancista cadastrarTrancista(Trancista trancista) {
-        if (trancistaRepository.existsByEmail(trancista.getEmail())) throw new EntidadeComConflitoException("email");
-        trancista.setId(null);
-        return trancistaRepository.save(trancista);
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(trancista.getSenha());
+        trancista.setSenha(senhaCriptografada);
+        return trancistaService.cadastrarTrancista(trancista);
     }
 }

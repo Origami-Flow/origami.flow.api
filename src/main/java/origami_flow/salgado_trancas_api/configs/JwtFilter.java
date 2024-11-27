@@ -59,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private UserDetails getUserDetails(String login) {
-        UserDetails user = null;
+        UserDetails user;
         user = clienteRepository.findByEmail(login);
         if (user == null) {
             user = trancistaRepository.findByEmail(login);
