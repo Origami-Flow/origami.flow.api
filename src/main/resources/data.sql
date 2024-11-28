@@ -84,7 +84,7 @@ INSERT INTO produto (
          (
              500,
              30.5,
-             0.0,
+             10.0,
              'Salon Line',
              'Creme',
              'SALAO',
