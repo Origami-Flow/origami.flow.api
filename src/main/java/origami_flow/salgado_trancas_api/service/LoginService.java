@@ -11,6 +11,8 @@ import origami_flow.salgado_trancas_api.dto.request.LoginRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.JwtTokenResponse;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
+import origami_flow.salgado_trancas_api.entity.UsuarioAbstract;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.mapper.JwtTokenMapper;
 import origami_flow.salgado_trancas_api.utils.ConexaoApiJwt;
 
@@ -21,21 +23,17 @@ public class LoginService {
     private final AuthenticationManager authenticationManager;
 
     private final ClienteService clienteService;
+
     private final TrancistaService trancistaService;
 
-    public JwtTokenResponse autenticarCliente(LoginRequestDTO loginRequestDTO) {
+    public JwtTokenResponse autenticarUsuario(LoginRequestDTO loginRequestDTO) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getSenha());
         Authentication authentication = authenticationManager.authenticate(usernamePassword);
-        Cliente cliente = clienteService.buscarPorEmail(loginRequestDTO.getEmail());
+        UsuarioAbstract usuario;
+        usuario = clienteService.buscarPorEmail(loginRequestDTO.getEmail());
+        if (usuario == null) usuario = trancistaService.buscarPorEmail(loginRequestDTO.getEmail());
+        if (usuario == null) throw new EntidadeNaoEncontradaException("usuário");
         String token = ConexaoApiJwt.generateToken(loginRequestDTO);
-        return JwtTokenMapper.jwtTokenResponse(cliente, token);
-    }
-
-    public JwtTokenResponse autenticarTrancista(LoginRequestDTO loginRequestDTO) {
-        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getSenha());
-        Authentication authentication = authenticationManager.authenticate(usernamePassword);
-        Trancista trancista = trancistaService.buscarPorEmail(loginRequestDTO.getEmail());
-        String token = ConexaoApiJwt.generateToken(loginRequestDTO);
-        return JwtTokenMapper.jwtTokenResponse(trancista, token);
+        return JwtTokenMapper.jwtTokenResponse(usuario, token);
     }
 }

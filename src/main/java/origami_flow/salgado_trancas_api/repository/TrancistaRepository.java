@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface TrancistaRepository extends JpaRepository<Trancista,Integer> {
 
-    Trancista findByEmailAndSenha(String email, String senha);
+    boolean existsByEmailOrTelefone(String email, String telefone);
 
-    boolean existsByEmail(String email);
+    Trancista findByEmailAndSenha(String email, String senha);
 
     UserDetails findByEmail(String email);
 

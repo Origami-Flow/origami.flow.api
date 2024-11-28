@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +49,7 @@ public class CadastroController {
     @Operation(summary = "Cadastra uma nova trancista", description = "Endpoint para cadastrar uma trancista com base nos dados fornecidos.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Trancista cadastrada com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Trancista.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TrancistaDetalheResposeDTO.class))),
             @ApiResponse(responseCode = "400", description = "Erro de validação",
                     content = @Content(mediaType = "application/json"))
     })
