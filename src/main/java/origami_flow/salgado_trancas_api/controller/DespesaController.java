@@ -58,7 +58,7 @@ public class DespesaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/despesa/total")
     public ResponseEntity<Double> totalDespesaMensal(@RequestParam LocalDate inicio, @RequestParam LocalDate fim){
         return ResponseEntity.ok(despesaService.totalDespesasMensal(inicio, fim));
     }

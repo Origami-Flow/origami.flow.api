@@ -8,7 +8,9 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +36,9 @@ public class CaixaService {
     }
 
     public Caixa atualizarCaixa(Integer id, Caixa caixa){
-        if (caixaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("caixa");
+        Optional<Caixa> caixaAtualizado = caixaRepository.findById(id);
+        if (caixaAtualizado.isEmpty()) throw new EntidadeNaoEncontradaException("caixa");
+
         caixa.setId(id);
         return caixaRepository.save(caixa);
     }
