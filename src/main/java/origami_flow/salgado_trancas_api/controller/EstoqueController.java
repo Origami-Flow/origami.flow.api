@@ -7,13 +7,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.response.estoque.EstoqueDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Estoque;
 import origami_flow.salgado_trancas_api.mapper.EstoqueMapper;
 import origami_flow.salgado_trancas_api.service.EstoqueService;
+import origami_flow.salgado_trancas_api.utils.ExportCsv;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -78,9 +85,14 @@ public class EstoqueController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.class)))
 
     })
-    @GetMapping("/csv")
-    public void exportarCsvEstoque() {
+    @GetMapping(value = "/csv", produces = "text/csv")
+    public ResponseEntity exportarCsvEstoque(){
         List<Estoque> listaOrdenada = estoqueService.ordenar();
         estoqueService.exportar(listaOrdenada);
+        Resource fileResource = new FileSystemResource(ExportCsv.getCsvPathFile());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"estoque.csv\"")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(fileResource);
     }
 }
