@@ -69,4 +69,16 @@ public class AtendimentoRealizadoService {
         if (!atendimentoRealizadoRepository.existsById(id)) throw  new EntidadeNaoEncontradaException("atnedimento realizado");
         atendimentoRealizadoRepository.deleteById(id);
     }
+
+    public Integer buscarNumeroDeAtendimentoRealizado(int mes, int ano){
+        return atendimentoRealizadoRepository.buscarTotalAtendimentoRealizadosNoMes(mes, ano);
+    }
+
+    public Integer buscarNumeroDeAtendimentoRealizadoComClientesNovos(int mes, int ano){
+        return atendimentoRealizadoRepository.buscarTotalAtendimentoRealizadosNoMesComClientesNovos(mes, ano);
+    }
+
+    public String trancaMaisRealizadaoNoMes(int mes, int ano){
+        return atendimentoRealizadoRepository.buscarTrancaMaisRealizadaNoMes(mes,ano);
+    }
 }
