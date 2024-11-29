@@ -35,7 +35,7 @@ public class CaixaController {
         return ResponseEntity.ok(caixaMapper.toCaixaDetalheResponseDTO(caixa));
     }
 
-    @PostMapping("{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id){
         Caixa caixa = caixaService.abrirCaixa(id);
         return ResponseEntity.created(null).body(caixaMapper.toCaixaDetalheResponseDTO(caixa));
