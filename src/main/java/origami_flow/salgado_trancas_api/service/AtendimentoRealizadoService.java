@@ -34,10 +34,19 @@ public class AtendimentoRealizadoService {
     public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTOS){
         List<ProdutoAtendimentoUtilizado> produtosUtilizado = new ArrayList<>();
         if (!produtosUtilizadoRequestDTOS.isEmpty()) {
-            for (ProdutoUtilizadoRequestDTO produtosUtilizadoRequestDTO : produtosUtilizadoRequestDTOS) {
-                Produto produto = produtoService.produtoPorId(produtosUtilizadoRequestDTO.getId());
-                produtosUtilizado.add(ProdutoUtilizadoMapper.toEntity(produtosUtilizadoRequestDTO, produto));
-            }
+            List<Integer> produtoIds = produtosUtilizadoRequestDTOS.stream()
+                    .map(ProdutoUtilizadoRequestDTO::getId).toList();
+
+            List<Produto> produtos = produtoService.listarTodosPorId(produtoIds);
+
+            produtosUtilizado.addAll(produtosUtilizadoRequestDTOS.stream()
+                    .map(dto -> {
+                        Produto produto = produtos.stream()
+                                .filter(p -> p.getId().equals(dto.getId()))
+                                .findFirst()
+                                .orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
+                        return ProdutoUtilizadoMapper.toEntity(dto, produto);
+                    }).toList());
         }
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
