@@ -34,13 +34,13 @@ public class AvaliacaoDetalheResponseDTO {
     private SalaoAvaliacaoResponseDTO salao;
 
     @NotNull
-    private AtendimentoRealizado atendimentorealizado;
+    private AtendimentoRealizadoResponseDTO atendimentoRealizado;
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class ClienteAvaliacaoResponseDTO {
+    public static class ClienteAvaliacaoResponseDTO {
         private Integer id;
 
         private String nome;
@@ -54,10 +54,21 @@ public class AvaliacaoDetalheResponseDTO {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class SalaoAvaliacaoResponseDTO{
+    public static class SalaoAvaliacaoResponseDTO{
         private Integer id;
 
         private String nome;
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public  static class AtendimentoRealizadoResponseDTO{
+
+        private Integer id;
+
+        private Double receita;
     }
 
 }

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginRequestDTO {
 
-
     @NotBlank
     @Schema(description = "Email do usuário para autenticação", example = "jean.santos@example.com")
     private String email;

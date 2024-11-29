@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,9 @@ public class Caixa {
     @Column(name = "data_fechamento")
     private LocalDate dataFechamento;
 
+    @Column(name = "data_abertura")
+    private LocalDate dataAbertura;
+    
     @Column(name = "receita_total")
     private Double receitaTotal;
 

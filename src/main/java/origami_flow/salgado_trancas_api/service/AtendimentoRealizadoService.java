@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class AtendimentoRealizadoService {
     }
 
     public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento){
-        if (atendimentoRealizado.getReceita() >= 0) throw  new EntidadeComConflitoException("atendimento realizado");
+        if (atendimentoRealizado.getReceita() <= 0) throw  new EntidadeComConflitoException("atendimento realizado");
 
         if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO))
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento));
@@ -40,12 +41,6 @@ public class AtendimentoRealizadoService {
 
     public AtendimentoRealizado atendimentoRealizadoPorId(Integer id){
         return atendimentoRealizadoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("atendimento realizado"));
-    }
-
-    public AtendimentoRealizado atualizarAtendimento(Integer id,AtendimentoRealizado atendimentoRealizado){
-        if (!atendimentoRealizadoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("atendimento realizado");
-        atendimentoRealizado.setId(id);
-        return atendimentoRealizadoRepository.save(atendimentoRealizado);
     }
 
     public void apagarAtendimentoRealizado(Integer id){

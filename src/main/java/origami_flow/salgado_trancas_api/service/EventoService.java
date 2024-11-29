@@ -61,6 +61,7 @@ public class EventoService {
         }
         if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
             AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
+            atendimentoRealizado.setReceita(evento.getServico().getValorServico());
             atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado,evento);
         }
         return eventoRepository.save(evento);
