@@ -48,6 +48,7 @@ public class AvaliacaoClienteService {
     public Avaliacao atualizarAvaliacao(Integer id, Avaliacao avaliacao, Integer idAtendimentoRealizado, Integer idCliente, Integer idSalao) {
         if (!avaliacaoClienteRepository.existsById(id)) throw new EntidadeNaoEncontradaException("avaliacao");
         Avaliacao avaliacaoAtualizar = avaliacaoClienteRepository.findById(id).orElse(null);
+        avaliacaoAtualizar.setId(id);
         avaliacaoAtualizar.setAtendimentoRealizado(idAtendimentoRealizado != null? atendimentoRealizadoService.atendimentoRealizadoPorId(idAtendimentoRealizado): avaliacaoAtualizar.getAtendimentoRealizado());
         avaliacaoAtualizar.setCliente(idCliente != null? clienteService.clientePorId(idCliente) : avaliacaoAtualizar.getCliente());
         avaliacaoAtualizar.setSalao(idSalao != null? salaoService.salaoPorId(idSalao): avaliacaoAtualizar.getSalao());

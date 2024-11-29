@@ -9,4 +9,6 @@ import java.util.List;
 public interface AuxiliarRepository extends JpaRepository<Auxiliar, Integer> {
     @Query("select a from Auxiliar a  where lower(a.nome) like concat('%',lower(:nome),'%')")
     List<Auxiliar> buscarPorNome(String nome);
+
+    boolean existsByEmail(String emial);
 }

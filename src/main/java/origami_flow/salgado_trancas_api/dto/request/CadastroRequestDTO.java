@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import origami_flow.salgado_trancas_api.constans.GeneroEnum;
 import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
+import origami_flow.salgado_trancas_api.constans.UserRolesEnum;
 
 import java.time.LocalDate;
 
@@ -32,6 +33,9 @@ public class CadastroRequestDTO {
     @Size(min = 8, max = 128)
     @Schema(description = "Senha do usuário", example = "jean1234", minLength = 8, maxLength = 128)
     private String senha;
+
+    @NotNull
+    private UserRolesEnum role;
 
     @NotNull
     @Past

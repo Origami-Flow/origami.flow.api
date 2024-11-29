@@ -7,9 +7,11 @@ import java.util.List;
 
 public class ExportCsv {
 
+    private static final String CSV_PATH_FILE = "estoque.csv";
+
     public static void exportar(List<Estoque> produtoEmEstoque) {
         try(
-                OutputStream file = new FileOutputStream("estoque.csv");
+                OutputStream file = new FileOutputStream(CSV_PATH_FILE);
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(file));
                 ){
             String pattern = "%s;%s;%s;%s;%d;%s;%.2f;%.2f;%s;%d \n";
@@ -36,6 +38,9 @@ public class ExportCsv {
             e.printStackTrace();
             System.out.println("Erro ao exportar arquivo");
         }
+    }
 
+    public static String getCsvPathFile() {
+        return CSV_PATH_FILE;
     }
 }

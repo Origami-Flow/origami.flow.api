@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import origami_flow.salgado_trancas_api.entity.Trancista;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 
@@ -15,6 +16,11 @@ import java.util.List;
 public class TrancistaService {
 
     private final TrancistaRepository trancistaRepository;
+
+    public Trancista cadastrarTrancista(Trancista trancista){
+        if (trancistaRepository.existsByEmailOrTelefone(trancista.getEmail(), trancista.getTelefone())) throw new EntidadeComConflitoException("trancista");
+        return trancistaRepository.save(trancista);
+    }
 
     public List<Trancista> listarTrancista() {
         return trancistaRepository.findAll();
@@ -37,5 +43,9 @@ public class TrancistaService {
     public void deletar(Integer id){
         if (!trancistaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("trancista ");
         trancistaRepository.deleteById(id);
+    }
+
+    public Trancista buscarPorEmail(String email) {
+        return trancistaRepository.buscarPorEmail(email).orElse(null);
     }
 }

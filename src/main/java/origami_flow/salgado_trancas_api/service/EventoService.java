@@ -1,12 +1,12 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
@@ -52,17 +52,17 @@ public class EventoService {
         return eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
     }
 
-    public Evento finalizarEvento(Integer id){
+    public Evento finalizarEvento(Integer id, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO){
         Evento evento = eventoPorId(id);
         if (evento.getStatusEvento() == StatusEventoEnum.FINALIZADO) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"evento já finalizado");
         }else {
             evento.setStatusEvento(StatusEventoEnum.FINALIZADO);
-        }
-        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
-            AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
-            atendimentoRealizado.setReceita(evento.getServico().getValorServico());
-            atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado,evento);
+            if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+                AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
+                atendimentoRealizado.setReceita(evento.getServico().getValorServico());
+                atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado, evento, produtosUtilizadoRequestDTO);
+            }
         }
         return eventoRepository.save(evento);
     }

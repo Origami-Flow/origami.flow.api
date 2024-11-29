@@ -5,8 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.request.EventoAtualizacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.EventoRequestDTO;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.EventoDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Evento;
+import origami_flow.salgado_trancas_api.entity.ProdutoAtendimentoUtilizado;
 import origami_flow.salgado_trancas_api.mapper.EventoMapper;
 import origami_flow.salgado_trancas_api.service.EventoService;
 
@@ -73,8 +75,8 @@ public class EventoController {
     }
 
     @PutMapping("/finalizar/{id}")
-    public ResponseEntity<EventoDetalheResponseDTO> finalizarEvento(@PathVariable Integer id){
-         Evento eventoAtualizado = eventoService.finalizarEvento(id);
+    public ResponseEntity<EventoDetalheResponseDTO> finalizarEvento(@PathVariable Integer id, @RequestBody List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO){
+         Evento eventoAtualizado = eventoService.finalizarEvento(id, produtosUtilizadoRequestDTO);
          return ResponseEntity.ok(eventoMapper.toDto(eventoAtualizado));
     }
 

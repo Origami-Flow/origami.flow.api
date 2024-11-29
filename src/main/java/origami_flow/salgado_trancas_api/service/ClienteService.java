@@ -1,9 +1,11 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+
     private final EnderecoService enderecoService;
 
     public List<Cliente> listarCliente() {
@@ -25,7 +28,7 @@ public class ClienteService {
     }
 
     public Cliente cadastrarCliente(Cliente cliente) {
-        clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail());
+        if(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("cliente");
         return clienteRepository.save(cliente);
     }
 
@@ -55,5 +58,9 @@ public class ClienteService {
 
     public List<Cliente> listarPorNome(String nome) {
         return clienteRepository.buscarPorNome(nome);
+    }
+
+    public Cliente buscarPorEmail(String email) {
+        return clienteRepository.buscarPorEmail(email).orElse(null);
     }
 }

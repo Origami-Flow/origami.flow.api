@@ -1,22 +1,19 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
-import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
-import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
-import origami_flow.salgado_trancas_api.entity.Caixa;
-import origami_flow.salgado_trancas_api.entity.Evento;
-import origami_flow.salgado_trancas_api.entity.Servico;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
+import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
+import origami_flow.salgado_trancas_api.entity.*;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import origami_flow.salgado_trancas_api.mapper.ProdutoUtilizadoMapper;
 import origami_flow.salgado_trancas_api.repository.AtendimentoRealizadoRepository;
 import origami_flow.salgado_trancas_api.utils.Calculos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,22 +22,47 @@ public class AtendimentoRealizadoService {
 
     private final AtendimentoRealizadoRepository atendimentoRealizadoRepository;
 
+    private final ProdutoService produtoService;
+
+    private final ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
+
     public List<AtendimentoRealizado> listarAtendimentosRealizados(){
         return atendimentoRealizadoRepository.findAll();
     }
 
-    public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento){
-        if (atendimentoRealizado.getReceita() <= 0) throw  new EntidadeComConflitoException("atendimento realizado");
+    public AtendimentoRealizado cadastrarAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado, Evento evento, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTOS){
+        List<ProdutoAtendimentoUtilizado> produtosUtilizado = new ArrayList<>();
+        if (!produtosUtilizadoRequestDTOS.isEmpty()) {
+            List<Integer> produtoIds = produtosUtilizadoRequestDTOS.stream()
+                    .map(ProdutoUtilizadoRequestDTO::getId).toList();
 
-        if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO))
-        atendimentoRealizado.setReceita(Calculos.calcularReceita(evento));
+            List<Produto> produtos = produtoService.listarTodosPorId(produtoIds);
 
+            produtosUtilizado.addAll(produtosUtilizadoRequestDTOS.stream()
+                    .map(dto -> {
+                        Produto produto = produtos.stream()
+                                .filter(p -> p.getId().equals(dto.getId()))
+                                .findFirst()
+                                .orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
+                        return ProdutoUtilizadoMapper.toEntity(dto, produto);
+                    }).toList());
+        }
+        atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
-        return atendimentoRealizadoRepository.save(atendimentoRealizado);
+
+        AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
+        produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);
+        return atendimentoSalvo;
     }
 
     public AtendimentoRealizado atendimentoRealizadoPorId(Integer id){
         return atendimentoRealizadoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("atendimento realizado"));
+    }
+
+    public AtendimentoRealizado atualizarAtendimento(Integer id,AtendimentoRealizado atendimentoRealizado){
+        if (!atendimentoRealizadoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("atendimento realizado");
+        atendimentoRealizado.setId(id);
+        return atendimentoRealizadoRepository.save(atendimentoRealizado);
     }
 
     public void apagarAtendimentoRealizado(Integer id){

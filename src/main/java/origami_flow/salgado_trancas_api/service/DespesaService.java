@@ -39,11 +39,15 @@ public class DespesaService {
         }
         Caixa caixa = caixaService.caixaPorId(idCaixa);
         despesa.setCaixa(caixa);
+        caixa.setDespesaTotal(caixa.getDespesaTotal() + despesa.getValor());
+
+
         return despesaRepository.save(despesa);
     }
 
     public Despesa atualizarDespesa(Integer id, Despesa despesa, Integer idProduto, Integer idCaixa){
         Despesa despesaAtualizar = despesaPorId(id);
+        despesaAtualizar.setId(id);
         despesaAtualizar.setProduto(idProduto != null? produtoService.produtoPorId(idProduto):despesaAtualizar.getProduto());
         despesaAtualizar.setCaixa(idCaixa != null? caixaService.caixaPorId(idCaixa):despesaAtualizar.getCaixa());
         despesaAtualizar.setData(despesa.getData() != null? despesa.getData():despesaAtualizar.getData());

@@ -34,4 +34,5 @@ public class Caixa {
 
     @ManyToOne
     private Salao salao;
+
 }

@@ -32,18 +32,21 @@ public class CaixaService {
         Salao salao = salaoService.salaoPorId(idSalao);
         caixa.setSalao(salao);
         caixa.setSalao(salao);
+        caixa.setReceitaTotal(0.0);
+        caixa.setDespesaTotal(0.0);
 
         return caixaRepository.save(caixa);
     }
 
     public Caixa atualizarCaixa(Integer id, Caixa caixa, Integer idSalao){
         Caixa caixaAtualizado = caixaPorId(id);
+        caixaAtualizado.setId(id);
         caixaAtualizado.setSalao(idSalao != null? salaoService.salaoPorId(idSalao):caixaAtualizado.getSalao());
         caixaAtualizado.setDataAbertura(caixa.getDataAbertura() != null? caixa.getDataAbertura(): caixaAtualizado.getDataAbertura());
         caixaAtualizado.setDataFechamento(caixa.getDataFechamento() != null? caixa.getDataFechamento(): caixaAtualizado.getDataFechamento());
         caixaAtualizado.setDespesaTotal(caixa.getDespesaTotal() != null? caixa.getDespesaTotal(): caixaAtualizado.getDespesaTotal());
         caixaAtualizado.setReceitaTotal(caixa.getReceitaTotal() != null? caixa.getReceitaTotal(): caixaAtualizado.getReceitaTotal());
-        return caixaRepository.save(caixa);
+        return caixaRepository.save(caixaAtualizado);
     }
 
     public void deletarCaixa(Integer id){

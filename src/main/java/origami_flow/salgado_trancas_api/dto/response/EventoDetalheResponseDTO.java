@@ -34,6 +34,8 @@ public class EventoDetalheResponseDTO {
 
     private TrancistaResponseDTO trancista;
 
+    private AuxiliarResponseDTO auxiliar;
+
     @Data
     @Builder
     @AllArgsConstructor
@@ -75,5 +77,19 @@ public class EventoDetalheResponseDTO {
         private String nome;
 
         private String email;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AuxiliarResponseDTO {
+         private Integer id;
+
+         private String nome;
+
+         private String email;
+
+         private Double valorMaoDeObra;
     }
 }
