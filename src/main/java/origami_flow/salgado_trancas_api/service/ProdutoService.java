@@ -61,4 +61,8 @@ public class ProdutoService {
         if( produtoEncontrado == null) throw new EntidadeNaoEncontradaException("produto");
         return produtoEncontrado;
     }
+
+    public List<Produto> listarTodosPorId(List<Integer> ids) {
+        return produtoRepository.findAllById(ids);
+    }
 }

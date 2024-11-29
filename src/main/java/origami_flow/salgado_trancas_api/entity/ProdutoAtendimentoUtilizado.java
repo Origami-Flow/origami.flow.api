@@ -1,14 +1,13 @@
 package origami_flow.salgado_trancas_api.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import origami_flow.salgado_trancas_api.constans.FinalidadeProdutoAtendimentoEnum;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProdutoAtendimentoUtilizado {
@@ -17,10 +16,13 @@ public class ProdutoAtendimentoUtilizado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String finalidade;
+    @Enumerated(EnumType.STRING)
+    private FinalidadeProdutoAtendimentoEnum finalidade;
+
+    private Integer quantidade;
 
     @ManyToOne
-    private Evento evento;
+    private AtendimentoRealizado atendimentoRealizado;
 
     @ManyToOne
     private Produto produto;
