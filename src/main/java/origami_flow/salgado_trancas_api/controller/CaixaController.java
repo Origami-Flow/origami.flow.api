@@ -10,6 +10,7 @@ import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.mapper.CaixaMapper;
 import origami_flow.salgado_trancas_api.service.CaixaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,8 +37,8 @@ public class CaixaController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id){
-        Caixa caixa = caixaService.abrirCaixa(id);
+    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id, @RequestParam LocalDate inicio, @RequestParam LocalDate termino){
+        Caixa caixa = caixaService.abrirCaixa(id,inicio, termino );
         return ResponseEntity.created(null).body(caixaMapper.toCaixaDetalheResponseDTO(caixa));
 
     }

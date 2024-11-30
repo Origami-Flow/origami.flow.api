@@ -28,12 +28,12 @@ public class CaixaService {
         return caixaRepository.findById(id).orElseThrow(EntidadeComConflitoException::new);
     }
 
-    public Caixa abrirCaixa( Integer idSalao){
+    public Caixa abrirCaixa( Integer idSalao, LocalDate inicio, LocalDate termino){
         Caixa caixa = new Caixa();
         Salao salao = salaoService.salaoPorId(idSalao);
         caixa.setSalao(salao);
-        caixa.setDataAbertura(LocalDate.now(ZoneOffset.of("-03:00")));
-        caixa.setDataFechamento(null);
+        caixa.setDataAbertura(inicio);
+        caixa.setDataFechamento(termino);
         caixa.setReceitaTotal(0.0);
         caixa.setDespesaTotal(0.0);
 
@@ -60,4 +60,6 @@ public class CaixaService {
     public Caixa buscarCaixaPorMes(int mes, int ano){
         return caixaRepository.buscarCaixaPorMes(mes, ano).orElse(null);
     }
+
+
 }
