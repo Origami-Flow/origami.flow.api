@@ -2,7 +2,11 @@ package origami_flow.salgado_trancas_api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface AtendimentoRealizadoRepository extends JpaRepository<AtendimentoRealizado, Integer> {
 
@@ -30,4 +34,11 @@ public interface AtendimentoRealizadoRepository extends JpaRepository<Atendiment
             " group by a.evento.servico.nome" +
             " order by count(a.evento.servico.nome) desc limit 1")
     String buscarTrancaMaisRealizadaNoMes(int mes, int ano);
+
+    @Query("SELECT a FROM AtendimentoRealizado a " +
+            "JOIN a.evento e " +
+            "WHERE FUNCTION('MONTH', e.dataHoraInicio) = :mes " +
+            "AND FUNCTION('YEAR', e.dataHoraInicio) = :ano")
+    List<AtendimentoRealizado> atendimentosPorMes(@Param("mes") int mes, @Param("ano") int ano);
+
 }

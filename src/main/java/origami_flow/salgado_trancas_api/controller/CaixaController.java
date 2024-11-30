@@ -36,6 +36,11 @@ public class CaixaController {
         return ResponseEntity.ok(caixaMapper.toCaixaDetalheResponseDTO(caixa));
     }
 
+    @GetMapping("/por/mes")
+    public ResponseEntity<CaixaDetalheResponseDTO> caixaPorMes(@RequestParam int mes, @RequestParam int ano){
+        return ResponseEntity.ok().body(caixaMapper.toCaixaDetalheResponseDTO(caixaService.buscarCaixaPorMes(mes, ano)));
+    }
+
     @PostMapping("/{id}")
     public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id, @RequestParam LocalDate inicio, @RequestParam LocalDate termino){
         Caixa caixa = caixaService.abrirCaixa(id,inicio, termino );
