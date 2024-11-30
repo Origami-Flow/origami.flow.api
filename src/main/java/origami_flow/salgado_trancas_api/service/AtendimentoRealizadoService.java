@@ -1,18 +1,18 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
 import origami_flow.salgado_trancas_api.entity.*;
+import origami_flow.salgado_trancas_api.exceptions.CaixaFechadoException;
+import origami_flow.salgado_trancas_api.exceptions.CaixaNaoAbertoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.mapper.ProdutoUtilizadoMapper;
 import origami_flow.salgado_trancas_api.repository.AtendimentoRealizadoRepository;
 import origami_flow.salgado_trancas_api.utils.Calculos;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +25,8 @@ public class AtendimentoRealizadoService {
     private final ProdutoService produtoService;
 
     private final ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
+
+    private final CaixaService caixaService;
 
     public List<AtendimentoRealizado> listarAtendimentosRealizados(){
         return atendimentoRealizadoRepository.findAll();
@@ -49,7 +51,8 @@ public class AtendimentoRealizadoService {
         }
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
-
+        atendimentoRealizado.setCaixa(buscarCaixaDoMes());
+        atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes());
         AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
         produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);
         return atendimentoSalvo;
@@ -57,12 +60,6 @@ public class AtendimentoRealizadoService {
 
     public AtendimentoRealizado atendimentoRealizadoPorId(Integer id){
         return atendimentoRealizadoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("atendimento realizado"));
-    }
-
-    public AtendimentoRealizado atualizarAtendimento(Integer id,AtendimentoRealizado atendimentoRealizado){
-        if (!atendimentoRealizadoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("atendimento realizado");
-        atendimentoRealizado.setId(id);
-        return atendimentoRealizadoRepository.save(atendimentoRealizado);
     }
 
     public void apagarAtendimentoRealizado(Integer id){
@@ -80,5 +77,21 @@ public class AtendimentoRealizadoService {
 
     public String trancaMaisRealizadaoNoMes(int mes, int ano){
         return atendimentoRealizadoRepository.buscarTrancaMaisRealizadaNoMes(mes,ano);
+    }
+
+    private Caixa buscarCaixaDoMes() {
+        LocalDate localDate = LocalDate.now(ZoneOffset.of("-03:00"));
+        Caixa caixa = caixaService.buscarCaixaPorMes(localDate.getMonth().getValue(), localDate.getYear());
+        if (caixa == null) throw new CaixaNaoAbertoException("O caixa do mes ainda não foi aberto!");
+        return caixa;
+    }
+
+    private void atualizarReceitaDespesaDoCaixa(AtendimentoRealizado atendimento, Caixa caixa) {
+        if (caixa.getDataFechamento().isBefore(LocalDate.now(ZoneOffset.of("-03:00")))) throw new  CaixaFechadoException("O caixa já está fechado!");
+        caixa.setReceitaTotal(caixa.getReceitaTotal() + atendimento.getReceita());
+        if (atendimento.getEvento().getAuxiliar() != null) {
+            caixa.setDespesaTotal(caixa.getDespesaTotal() + atendimento.getEvento().getAuxiliar().getValorMaoDeObra());
+        }
+        caixaService.atualizarCaixa(caixa.getId(), caixa, null);
     }
 }

@@ -3,6 +3,7 @@ package origami_flow.salgado_trancas_api.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.dto.response.MetricasResponseDTO;
+import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.ProdutoAtendimentoUtilizado;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class MetricaService {
 
     private final ClienteService clienteService;
 
+    private final CaixaService caixaService;
+
 
     public MetricasResponseDTO buscarDadosParaMetrica(int mes, int ano) {
         return MetricasResponseDTO.builder()
@@ -26,9 +29,8 @@ public class MetricaService {
                 //Necessário testar a busca do serviço mais feito de forma adequada
                 .trancaMaisFeitaNoMes(atendimentoRealizadoService.trancaMaisRealizadaoNoMes(mes, ano))
                 .taxaDeClienteQueAgendaramNoMes(calcularTaxaDeAgendamentoNoMes(mes, ano))
-                //Falta finalizar lógica de caixa
-//                .lucroDoMesAtual()
-//                .lucroDoMesPassado()
+                .lucroDoMesAtual(calcularLucroDoMes(mes, ano))
+                .lucroDoMesPassado(mes == 1 ? calcularLucroDoMes(12, ano-1) : calcularLucroDoMes(mes-1, ano))
                 .build();
     }
 
@@ -48,5 +50,11 @@ public class MetricaService {
         Integer agendamentosDeNovosCliente = atendimentoRealizadoService.buscarNumeroDeAtendimentoRealizadoComClientesNovos(mes, ano);
         if (novosClientes == 0) return 0;
         return (agendamentosDeNovosCliente/novosClientes) * 100;
+    }
+
+    private Double calcularLucroDoMes(int mes, int ano) {
+        Caixa caixa = caixaService.buscarCaixaPorMes(mes, ano);
+        if (caixa == null) return 0.0;
+        return caixa.getReceitaTotal() - caixa.getDespesaTotal();
     }
 }

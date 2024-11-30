@@ -8,8 +8,9 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,8 @@ public class CaixaService {
         Caixa caixa = new Caixa();
         Salao salao = salaoService.salaoPorId(idSalao);
         caixa.setSalao(salao);
-        caixa.setSalao(salao);
+        caixa.setDataAbertura(LocalDate.now(ZoneOffset.of("-03:00")));
+        caixa.setDataFechamento(null);
         caixa.setReceitaTotal(0.0);
         caixa.setDespesaTotal(0.0);
 
@@ -54,4 +56,8 @@ public class CaixaService {
         caixaRepository.deleteById(id);
     }
 
+
+    public Caixa buscarCaixaPorMes(int mes, int ano){
+        return caixaRepository.buscarCaixaPorMes(mes, ano).orElse(null);
+    }
 }
