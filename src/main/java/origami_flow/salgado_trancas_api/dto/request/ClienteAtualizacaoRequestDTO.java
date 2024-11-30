@@ -2,6 +2,7 @@ package origami_flow.salgado_trancas_api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +17,6 @@ import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
 @NoArgsConstructor
 public class ClienteAtualizacaoRequestDTO {
 
-    @NotNull
-    @Positive
-    @Schema(description = "Identificador único do usuário", example = "1")
-    private Integer id;
-
     @Schema(description = "Nome do usuário", example = "Jean Rocha")
     private String nome;
 
@@ -30,6 +26,7 @@ public class ClienteAtualizacaoRequestDTO {
     @Schema(description = "Senha do usuário", example = "jean1234")
     private String senha;
 
+    @PastOrPresent
     @Schema(description = "Data de nascimento do usuário no formato 'YYYY-MM-DD'", example = "2000-03-13")
     private String dataNascimento;
 
@@ -44,5 +41,4 @@ public class ClienteAtualizacaoRequestDTO {
 
     @Schema(description = "Tipo de cabelo do usuário", example = "4A")
     private TipoCabeloEnum tipoCabelo;
-
 }
