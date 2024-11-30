@@ -7,6 +7,8 @@ import origami_flow.salgado_trancas_api.entity.Salao;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -26,11 +28,12 @@ public class CaixaService {
         return caixaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("caixa"));
     }
 
-    public Caixa abrirCaixa( Integer idSalao){
+    public Caixa abrirCaixa( Integer idSalao, LocalDate inicio, LocalDate termino){
         Caixa caixa = new Caixa();
         Salao salao = salaoService.salaoPorId(idSalao);
         caixa.setSalao(salao);
-        caixa.setSalao(salao);
+        caixa.setDataAbertura(inicio);
+        caixa.setDataFechamento(termino);
         caixa.setReceitaTotal(0.0);
         caixa.setDespesaTotal(0.0);
 
@@ -52,5 +55,11 @@ public class CaixaService {
         if (!caixaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("caixa");
         caixaRepository.deleteById(id);
     }
+
+
+    public Caixa buscarCaixaPorMes(int mes, int ano){
+        return caixaRepository.buscarCaixaPorMes(mes, ano).orElse(null);
+    }
+
 
 }

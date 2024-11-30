@@ -53,7 +53,7 @@ public class CadastroRequestDTO {
 
     @NotBlank
     @Size(min = 8, max = 8)
-    @Schema(description = "CEP do usuário (formato: 8 dígitos)", example = "12345678")
+    @Schema(description = "CEP do usuário (formato: 8 dígitos)", example = "01001000")
     private String cep;
 
     @Schema(description = "Gênero do usuário", example = "MASCULINO")
