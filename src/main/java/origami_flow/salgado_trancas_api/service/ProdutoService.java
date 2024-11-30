@@ -7,6 +7,7 @@ import origami_flow.salgado_trancas_api.entity.Produto;
 import origami_flow.salgado_trancas_api.entity.Salao;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import origami_flow.salgado_trancas_api.exceptions.RequisicaoErradaException;
 import origami_flow.salgado_trancas_api.repository.ProdutoRepository;
 import origami_flow.salgado_trancas_api.utils.Lista;
 import origami_flow.salgado_trancas_api.utils.PesquisaBinaria;
@@ -23,19 +24,18 @@ public class ProdutoService {
 
     private final SalaoService salaoService;
 
-    private final PesquisaBinaria pesquisaBinaria;
-
     public List<Produto> listarTodosProdutos(){
         return produtoRepository.findAll();
     }
 
     public Produto produtoPorId(Integer id){
-        return produtoRepository.findById(id).orElseThrow(EntidadeNaoEncontradaException::new);
+        return produtoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
     }
 
     public Produto cadastrarProduto(Produto produto, Integer idSalao ,Integer quantidade){
         Salao salao = salaoService.salaoPorId(idSalao);
         if(produtoRepository.existsByNome(produto.getNome())) throw new EntidadeComConflitoException("produto");
+        if(quantidade == null || quantidade < 0) throw new RequisicaoErradaException("Quantidade de produtos inválida");
         Produto produtoSalvo = produtoRepository.save(produto);
         Estoque estoque = Estoque.builder().quantidade(quantidade).produto(produtoSalvo).salao(salao).build();
         estoqueService.cadastrarProdutoNoEstoque(estoque);
@@ -49,7 +49,7 @@ public class ProdutoService {
     }
 
     public void deletarProduto(Integer id){
-        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto ");
+        if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto");
         produtoRepository.deleteById(id);
     }
 

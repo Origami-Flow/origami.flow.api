@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.Despesa;
 import origami_flow.salgado_trancas_api.entity.Produto;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.DespesaRepository;
 
@@ -28,7 +27,7 @@ public class DespesaService {
     }
 
     public Despesa despesaPorId(Integer id){
-        return despesaRepository.findById(id).orElseThrow(EntidadeComConflitoException::new);
+        return despesaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("despesa"));
     }
 
     public Despesa cadastrarDespesa(Despesa despesa, Integer idProduto, Integer idCaixa){

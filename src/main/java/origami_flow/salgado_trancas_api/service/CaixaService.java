@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.Salao;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CaixaService {
 
     private final CaixaRepository caixaRepository;
+
     private final SalaoService salaoService;
 
 
@@ -24,7 +23,7 @@ public class CaixaService {
     }
 
     public Caixa caixaPorId(Integer id){
-        return caixaRepository.findById(id).orElseThrow(EntidadeComConflitoException::new);
+        return caixaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("caixa"));
     }
 
     public Caixa abrirCaixa( Integer idSalao){
