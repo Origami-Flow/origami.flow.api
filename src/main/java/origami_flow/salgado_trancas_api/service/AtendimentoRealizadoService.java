@@ -43,7 +43,7 @@ public class AtendimentoRealizadoService {
             produtosUtilizado.addAll(produtosUtilizadoRequestDTOS.stream()
                     .map(dto -> {
                         Produto produto = produtos.stream()
-                                .filter(p -> p.getId().equals(dto.getId()))
+                                 .filter(p -> p.getId().equals(dto.getId()))
                                 .findFirst()
                                 .orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
                         return ProdutoUtilizadoMapper.toEntity(dto, produto);

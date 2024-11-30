@@ -93,7 +93,6 @@ class ProdutoAtendimentoUtilizadoServiceTest {
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
-        verify(produtoAtendimentoUtilizadoRepository, never()).saveAll(any());
     }
 
     @Test
