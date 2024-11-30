@@ -28,6 +28,6 @@ public interface AtendimentoRealizadoRepository extends JpaRepository<Atendiment
             " function('YEAR', a.evento.dataHoraInicio) = :ano and" +
             " function('YEAR', a.evento.dataHoraTermino) = :ano" +
             " group by a.evento.servico.nome" +
-            " order by count(a.evento.servico.nome) desc")
+            " order by count(a.evento.servico.nome) desc limit 1")
     String buscarTrancaMaisRealizadaNoMes(int mes, int ano);
 }
