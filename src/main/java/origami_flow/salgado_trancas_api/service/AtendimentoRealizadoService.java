@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import origami_flow.salgado_trancas_api.constans.FinalidadeProdutoAtendimentoEnum;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
 import origami_flow.salgado_trancas_api.entity.*;
@@ -23,9 +22,9 @@ public class AtendimentoRealizadoService {
 
     private final AtendimentoRealizadoRepository atendimentoRealizadoRepository;
 
-    private final ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
-
     private final ProdutoService produtoService;
+
+    private final ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
 
     public List<AtendimentoRealizado> listarAtendimentosRealizados(){
         return atendimentoRealizadoRepository.findAll();
@@ -50,6 +49,7 @@ public class AtendimentoRealizadoService {
         }
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
+
         AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
         produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);
         return atendimentoSalvo;

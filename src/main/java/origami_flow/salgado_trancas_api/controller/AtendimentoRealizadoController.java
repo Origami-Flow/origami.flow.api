@@ -33,12 +33,6 @@ public class AtendimentoRealizadoController {
         return ResponseEntity.ok(atendimentoRealizadoMapper.toDto(atendimentoRealizado));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<AtendimentoRealizadoDetalheResponseDTO> atualizarAtendimentoRealizado(@PathVariable Integer id, @RequestBody AtendimentoRealizado atendimentoRealizado){
-        AtendimentoRealizado atendimentoRealizadoRetorno = atendimentoRealizadoService.atualizarAtendimento(id,atendimentoRealizado);
-        return ResponseEntity.ok(atendimentoRealizadoMapper.toDto(atendimentoRealizadoRetorno));
-    }
-
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletarAtendimentoRealizado(@PathVariable Integer id){
         atendimentoRealizadoService.apagarAtendimentoRealizado(id);
