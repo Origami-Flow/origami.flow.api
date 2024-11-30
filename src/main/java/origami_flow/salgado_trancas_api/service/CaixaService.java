@@ -25,7 +25,7 @@ public class CaixaService {
     }
 
     public Caixa caixaPorId(Integer id){
-        return caixaRepository.findById(id).orElseThrow(EntidadeComConflitoException::new);
+        return caixaRepository.findById(id).orElseThrow(EntidadeNaoEncontradaException::new);
     }
 
     public Caixa abrirCaixa( Integer idSalao, LocalDate inicio, LocalDate termino){
