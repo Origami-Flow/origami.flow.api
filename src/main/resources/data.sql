@@ -28,6 +28,13 @@ INSERT INTO servico (
              '01:30:00',
              50.00,
              10.00
+         ),
+         (
+             'Naggo',
+             'Trança no estilo naggo',
+             '02:00:00',
+             100.00,
+             20.00
          );
 
 INSERT INTO trancista (

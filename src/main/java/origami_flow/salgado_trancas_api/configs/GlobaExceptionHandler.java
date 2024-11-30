@@ -10,8 +10,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import org.springframework.web.server.ResponseStatusException;
+import origami_flow.salgado_trancas_api.exceptions.*;
 
 @RestControllerAdvice
 public class GlobaExceptionHandler {
@@ -62,4 +62,25 @@ public class GlobaExceptionHandler {
     public ResponseEntity tratarInsufficientAuthenticationException(InsufficientAuthenticationException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(RequisicaoErradaException.class)
+    public ResponseEntity tratarRequisicaoErradaException(RequisicaoErradaException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CaixaNaoAbertoException.class)
+    public ResponseEntity tratarCaixaNaoAberto(CaixaNaoAbertoException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CaixaFechadoException.class)
+    public ResponseEntity tratarCaixaFechado(CaixaFechadoException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity tratarResponseStatusException(ResponseStatusException ex) {
+        return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
+    }
+
 }

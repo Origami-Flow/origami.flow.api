@@ -19,4 +19,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     @Query("select c from Cliente c where c.email = :email")
     Optional<Cliente> buscarPorEmail(String email);
+
+    @Query("select count(c) from Cliente c where function('MONTH', c.dataCriacao) = :mes and function('YEAR', c.dataCriacao) = :ano ")
+    Integer buscarNovosClientesNoMes(int mes, int ano);
 }
