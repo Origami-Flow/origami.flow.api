@@ -5,45 +5,37 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDate;
-
+import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class FinancaResponseDTO {
-
     private Double lucro;
-
-    private DespesaFinancaResponseDTO despesas;
-
-    private AtendimentoRealizadoFinancaResponseDTO atendimentos;
+    private List<DespesaDetalhadaDTO> despesas;
+    private List<AtendimentoDetalhadoDTO> atendimentos;
 
     @Data
     @Builder
-    @NoArgsConstructor
     @AllArgsConstructor
-    public static class DespesaFinancaResponseDTO {
-        private Double valor;
-
+    @NoArgsConstructor
+    public static class DespesaDetalhadaDTO {
         private String nome;
-
         private String descricao;
-
+        private Double valor;
         private LocalDate data;
     }
 
-    @AllArgsConstructor
-    @NoArgsConstructor
     @Data
     @Builder
-    public  static class AtendimentoRealizadoFinancaResponseDTO{
-        private Double valor;
-
-        private String nome;
-
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AtendimentoDetalhadoDTO {
+        private String nomeCliente;
+        private String tipoAtendimento;
         private LocalDate data;
+        private Double valor;
     }
 }
