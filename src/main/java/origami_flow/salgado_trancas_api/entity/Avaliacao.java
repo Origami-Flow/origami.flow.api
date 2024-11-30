@@ -19,7 +19,6 @@ public class Avaliacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
     private String comentario;
 
     @NotNull
@@ -32,5 +31,5 @@ public class Avaliacao {
     private Salao salao;
 
     @ManyToOne
-    private AtendimentoRealizado atendimentorealizado;
+    private AtendimentoRealizado atendimentoRealizado;
 }

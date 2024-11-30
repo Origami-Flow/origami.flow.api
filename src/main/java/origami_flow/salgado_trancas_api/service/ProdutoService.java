@@ -53,13 +53,8 @@ public class ProdutoService {
         produtoRepository.deleteById(id);
     }
 
-    public Produto buscarProdutoNome(String nome) {
-        List<Produto> produtos = produtoRepository.findAllByOrderByNome();
-        Lista<Produto> listaProdutos = new Lista<>();
-        produtos.forEach(listaProdutos::add);
-        Produto produtoEncontrado = pesquisaBinaria.buscarProdutoPorNome(listaProdutos, nome);
-        if( produtoEncontrado == null) throw new EntidadeNaoEncontradaException("produto");
-        return produtoEncontrado;
+    public List<Produto> buscarProdutoNome(String nome) {
+        return produtoRepository.findAllByOrderByNome(nome);
     }
 
     public List<Produto> listarTodosPorId(List<Integer> ids) {

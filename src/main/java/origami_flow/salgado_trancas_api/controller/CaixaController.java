@@ -8,7 +8,6 @@ import origami_flow.salgado_trancas_api.dto.request.CaixaRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.CaixaDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.mapper.CaixaMapper;
-import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 import origami_flow.salgado_trancas_api.service.CaixaService;
 
 import java.util.List;
@@ -36,16 +35,16 @@ public class CaixaController {
         return ResponseEntity.ok(caixaMapper.toCaixaDetalheResponseDTO(caixa));
     }
 
-    @PostMapping
-    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@RequestBody @Valid CaixaRequestDTO caixaRequestDTO){
-        Caixa caixa = caixaService.cadastrarCaixa(caixaMapper.toCaixaEntity(caixaRequestDTO),caixaRequestDTO.getSalaoId());
+    @PostMapping("/{id}")
+    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id){
+        Caixa caixa = caixaService.abrirCaixa(id);
         return ResponseEntity.created(null).body(caixaMapper.toCaixaDetalheResponseDTO(caixa));
 
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CaixaDetalheResponseDTO> atualizarCaixa(@PathVariable Integer id, @RequestBody @Valid CaixaRequestDTO caixaRequestDTO){
-        Caixa caixa = caixaService.atualizarCaixa(id,caixaMapper.toCaixaEntity(caixaRequestDTO));
+        Caixa caixa = caixaService.atualizarCaixa(id,caixaMapper.toCaixaEntity(caixaRequestDTO),caixaRequestDTO.getSalaoId());
         return ResponseEntity.ok(caixaMapper.toCaixaDetalheResponseDTO(caixa));
     }
 

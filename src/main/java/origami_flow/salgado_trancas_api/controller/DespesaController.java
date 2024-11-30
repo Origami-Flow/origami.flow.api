@@ -12,7 +12,7 @@ import origami_flow.salgado_trancas_api.service.DespesaService;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -26,7 +26,6 @@ public class DespesaController {
     @GetMapping
     public ResponseEntity<List<DespesaDetalheResponseDTO>> listarDespesas(){
         List<Despesa> despesas = despesaService.listarTodasDepespesas();
-        List<DespesaDetalheResponseDTO> despesaResposta = despesas.stream().map(despesaMapper::toDespesaDetalheResponseDTO).toList();
 
         if (despesas.isEmpty()) return ResponseEntity.noContent().build();
 
@@ -41,14 +40,14 @@ public class DespesaController {
     }
 
     @PostMapping
-    public ResponseEntity<DespesaDetalheResponseDTO> criarNovaDespesa(@RequestBody @Valid DespesaRequestDTO despesaRequestDTO){
+    public ResponseEntity<DespesaDetalheResponseDTO> criarNovaDespesa(@RequestBody DespesaRequestDTO despesaRequestDTO){
         Despesa despesa = despesaService.cadastrarDespesa(despesaMapper.toDespesaEntity(despesaRequestDTO),despesaRequestDTO.getIdProduto(),despesaRequestDTO.getIdCaixa());
         return ResponseEntity.created(null).body(despesaMapper.toDespesaDetalheResponseDTO(despesa));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DespesaDetalheResponseDTO> atualizarDespesa(@RequestBody @Valid DespesaRequestDTO despesaRequestDTO, @PathVariable Integer id){
-        Despesa despesa = despesaService.atualizarDespesa(id,despesaMapper.toDespesaEntity(despesaRequestDTO));
+    public ResponseEntity<DespesaDetalheResponseDTO> atualizarDespesa(@RequestBody  DespesaRequestDTO despesaRequestDTO, @PathVariable Integer id){
+        Despesa despesa = despesaService.atualizarDespesa(id,despesaMapper.toDespesaEntity(despesaRequestDTO),despesaRequestDTO.getIdProduto(), despesaRequestDTO.getIdCaixa());
         return ResponseEntity.ok(despesaMapper.toDespesaDetalheResponseDTO(despesa));
     }
 
@@ -58,7 +57,7 @@ public class DespesaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/total-desepesa")
+    @GetMapping("/despesa/total")
     public ResponseEntity<Double> totalDespesaMensal(@RequestParam LocalDate inicio, @RequestParam LocalDate fim){
         return ResponseEntity.ok(despesaService.totalDespesasMensal(inicio, fim));
     }

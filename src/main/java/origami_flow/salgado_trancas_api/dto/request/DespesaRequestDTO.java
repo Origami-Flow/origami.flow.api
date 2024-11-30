@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DespesaRequestDTO {
 
-    @NotNull
-    @Positive
-    private Integer id;
-
-    private String nome;
+    private String descricao;
 
     private Double valor;
 
@@ -29,4 +26,6 @@ public class DespesaRequestDTO {
     private Integer idCaixa;
 
     private Integer idProduto;
+
+
 }
