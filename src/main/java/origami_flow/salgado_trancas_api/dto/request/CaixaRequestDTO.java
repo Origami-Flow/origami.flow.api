@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import origami_flow.salgado_trancas_api.dto.response.SalaoDetalheResponseDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,8 +17,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CaixaRequestDTO {
 
-    @FutureOrPresent
-    private LocalDateTime dataFechamento;
+
+    private LocalDate dataFechamento;
+
+    private LocalDate dataAbertura;
 
     private Integer salaoId;
 

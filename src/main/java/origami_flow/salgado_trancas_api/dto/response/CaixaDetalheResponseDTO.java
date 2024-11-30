@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -15,7 +16,9 @@ public class CaixaDetalheResponseDTO {
 
     private Integer id;
 
-    private LocalDateTime dataFechamento;
+    private LocalDate dataFechamento;
+
+    private LocalDate dataAbertura;
 
     private Double receitaTotal;
 

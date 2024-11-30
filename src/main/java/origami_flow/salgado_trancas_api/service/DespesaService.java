@@ -22,7 +22,6 @@ public class DespesaService {
 
     private final CaixaService caixaService;
 
-    private final EventoService eventoService;
 
     public List<Despesa> listarTodasDepespesas(){
         return despesaRepository.findAll();
@@ -33,24 +32,32 @@ public class DespesaService {
     }
 
     public Despesa cadastrarDespesa(Despesa despesa, Integer idProduto, Integer idCaixa){
-        if (despesa.getProduto() != null) {
+          if (idProduto != null) {
             Produto produto = produtoService.produtoPorId(idProduto);
             despesa.setProduto(produto);
             despesa.setValor(produto.getValorCompra());
         }
         Caixa caixa = caixaService.caixaPorId(idCaixa);
         despesa.setCaixa(caixa);
+        caixa.setDespesaTotal(caixa.getDespesaTotal() + despesa.getValor());
+
+
         return despesaRepository.save(despesa);
     }
 
-    public Despesa atualizarDespesa(Integer id, Despesa despesa){
-        if (!despesaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("despesa");
-        despesa.setId(id);
-        return despesaRepository.save(despesa);
+    public Despesa atualizarDespesa(Integer id, Despesa despesa, Integer idProduto, Integer idCaixa){
+        Despesa despesaAtualizar = despesaPorId(id);
+        despesaAtualizar.setId(id);
+        despesaAtualizar.setProduto(idProduto != null? produtoService.produtoPorId(idProduto):despesaAtualizar.getProduto());
+        despesaAtualizar.setCaixa(idCaixa != null? caixaService.caixaPorId(idCaixa):despesaAtualizar.getCaixa());
+        despesaAtualizar.setData(despesa.getData() != null? despesa.getData():despesaAtualizar.getData());
+        despesaAtualizar.setDescricao(despesa.getDescricao() != null? despesa.getDescricao():despesaAtualizar.getDescricao());
+
+        return despesaRepository.save(despesaAtualizar);
     }
 
     public void deletarDespesa(Integer id){
-        if (despesaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("despesa");
+        if (!despesaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("despesa");
         despesaRepository.deleteById(id);
     }
 

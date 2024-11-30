@@ -9,6 +9,7 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaExceptio
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class CaixaService {
 
     private final CaixaRepository caixaRepository;
     private final SalaoService salaoService;
+
 
     public List<Caixa> listarTodosCaixas(){
         return caixaRepository.findAll();
@@ -25,18 +27,26 @@ public class CaixaService {
         return caixaRepository.findById(id).orElseThrow(EntidadeComConflitoException::new);
     }
 
-    public Caixa cadastrarCaixa(Caixa caixa, Integer idSalao){
+    public Caixa abrirCaixa( Integer idSalao){
+        Caixa caixa = new Caixa();
         Salao salao = salaoService.salaoPorId(idSalao);
         caixa.setSalao(salao);
-        Caixa caixaSalvo = caixaRepository.save(caixa);
+        caixa.setSalao(salao);
+        caixa.setReceitaTotal(0.0);
+        caixa.setDespesaTotal(0.0);
 
-        return caixaSalvo;
+        return caixaRepository.save(caixa);
     }
 
-    public Caixa atualizarCaixa(Integer id, Caixa caixa){
-        if (caixaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("caixa");
-        caixa.setId(id);
-        return caixaRepository.save(caixa);
+    public Caixa atualizarCaixa(Integer id, Caixa caixa, Integer idSalao){
+        Caixa caixaAtualizado = caixaPorId(id);
+        caixaAtualizado.setId(id);
+        caixaAtualizado.setSalao(idSalao != null? salaoService.salaoPorId(idSalao):caixaAtualizado.getSalao());
+        caixaAtualizado.setDataAbertura(caixa.getDataAbertura() != null? caixa.getDataAbertura(): caixaAtualizado.getDataAbertura());
+        caixaAtualizado.setDataFechamento(caixa.getDataFechamento() != null? caixa.getDataFechamento(): caixaAtualizado.getDataFechamento());
+        caixaAtualizado.setDespesaTotal(caixa.getDespesaTotal() != null? caixa.getDespesaTotal(): caixaAtualizado.getDespesaTotal());
+        caixaAtualizado.setReceitaTotal(caixa.getReceitaTotal() != null? caixa.getReceitaTotal(): caixaAtualizado.getReceitaTotal());
+        return caixaRepository.save(caixaAtualizado);
     }
 
     public void deletarCaixa(Integer id){
