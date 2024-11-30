@@ -2,7 +2,6 @@ package origami_flow.salgado_trancas_api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.request.AvaliacaoRequestDTO;
@@ -24,7 +23,7 @@ public class AvaliacaoClienteController {
 
     @GetMapping
     public ResponseEntity<List<AvaliacaoDetalheResponseDTO>> listarAvaliacao(){
-        List<Avaliacao> lista = avaliacaoClienteService.listarAaliacao();
+        List<Avaliacao> lista = avaliacaoClienteService.listarAvaliacao();
         if (lista.isEmpty()) return ResponseEntity.noContent().build();
 
         return ResponseEntity.ok(lista.stream().map(avaliacaoMapper::toAvaliacaoDetalheResponseDTO).toList());

@@ -87,7 +87,7 @@ public class AtendimentoRealizadoService {
     }
 
     private void atualizarReceitaDespesaDoCaixa(AtendimentoRealizado atendimento, Caixa caixa) {
-//        if (caixa.getDataFechamento().isBefore(LocalDate.now(ZoneOffset.of("-03:00")))) throw new  CaixaFechadoException("O caixa já está fecha do!");
+        if (caixa.getDataFechamento().isBefore(LocalDate.now(ZoneOffset.of("-03:00")))) throw new  CaixaFechadoException("O caixa já está fecha do!");
         caixa.setReceitaTotal(caixa.getReceitaTotal() + atendimento.getReceita());
         if (atendimento.getEvento().getAuxiliar() != null) {
             caixa.setDespesaTotal(caixa.getDespesaTotal() + atendimento.getEvento().getAuxiliar().getValorMaoDeObra());

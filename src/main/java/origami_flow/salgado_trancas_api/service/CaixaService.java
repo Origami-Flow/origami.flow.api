@@ -8,7 +8,6 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaExceptio
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -52,12 +51,14 @@ public class CaixaService {
     }
 
     public void deletarCaixa(Integer id){
+        if (id == null) throw new IllegalArgumentException("id invalido");
         if (!caixaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("caixa");
         caixaRepository.deleteById(id);
     }
 
 
     public Caixa buscarCaixaPorMes(int mes, int ano){
+        if (mes <= 0 || mes > 12 || ano <= 0) throw new IllegalArgumentException("mes ou ano invalido");
         return caixaRepository.buscarCaixaPorMes(mes, ano).orElse(null);
     }
 
