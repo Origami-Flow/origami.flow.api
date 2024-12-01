@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DespesaRequestDTO {
 
+    private String nome;
+
     private String descricao;
 
     private Double valor;
