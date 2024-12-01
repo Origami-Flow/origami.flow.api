@@ -26,7 +26,7 @@ public class FinancaService {
         List<FinancaResponseDTO.DespesaDetalhadaDTO> despesasDetalhadas = despesas.stream()
                 .map(d -> {
                     FinancaResponseDTO.DespesaDetalhadaDTO dto = new FinancaResponseDTO.DespesaDetalhadaDTO();
-                    dto.setNome(d.getProduto() != null ? d.getProduto().getNome() : "Despesa Geral");
+                    dto.setNome(d.getProduto() != null ? d.getProduto().getNome() : d.getNome());
                     dto.setDescricao(d.getDescricao());
                     dto.setValor(d.getValor());
                     dto.setData(d.getData());

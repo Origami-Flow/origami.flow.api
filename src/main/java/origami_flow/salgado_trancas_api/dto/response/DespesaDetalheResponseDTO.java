@@ -17,6 +17,9 @@ public class DespesaDetalheResponseDTO {
     @Schema(description = "Identificador único da despesa", example = "1")
     private Integer id;
 
+    @Schema(description = "Nome da despesa", example = "Pomada")
+    private String nome;
+
     @Schema(description = "Descrição da despesa", example = "Compra de material")
     private String descricao;
 
