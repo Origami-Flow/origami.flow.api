@@ -2,7 +2,8 @@ package origami_flow.salgado_trancas_api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,11 @@ public class AuxiliarController {
     private final AuxiliarService auxiliarService;
     private final AuxiliarMapper auxiliarMapper;
 
-    @Operation(summary = "Lista todos os auxiliares", description = "Retorna uma lista de todos os auxiliares cadastrados.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-            @ApiResponse(responseCode = "204", description = "Nenhum auxiliar encontrado")
-    })
+    @Operation(summary = "Listar todos os auxiliares", description = "Retorna a lista de todos os auxiliares cadastrados.")
+    @ApiResponse(responseCode = "200", description = "Lista de auxiliares retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuxiliarDetalheResponseDTO.class)))
+    @ApiResponse(responseCode = "204", description = "Nenhum auxiliar encontrado")
     @GetMapping
     public ResponseEntity<List<AuxiliarDetalheResponseDTO>> listarAuxiliar() {
         List<Auxiliar> lista = auxiliarService.listar();
@@ -35,11 +36,11 @@ public class AuxiliarController {
         return ResponseEntity.ok(lista.stream().map(auxiliarMapper::toDto).toList());
     }
 
-    @Operation(summary = "Lista auxiliares por nome", description = "Retorna uma lista de auxiliares que correspondem ao nome informado.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-            @ApiResponse(responseCode = "204", description = "Nenhum auxiliar encontrado")
-    })
+    @Operation(summary = "Listar auxiliares por nome", description = "Retorna a lista de auxiliares filtrados pelo nome.")
+    @ApiResponse(responseCode = "200", description = "Lista de auxiliares filtrada por nome retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuxiliarDetalheResponseDTO.class)))
+    @ApiResponse(responseCode = "204", description = "Nenhum auxiliar encontrado com o nome fornecido")
     @GetMapping("/nome")
     public ResponseEntity<List<AuxiliarDetalheResponseDTO>> listarAuxiliarPorNome(@RequestParam String nome) {
         List<Auxiliar> lista = auxiliarService.listarPorNome(nome);
@@ -47,38 +48,34 @@ public class AuxiliarController {
         return ResponseEntity.ok(lista.stream().map(auxiliarMapper::toDto).toList());
     }
 
-    @Operation(summary = "Busca auxiliar por ID", description = "Busca um auxiliar específico pelo ID informado.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Auxiliar encontrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Auxiliar não encontrado")
-    })
+    @Operation(summary = "Buscar auxiliar por ID", description = "Retorna os detalhes de um auxiliar específico com base no ID fornecido.")
+    @ApiResponse(responseCode = "200", description = "Auxiliar encontrado com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuxiliarDetalheResponseDTO.class)))
+    @ApiResponse(responseCode = "404", description = "Auxiliar não encontrado")
     @GetMapping("/{id}")
     public ResponseEntity<AuxiliarDetalheResponseDTO> buscarAuxiliarPorId(@PathVariable Integer id) {
         Auxiliar auxiliar = auxiliarService.auxiliarPorId(id);
         return ResponseEntity.ok(auxiliarMapper.toDto(auxiliar));
     }
 
-    @Operation(summary = "Cadastra um novo auxiliar", description = "Cria um novo auxiliar com os dados fornecidos.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Auxiliar cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados")
-    })
+    @Operation(summary = "Cadastrar um novo auxiliar", description = "Cria um novo auxiliar com base nas informações fornecidas.")
+    @ApiResponse(responseCode = "200", description = "Auxiliar cadastrado com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuxiliarDetalheResponseDTO.class)))
     @PostMapping
     public ResponseEntity<AuxiliarDetalheResponseDTO> cadastrarAuxiliar(@RequestBody AuxiliarRequestDTO auxiliarRequestDTO) {
         Auxiliar auxiliar = auxiliarService.cadastrar(auxiliarMapper.toEntity(auxiliarRequestDTO));
         return ResponseEntity.ok(auxiliarMapper.toDto(auxiliar));
     }
 
-    @Operation(summary = "Atualiza um auxiliar", description = "Atualiza os dados de um auxiliar específico pelo ID.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Auxiliar atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Auxiliar não encontrado"),
-            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados")
-    })
+    @Operation(summary = "Atualizar auxiliar", description = "Atualiza as informações de um auxiliar existente com base no ID e nos dados fornecidos.")
+    @ApiResponse(responseCode = "200", description = "Auxiliar atualizado com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuxiliarDetalheResponseDTO.class)))
+    @ApiResponse(responseCode = "404", description = "Auxiliar não encontrado")
     @PutMapping("/{id}")
-    public ResponseEntity<AuxiliarDetalheResponseDTO> atualizarAuxiliar(
-            @PathVariable Integer id,
-            @RequestBody AuxiliarAtualizacaoRequestDTO auxiliarAtualizacaoRequestDTO) {
+    public ResponseEntity<AuxiliarDetalheResponseDTO> atualizarAuxiliar(@PathVariable Integer id, @RequestBody AuxiliarAtualizacaoRequestDTO auxiliarAtualizacaoRequestDTO) {
         Auxiliar auxiliar = auxiliarService.atualizar(id, auxiliarMapper.toEntity(auxiliarAtualizacaoRequestDTO));
         return ResponseEntity.ok(auxiliarMapper.toDto(auxiliar));
     }

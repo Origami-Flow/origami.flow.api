@@ -9,6 +9,8 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ClienteRepository;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -29,6 +31,7 @@ public class ClienteService {
 
     public Cliente cadastrarCliente(Cliente cliente) {
         if(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("cliente");
+        cliente.setDataCriacao(LocalDate.now(ZoneOffset.of("-03:00")));
         return clienteRepository.save(cliente);
     }
 
@@ -62,5 +65,9 @@ public class ClienteService {
 
     public Cliente buscarPorEmail(String email) {
         return clienteRepository.buscarPorEmail(email).orElse(null);
+    }
+
+    public Integer clientesNovosNoMes(int mes, int ano) {
+        return clienteRepository.buscarNovosClientesNoMes(mes, ano);
     }
 }

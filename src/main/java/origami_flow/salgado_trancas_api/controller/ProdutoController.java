@@ -90,15 +90,16 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Buscar produto por nome", description = "Busca um produto com base no nome fornecido.")
+    @Operation(summary = "Buscar produto por nome", description = "Busca uma lista de produtos com base no nome fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+            @ApiResponse(responseCode = "200", description = "Produtos encontrados",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.ProdutoDetalheResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Produto com o nome especificado não encontrado")
+            @ApiResponse(responseCode = "204", description = "Nenhum produto encontrado por nome especifico")
     })
     @GetMapping("/filtro-nome")
-    public ResponseEntity<ProdutoDetalheResponseDTO> buscarPorNome(@RequestParam String nome) {
-        Produto produto = produtoService.buscarProdutoNome(nome);
-        return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produto));
+    public ResponseEntity<List<ProdutoDetalheResponseDTO>> buscarPorNome(@RequestParam String nome) {
+        List<Produto> produtos = produtoService.buscarProdutoNome(nome);
+        if (produtos.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(produtos.stream().map(produtoMapper::toProdutoDetalheResponseDTO).toList());
     }
 }

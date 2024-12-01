@@ -47,6 +47,9 @@ public class Cliente extends UsuarioAbstract {
 
     private String ocupacao;
 
+    @Column(name = "data_criacao")
+    private LocalDate dataCriacao;
+
     @OneToOne
     private Endereco endereco;
 }

@@ -53,11 +53,23 @@ public class TrancistaController {
         return ResponseEntity.ok(trancistaMapper.toDTO(trancistaRetorno));
     }
 
+    @Operation(summary = "Atualizar Trancista", description = "Atualiza as informações de um trancista específico pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trancista atualizado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = TrancistaDetalheResposeDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Trancista não encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<TrancistaDetalheResposeDTO> atualizarTrancista(@PathVariable Integer id, @RequestBody TrancistaAtualizacaoRequestDTO trancistaAtualizacaoRequestDTO) {
         Trancista trancistaAtualizada = trancistaService.atualizarTrancista(id, trancistaMapper.toEntity(trancistaAtualizacaoRequestDTO));
         return ResponseEntity.ok(trancistaMapper.toDTO(trancistaAtualizada));
     }
+
+    @Operation(summary = "Deletar Trancista", description = "Remove um trancista do sistema com base no seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Trancista deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Trancista não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarTrancista(@PathVariable Integer id) {
         trancistaService.deletar(id);
