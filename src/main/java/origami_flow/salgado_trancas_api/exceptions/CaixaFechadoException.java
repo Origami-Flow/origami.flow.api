@@ -10,5 +10,5 @@ public class CaixaFechadoException extends RuntimeException {
         super(message);
     }
 
-    public HttpStatus getStatus() { return this.getStatus();}
+    public HttpStatus getStatus() { return HttpStatus.CONFLICT;}
 }

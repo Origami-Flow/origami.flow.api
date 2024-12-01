@@ -8,5 +8,5 @@ public class RequisicaoErradaException extends RuntimeException{
     public RequisicaoErradaException() {super();}
     public RequisicaoErradaException(String message) {super(message);}
 
-    public HttpStatus getStatus() { return this.getStatus();}
+    public HttpStatus getStatus() { return HttpStatus.BAD_REQUEST;}
 }

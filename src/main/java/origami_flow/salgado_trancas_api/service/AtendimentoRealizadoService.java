@@ -51,8 +51,8 @@ public class AtendimentoRealizadoService {
         }
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
-        atendimentoRealizado.setCaixa(buscarCaixaDoMes());
-        atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes());
+        atendimentoRealizado.setCaixa(buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
+        atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
         AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
         produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);
         return atendimentoSalvo;
@@ -79,9 +79,8 @@ public class AtendimentoRealizadoService {
         return atendimentoRealizadoRepository.buscarTrancaMaisRealizadaNoMes(mes,ano);
     }
 
-    private Caixa buscarCaixaDoMes() {
-        LocalDate localDate = LocalDate.now(ZoneOffset.of("-03:00"));
-        Caixa caixa = caixaService.buscarCaixaPorMes(localDate.getMonth().getValue(), localDate.getYear());
+    private Caixa buscarCaixaDoMes(LocalDate data) {
+        Caixa caixa = caixaService.buscarCaixaPorMes(data.getMonth().getValue(), data.getYear());
         if (caixa == null) throw new CaixaNaoAbertoException("O caixa do mes ainda não foi aberto!");
         return caixa;
     }

@@ -42,8 +42,8 @@ public class CaixaController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id, @RequestParam LocalDate inicio, @RequestParam LocalDate termino){
-        Caixa caixa = caixaService.abrirCaixa(id,inicio, termino );
+    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id){
+        Caixa caixa = caixaService.abrirCaixa(id);
         return ResponseEntity.created(null).body(caixaMapper.toCaixaDetalheResponseDTO(caixa));
 
     }
