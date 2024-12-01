@@ -2,6 +2,7 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import origami_flow.salgado_trancas_api.entity.Trancista;
@@ -35,7 +36,7 @@ public class TrancistaService {
         trancista.setNome(trancistaAtualizado.getNome() != null ? trancistaAtualizado.getNome() : trancista.getNome());
         trancista.setEmail(trancistaAtualizado.getEmail() != null ? trancistaAtualizado.getEmail() : trancista.getEmail());
         trancista.setTelefone(trancistaAtualizado.getTelefone() != null ? trancistaAtualizado.getTelefone() : trancista.getTelefone());
-        trancista.setSenha(trancistaAtualizado.getSenha() != null ? trancistaAtualizado.getSenha() : trancista.getSenha());
+        trancista.setSenha(trancistaAtualizado.getSenha() != null ? new BCryptPasswordEncoder().encode(trancistaAtualizado.getPassword()) : trancista.getSenha());
         trancista.setTipo(trancistaAtualizado.getTipo() != null ? trancistaAtualizado.getTipo() : trancista.getTipo());
         return trancistaRepository.save(trancista);
     }

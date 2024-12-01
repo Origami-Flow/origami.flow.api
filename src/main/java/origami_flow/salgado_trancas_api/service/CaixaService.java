@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.Salao;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -17,6 +15,7 @@ import java.util.List;
 public class CaixaService {
 
     private final CaixaRepository caixaRepository;
+
     private final SalaoService salaoService;
 
 
@@ -25,7 +24,7 @@ public class CaixaService {
     }
 
     public Caixa caixaPorId(Integer id){
-        return caixaRepository.findById(id).orElseThrow(EntidadeNaoEncontradaException::new);
+        return caixaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("caixa"));
     }
 
     public Caixa abrirCaixa( Integer idSalao, LocalDate inicio, LocalDate termino){
@@ -52,12 +51,14 @@ public class CaixaService {
     }
 
     public void deletarCaixa(Integer id){
+        if (id == null) throw new IllegalArgumentException("id invalido");
         if (!caixaRepository.existsById(id)) throw new EntidadeNaoEncontradaException("caixa");
         caixaRepository.deleteById(id);
     }
 
 
     public Caixa buscarCaixaPorMes(int mes, int ano){
+        if (mes <= 0 || mes > 12 || ano <= 0) throw new IllegalArgumentException("mes ou ano invalido");
         return caixaRepository.buscarCaixaPorMes(mes, ano).orElse(null);
     }
 

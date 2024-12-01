@@ -21,6 +21,7 @@ public class ProdutoAtendimentoUtilizadoService {
     }
 
     public List<ProdutoAtendimentoUtilizado> totalVendasNoMes(int mes, int ano) {
+        if (mes <= 0 || mes > 12 || ano <= 0) throw new IllegalArgumentException("ano ou mes invalido");
         return produtoAtendimentoUtilizadoRepository.buscarTotalVendasNoMes(FinalidadeProdutoAtendimentoEnum.VENDIDO, mes, ano);
     }
 }

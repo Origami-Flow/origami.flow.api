@@ -19,7 +19,7 @@ public class MetricasResponseDTO {
 
     private String trancaMaisFeitaNoMes;
 
-    private Integer taxaDeClienteQueAgendaramNoMes;
+    private Double taxaDeClienteQueAgendaramNoMes;
 
     private Double lucroDoMesAtual;
 
