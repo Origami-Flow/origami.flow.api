@@ -35,7 +35,26 @@ INSERT INTO servico (
              '02:00:00',
              100.00,
              20.00
-         );
+         ),
+         ('Nagô', 'nago-2', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-3', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-4', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-5', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-6', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-7', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-8', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-9', '01:30:00', 150.00, 30.00),
+         ('Nagô', 'nago-10', '01:30:00', 150.00, 30.00),
+         ('Twist', 'twist-1', '01:30:00', 200.00, 50.00),
+         ('Box Braids', 'Trança', '01:30:00', 300.00, 70.00),
+         ('Barrel Twist', 'barrel-twist-1', '01:30:00', 220.00, 60.00),
+         ('Fulani Braids', 'Trança', '01:30:00', 330.00, 60.00),
+         ('Boho Braids', 'Trança', '01:30:00', 380.00, 60.00),
+         ('Lemonade', 'Trança', '01:30:00', 300.00, 50.00),
+         ('Ghana Braids', 'Trança', '01:30:00', 350.00, 70.00),
+         ('Gypsy Braids', 'gypsy-1', '01:30:00', 400.00, 80.00),
+         ('Knotles', 'Trança', '01:30:00', 330.00, 60.00);
+;
 
 INSERT INTO trancista (
     nome, email, senha, role, tipo
@@ -75,6 +94,30 @@ INSERT INTO salao (
 ) VALUES (
              'Salgado Tranças',
              1
+         );
+
+INSERT INTO caixa (
+    data_abertura, data_fechamento, salao_id, receita_total, despesa_total
+) VALUES (
+             '2024-12-01',
+             '2024-12-31',
+              1,
+              0,
+              0
+         ),
+         (
+             '2024-11-01',
+             '2024-11-30',
+             1,
+             0,
+             0
+         ),
+         (
+             '2024-10-01',
+             '2024-10-31',
+             1,
+             0,
+             0
          );
 
 INSERT INTO produto (
