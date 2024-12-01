@@ -13,6 +13,7 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaExceptio
 import origami_flow.salgado_trancas_api.repository.AtendimentoRealizadoRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,6 +91,8 @@ class AtendimentoRealizadoServiceTest {
         caixa.setDataFechamento(LocalDate.now());
         caixa.setReceitaTotal(0.0);
 
+        evento.setDataHoraTermino(LocalDateTime.now());
+
         when(produtoService.listarTodosPorId(List.of(1))).thenReturn(List.of(produto));
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenReturn(caixa);
         when(atendimentoRealizadoRepository.save(any(AtendimentoRealizado.class))).thenReturn(atendimento);
@@ -121,6 +124,7 @@ class AtendimentoRealizadoServiceTest {
 
         servico.setValorServico(130.0);
         servico.setValorSinal(15.0);
+        evento.setDataHoraTermino(LocalDateTime.now());
 
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenThrow(new CaixaNaoAbertoException(""));
 
@@ -156,6 +160,7 @@ class AtendimentoRealizadoServiceTest {
     void buscarCaixaDoMes_DeveLancarExcecaoQuandoCaixaNaoExistir() {
         servico.setValorServico(130.0);
         servico.setValorSinal(15.0);
+        evento.setDataHoraTermino(LocalDateTime.now());
 
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenReturn(null);
 
@@ -176,6 +181,7 @@ class AtendimentoRealizadoServiceTest {
         atendimento.setReceita(500.0);
         auxiliar.setValorMaoDeObra(200.0);
         evento.setAuxiliar(auxiliar);
+        evento.setDataHoraTermino(LocalDateTime.now());
         atendimento.setEvento(evento);
 
         caixa.setDataAbertura(LocalDate.now());
