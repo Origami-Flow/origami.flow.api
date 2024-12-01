@@ -39,7 +39,6 @@ class TrancistaServiceTest {
         trancista.setTipo("ADMIN");
     }
 
-    // 1. Teste de sucesso: cadastrar trancista
     @Test
     void cadastrarTrancista_Success() {
         when(trancistaRepository.existsByEmailOrTelefone(trancista.getEmail(), trancista.getTelefone()))
@@ -53,7 +52,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).save(trancista);
     }
 
-    // 2. Teste de falha: conflito de entidade ao cadastrar
     @Test
     void cadastrarTrancista_ConflitoDeEntidade_LancaExcecao() {
         when(trancistaRepository.existsByEmailOrTelefone(trancista.getEmail(), trancista.getTelefone()))
@@ -63,7 +61,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, never()).save(any(Trancista.class));
     }
 
-    // 3. Teste de sucesso: listar trancistas
     @Test
     void listarTrancistas_Success() {
         when(trancistaRepository.findAll()).thenReturn(List.of(trancista));
@@ -75,7 +72,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).findAll();
     }
 
-    // 4. Teste de sucesso: buscar por ID existente
     @Test
     void buscarPorId_Success() {
         when(trancistaRepository.findById(1)).thenReturn(Optional.of(trancista));
@@ -87,7 +83,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).findById(1);
     }
 
-    // 5. Teste de falha: buscar por ID inexistente
     @Test
     void buscarPorId_Inexistente_LancaExcecao() {
         when(trancistaRepository.findById(1)).thenReturn(Optional.empty());
@@ -96,7 +91,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).findById(1);
     }
 
-    // 6. Teste de sucesso: atualizar trancista
     @Test
     void atualizarTrancista_Success() {
         Trancista atualizado = new Trancista();
@@ -112,7 +106,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).save(any(Trancista.class));
     }
 
-    // 7. Teste de falha: atualizar trancista inexistente
     @Test
     void atualizarTrancista_Inexistente_LancaExcecao() {
         Trancista atualizado = new Trancista();
@@ -124,7 +117,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, never()).save(any(Trancista.class));
     }
 
-    // 8. Teste de sucesso: deletar trancista
     @Test
     void deletarTrancista_Success() {
         when(trancistaRepository.existsById(1)).thenReturn(true);
@@ -134,7 +126,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).deleteById(1);
     }
 
-    // 9. Teste de falha: deletar trancista inexistente
     @Test
     void deletarTrancista_Inexistente_LancaExcecao() {
         when(trancistaRepository.existsById(1)).thenReturn(false);
@@ -143,7 +134,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, never()).deleteById(1);
     }
 
-    // 10. Teste de sucesso: buscar por email existente
     @Test
     void buscarPorEmail_Success() {
         when(trancistaRepository.buscarPorEmail(trancista.getEmail()))
@@ -156,7 +146,6 @@ class TrancistaServiceTest {
         verify(trancistaRepository, times(1)).buscarPorEmail(trancista.getEmail());
     }
 
-    // 11. Teste de falha: buscar por email inexistente
     @Test
     void buscarPorEmail_Inexistente_RetornaNull() {
         when(trancistaRepository.buscarPorEmail(trancista.getEmail()))
@@ -170,7 +159,7 @@ class TrancistaServiceTest {
 
     @Test
     void atualizarTrancista_DadosNulos_Success() {
-        Trancista atualizado = new Trancista(); // Sem dados atualizados
+        Trancista atualizado = new Trancista();
         when(trancistaRepository.findById(1)).thenReturn(Optional.of(trancista));
         when(trancistaRepository.save(trancista)).thenReturn(trancista);
 

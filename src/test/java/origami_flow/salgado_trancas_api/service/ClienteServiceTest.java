@@ -46,7 +46,6 @@ class ClienteServiceTest {
         endereco.setCep("12345678");
     }
 
-    // 1. Testar listar todos os clientes com sucesso
     @Test
     void listarCliente_Success() {
         when(clienteRepository.findAll()).thenReturn(List.of(cliente));
@@ -58,7 +57,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).findAll();
     }
 
-    // 2. Testar listar clientes com lista vazia
     @Test
     void listarCliente_ListaVazia_Success() {
         when(clienteRepository.findAll()).thenReturn(List.of());
@@ -70,7 +68,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).findAll();
     }
 
-    // 3. Testar buscar cliente por ID com sucesso
     @Test
     void clientePorId_Success() {
         when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
@@ -82,7 +79,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).findById(1);
     }
 
-    // 4. Testar buscar cliente por ID inexistente
     @Test
     void clientePorId_IdInexistente_LancaExcecao() {
         when(clienteRepository.findById(1)).thenReturn(Optional.empty());
@@ -91,7 +87,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).findById(1);
     }
 
-    // 5. Testar cadastrar cliente com sucesso
     @Test
     void cadastrarCliente_Success() {
         when(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())).thenReturn(false);
@@ -104,7 +99,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).save(cliente);
     }
 
-    // 6. Testar cadastrar cliente com conflito
     @Test
     void cadastrarCliente_Conflito_LancaExcecao() {
         when(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())).thenReturn(true);
@@ -114,7 +108,6 @@ class ClienteServiceTest {
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
-    // 7. Testar atualizar cliente com sucesso
     @Test
     void atualizarCliente_Success() {
         when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
@@ -127,7 +120,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).save(cliente);
     }
 
-    // 8. Testar atualizar cliente com ID inexistente
     @Test
     void atualizarCliente_IdInexistente_LancaExcecao() {
         when(clienteRepository.existsById(1)).thenReturn(false);
@@ -136,7 +128,6 @@ class ClienteServiceTest {
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
-    // 9. Testar deletar cliente com sucesso
     @Test
     void deletarCliente_Success() {
         when(clienteRepository.existsById(1)).thenReturn(true);
@@ -147,7 +138,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).deleteById(1);
     }
 
-    // 10. Testar deletar cliente com ID inexistente
     @Test
     void deletarCliente_IdInexistente_LancaExcecao() {
         when(clienteRepository.existsById(1)).thenReturn(false);
@@ -157,7 +147,6 @@ class ClienteServiceTest {
         verify(clienteRepository, never()).deleteById(anyInt());
     }
 
-    // 12. Testar cadastrar endereço com cliente inexistente
     @Test
     void cadastrarEndereco_ClienteInexistente_LancaExcecao() {
         when(clienteRepository.findById(1)).thenReturn(Optional.empty());
@@ -166,7 +155,6 @@ class ClienteServiceTest {
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
-    // 14. Testar atualizar endereço com cliente inexistente
     @Test
     void atualizarEndereco_ClienteInexistente_LancaExcecao() {
         when(clienteRepository.findById(1)).thenReturn(Optional.empty());
@@ -176,7 +164,6 @@ class ClienteServiceTest {
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
-    // 15. Testar buscar clientes por nome com sucesso
     @Test
     void listarPorNome_Success() {
         when(clienteRepository.buscarPorNome("João")).thenReturn(List.of(cliente));
@@ -189,7 +176,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).buscarPorNome("João");
     }
 
-    // 16. Testar buscar clientes por nome com lista vazia
     @Test
     void listarPorNome_NenhumClienteEncontrado() {
         when(clienteRepository.buscarPorNome("João")).thenReturn(List.of());
@@ -201,7 +187,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).buscarPorNome("João");
     }
 
-    // 17. Testar buscar cliente por email com sucesso
     @Test
     void buscarPorEmail_Success() {
         when(clienteRepository.buscarPorEmail("joao.silva@example.com")).thenReturn(Optional.of(cliente));
@@ -213,7 +198,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).buscarPorEmail("joao.silva@example.com");
     }
 
-    // 18. Testar buscar cliente por e-mail não encontrado
     @Test
     void buscarPorEmail_EmailNaoEncontrado() {
         when(clienteRepository.buscarPorEmail("joao.silva@example.com")).thenReturn(Optional.empty());
@@ -224,7 +208,6 @@ class ClienteServiceTest {
         verify(clienteRepository, times(1)).buscarPorEmail("joao.silva@example.com");
     }
 
-    // 20. Testar atualizar cliente sem alterar os campos opcionais (nulos)
     @Test
     void atualizarCliente_CamposOpcionaisNaoAlterados_Success() {
         Cliente clienteAtualizado = new Cliente();

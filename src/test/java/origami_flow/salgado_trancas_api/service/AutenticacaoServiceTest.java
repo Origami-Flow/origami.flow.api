@@ -25,15 +25,12 @@ class AutenticacaoServiceTest {
 
     @Test
     void loadUserByUsername_ClienteEncontrado_DeveRetornarUserDetails() {
-        // Mockar cliente encontrado
         String email = "cliente@example.com";
         UserDetails clienteMock = mock(UserDetails.class);
         when(clienteRepository.findByEmail(email)).thenReturn(clienteMock);
 
-        // Executar
         UserDetails resultado = autenticacaoService.loadUserByUsername(email);
 
-        // Verificar
         assertNotNull(resultado, "O UserDetails não deveria ser nulo.");
         assertEquals(clienteMock, resultado, "O UserDetails retornado deveria ser o mesmo do mock.");
         verify(clienteRepository, times(1)).findByEmail(email);
@@ -42,16 +39,13 @@ class AutenticacaoServiceTest {
 
     @Test
     void loadUserByUsername_TrancistaEncontrado_DeveRetornarUserDetails() {
-        // Mockar cliente não encontrado e trancista encontrado
         String email = "trancista@example.com";
         UserDetails trancistaMock = mock(UserDetails.class);
         when(clienteRepository.findByEmail(email)).thenReturn(null);
         when(trancistaRepository.findByEmail(email)).thenReturn(trancistaMock);
 
-        // Executar
         UserDetails resultado = autenticacaoService.loadUserByUsername(email);
 
-        // Verificar
         assertNotNull(resultado, "O UserDetails não deveria ser nulo.");
         assertEquals(trancistaMock, resultado, "O UserDetails retornado deveria ser o mesmo do mock.");
         verify(clienteRepository, times(1)).findByEmail(email);
@@ -60,12 +54,10 @@ class AutenticacaoServiceTest {
 
     @Test
     void loadUserByUsername_NenhumUsuarioEncontrado_DeveLancarExcecao() {
-        // Mockar cliente e trancista não encontrados
         String email = "naoexiste@example.com";
         when(clienteRepository.findByEmail(email)).thenReturn(null);
         when(trancistaRepository.findByEmail(email)).thenReturn(null);
 
-        // Executar e verificar exceção
         UsernameNotFoundException excecao = assertThrows(UsernameNotFoundException.class, () -> {
             autenticacaoService.loadUserByUsername(email);
         });
