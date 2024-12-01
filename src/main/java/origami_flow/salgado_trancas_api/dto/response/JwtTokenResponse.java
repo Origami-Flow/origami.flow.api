@@ -23,4 +23,6 @@ public class JwtTokenResponse {
 
     @Schema(description = "Token JWT gerado para autenticação", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
     private String token;
+
+    private String authorities;
 }

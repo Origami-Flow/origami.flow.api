@@ -16,6 +16,8 @@ import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaExceptio
 import origami_flow.salgado_trancas_api.mapper.JwtTokenMapper;
 import origami_flow.salgado_trancas_api.utils.ConexaoApiJwt;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -34,6 +36,6 @@ public class LoginService {
         if (usuario == null) usuario = trancistaService.buscarPorEmail(loginRequestDTO.getEmail());
         if (usuario == null) throw new EntidadeNaoEncontradaException("usuário");
         String token = ConexaoApiJwt.generateToken(loginRequestDTO);
-        return JwtTokenMapper.jwtTokenResponse(usuario, token);
+        return JwtTokenMapper.jwtTokenResponse(usuario, token, authentication.getAuthorities().toString());
     }
 }
