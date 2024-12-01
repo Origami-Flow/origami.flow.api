@@ -24,7 +24,7 @@ public class MetricasResponseDTO {
     private String trancaMaisFeitaNoMes;
 
     @Schema(description = "Taxa de clientes que agendaram no mês", example = "75")
-    private Integer taxaDeClienteQueAgendaramNoMes;
+    private Double taxaDeClienteQueAgendaramNoMes;
 
     @Schema(description = "Lucro do mês atual", example = "5000.00")
     private Double lucroDoMesAtual;

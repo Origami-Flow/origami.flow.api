@@ -70,13 +70,11 @@ class CaixaServiceTest {
         Salao salao = new Salao();
         salao.setId(1);
         Caixa caixa = new Caixa();
-        LocalDate inicio = LocalDate.of(2023, 1, 1);
-        LocalDate termino = LocalDate.of(2023, 1, 31);
 
         when(salaoService.salaoPorId(1)).thenReturn(salao);
         when(caixaRepository.save(any(Caixa.class))).thenReturn(caixa);
 
-        Caixa resultado = caixaService.abrirCaixa(1, inicio, termino);
+        Caixa resultado = caixaService.abrirCaixa(1);
 
         assertNotNull(resultado);
         verify(salaoService, times(1)).salaoPorId(1);
@@ -156,7 +154,7 @@ class CaixaServiceTest {
         when(salaoService.salaoPorId(99)).thenThrow(new EntidadeNaoEncontradaException("salao"));
 
         assertThrows(EntidadeNaoEncontradaException.class, () ->
-                caixaService.abrirCaixa(99, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31))
+                caixaService.abrirCaixa(99)
         );
 
         verify(salaoService, times(1)).salaoPorId(99);
@@ -204,7 +202,7 @@ class CaixaServiceTest {
         when(salaoService.salaoPorId(1)).thenReturn(salao);
         when(caixaRepository.save(any(Caixa.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Caixa resultado = caixaService.abrirCaixa(1, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31));
+        Caixa resultado = caixaService.abrirCaixa(1);
 
         assertEquals(0.0, resultado.getReceitaTotal());
         assertEquals(0.0, resultado.getDespesaTotal());
