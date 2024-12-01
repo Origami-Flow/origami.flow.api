@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,24 +17,33 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventoDetalheResponseDTO {
 
+    @Schema(description = "Identificador único do evento", example = "1")
     private Integer id;
 
+    @Schema(description = "Data e hora de início do evento", example = "2024-11-01T10:00:00")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataHoraInicio;
 
+    @Schema(description = "Data e hora de término do evento", example = "2024-11-01T12:00:00")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataHoraTermino;
 
+    @Schema(description = "Tipo de evento", example = "Corte")
     private TipoEventoEnum tipoEvento;
 
+    @Schema(description = "Status do evento", example = "CONCLUIDO")
     private StatusEventoEnum statusEvento;
 
+    @Schema(description = "Informações do cliente relacionado ao evento")
     private ClienteResponseDTO cliente;
 
+    @Schema(description = "Informações do serviço relacionado ao evento")
     private ServicoResponseDTO servico;
 
+    @Schema(description = "Informações do trancista relacionado ao evento")
     private TrancistaResponseDTO trancista;
 
+    @Schema(description = "Informações do auxiliar relacionado ao evento")
     private AuxiliarResponseDTO auxiliar;
 
     @Data
@@ -42,12 +52,16 @@ public class EventoDetalheResponseDTO {
     @NoArgsConstructor
     public static class ClienteResponseDTO {
 
+        @Schema(description = "Identificador único do cliente", example = "1")
         private Integer id;
 
+        @Schema(description = "Nome do cliente", example = "João Silva")
         private String nome;
 
+        @Schema(description = "Telefone do cliente", example = "11999999999")
         private String telefone;
 
+        @Schema(description = "E-mail do cliente", example = "joao.silva@email.com")
         private String email;
     }
 
@@ -57,12 +71,16 @@ public class EventoDetalheResponseDTO {
     @NoArgsConstructor
     public static class ServicoResponseDTO {
 
+        @Schema(description = "Identificador único do serviço", example = "1")
         private Integer id;
 
+        @Schema(description = "Nome do serviço", example = "Corte de cabelo")
         private String nome;
 
+        @Schema(description = "Valor do serviço", example = "50.00")
         private Double valorServico;
 
+        @Schema(description = "Descrição do serviço", example = "Corte simples de cabelo")
         private String descricao;
     }
 
@@ -72,10 +90,13 @@ public class EventoDetalheResponseDTO {
     @NoArgsConstructor
     public static class TrancistaResponseDTO {
 
+        @Schema(description = "Identificador único do trancista", example = "1")
         private Integer id;
 
+        @Schema(description = "Nome do trancista", example = "Maria Oliveira")
         private String nome;
 
+        @Schema(description = "E-mail do trancista", example = "maria.oliveira@email.com")
         private String email;
     }
 
@@ -84,12 +105,17 @@ public class EventoDetalheResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AuxiliarResponseDTO {
-         private Integer id;
 
-         private String nome;
+        @Schema(description = "Identificador único do auxiliar", example = "1")
+        private Integer id;
 
-         private String email;
+        @Schema(description = "Nome do auxiliar", example = "Carlos Souza")
+        private String nome;
 
-         private Double valorMaoDeObra;
+        @Schema(description = "E-mail do auxiliar", example = "carlos.souza@email.com")
+        private String email;
+
+        @Schema(description = "Valor da mão de obra do auxiliar", example = "30.00")
+        private Double valorMaoDeObra;
     }
 }

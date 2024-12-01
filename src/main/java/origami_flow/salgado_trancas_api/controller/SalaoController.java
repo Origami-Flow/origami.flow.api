@@ -91,9 +91,15 @@ public class SalaoController {
         return ResponseEntity.ok(salaoMapper.toSalaoDetalheResponseDTO(salao));
     }
 
+    @Operation(summary = "Excluir salão", description = "Remove um salão do sistema com base no seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Salão deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Salão não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirSalao(@PathVariable Integer id) {
         salaoService.deletarSalao(id);
         return ResponseEntity.noContent().build();
     }
+
 }
