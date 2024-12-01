@@ -1,10 +1,7 @@
 package origami_flow.salgado_trancas_api.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
@@ -12,6 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Caixa {

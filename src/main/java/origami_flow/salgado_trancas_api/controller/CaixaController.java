@@ -64,9 +64,10 @@ public class CaixaController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = CaixaDetalheResponseDTO.class)))
     @PostMapping("/{id}")
-    public ResponseEntity<CaixaDetalheResponseDTO> abrirCaixa(@PathVariable Integer id, @RequestParam LocalDate inicio, @RequestParam LocalDate termino){
-        Caixa caixa = caixaService.abrirCaixa(id,inicio, termino );
+    public ResponseEntity<CaixaDetalheResponseDTO> cadastrarCaixa(@PathVariable Integer id){
+        Caixa caixa = caixaService.abrirCaixa(id);
         return ResponseEntity.created(null).body(caixaMapper.toCaixaDetalheResponseDTO(caixa));
+
     }
 
     @Operation(summary = "Atualizar caixa", description = "Atualiza os detalhes de um caixa existente com base no ID e nas informações fornecidas.")

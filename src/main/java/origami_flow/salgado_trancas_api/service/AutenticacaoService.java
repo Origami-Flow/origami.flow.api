@@ -22,6 +22,7 @@ public class AutenticacaoService implements UserDetailsService {
         if (user == null) {
             user = trancistaRepository.findByEmail(username);
         }
+        if (user == null) {throw new UsernameNotFoundException("Usuario não encontrado");}
         return user;
     }
 }

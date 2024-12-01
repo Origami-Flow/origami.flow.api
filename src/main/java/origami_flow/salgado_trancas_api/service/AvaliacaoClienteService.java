@@ -1,19 +1,13 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 import origami_flow.salgado_trancas_api.entity.Avaliacao;
-import origami_flow.salgado_trancas_api.entity.Cliente;
-import origami_flow.salgado_trancas_api.entity.Salao;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.exceptions.RequisicaoErradaException;
 import origami_flow.salgado_trancas_api.repository.AvaliacaoClienteRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +21,7 @@ public class AvaliacaoClienteService {
 
     private final AtendimentoRealizadoService atendimentoRealizadoService;
 
-    public List<Avaliacao> listarAaliacao() {
+    public List<Avaliacao> listarAvaliacao() {
         return avaliacaoClienteRepository.findAll();
     }
 
@@ -55,9 +49,7 @@ public class AvaliacaoClienteService {
         avaliacaoAtualizar.setComentario(avaliacao.getComentario() != null? avaliacao.getComentario(): avaliacaoAtualizar.getComentario());
         avaliacaoAtualizar.setNota(avaliacao.getNota() != null? avaliacao.getNota(): avaliacaoAtualizar.getNota());
 
-        avaliacao.setId(id);
-
-        return avaliacaoClienteRepository.save(avaliacao);
+        return avaliacaoClienteRepository.save(avaliacaoAtualizar);
     }
 
     public void deletarAvaliacao(Integer id) {

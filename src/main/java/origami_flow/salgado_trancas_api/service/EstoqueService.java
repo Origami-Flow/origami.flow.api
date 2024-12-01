@@ -25,12 +25,12 @@ public class EstoqueService {
     }
 
     public Estoque estoquePorId(Integer id) {
-        return estoqueRepository.findByProdutoId(id).orElseThrow(EntidadeNaoEncontradaException::new);
+        return estoqueRepository.findByProdutoId(id).orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
     }
 
     public Estoque atualizarEstoque(Integer id, Integer quantidade) {
         Estoque produto = estoquePorId(id);
-        if(produto.getQuantidade() < quantidade) {
+        if(produto.getQuantidade() >= 0) {
             produto.setQuantidade(produto.getQuantidade() + quantidade);
         }else {
             produto.setQuantidade(produto.getQuantidade() - quantidade);

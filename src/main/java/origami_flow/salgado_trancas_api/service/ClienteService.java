@@ -2,6 +2,7 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
@@ -35,9 +36,17 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarCliente(Integer id, Cliente cliente) {
-        if (!clienteRepository.existsById(id)) throw new EntidadeNaoEncontradaException("cliente ");
-        cliente.setId(id);
+    public Cliente atualizarCliente(Integer id, Cliente clienteAtualizado) {
+        Cliente cliente = clientePorId(id);
+        cliente.setNome(clienteAtualizado.getNome() != null ? clienteAtualizado.getNome() : cliente.getNome());
+        cliente.setEmail(clienteAtualizado.getEmail() != null ? clienteAtualizado.getEmail() : cliente.getEmail());
+        cliente.setSenha(clienteAtualizado.getSenha() != null ? new BCryptPasswordEncoder().encode(clienteAtualizado.getSenha()) : cliente.getSenha());
+        cliente.setTelefone(clienteAtualizado.getTelefone() != null ? clienteAtualizado.getTelefone() : cliente.getTelefone());
+        cliente.setComprimentoCabelo(clienteAtualizado.getComprimentoCabelo() != null ? clienteAtualizado.getComprimentoCabelo() : cliente.getComprimentoCabelo());
+        cliente.setDataNascimento(clienteAtualizado.getDataNascimento() != null ? clienteAtualizado.getDataNascimento() : cliente.getDataNascimento());
+        cliente.setOcupacao(clienteAtualizado.getOcupacao() != null ? clienteAtualizado.getOcupacao() : cliente.getOcupacao());
+        cliente.setGenero(clienteAtualizado.getGenero() != null ? clienteAtualizado.getGenero() : cliente.getGenero());
+        cliente.setTipoCabelo(clienteAtualizado.getTipoCabelo() != null ? clienteAtualizado.getTipoCabelo() : cliente.getTipoCabelo());
         return clienteRepository.save(cliente);
     }
 

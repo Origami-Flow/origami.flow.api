@@ -40,7 +40,7 @@ public class EventoService {
         evento.setCliente(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ?  clienteService.clientePorId(clienteId) : null);
         evento.setTrancista(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? trancistaService.trancistaPorId(trancistaId) : null);
         evento.setServico(evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? servicoService.servicoPorId(servicoId) : null);
-        evento.setAuxiliar(auxiliarId != null ? auxiliarService.auxiliarPorId(auxiliarId) : null);
+        evento.setAuxiliar(auxiliarId != null && evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO) ? auxiliarService.auxiliarPorId(auxiliarId) : null);
         return eventoRepository.save(evento);
     }
 

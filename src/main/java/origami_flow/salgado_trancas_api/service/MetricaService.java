@@ -45,10 +45,10 @@ public class MetricaService {
         return totalVendas;
     }
 
-    private Integer calcularTaxaDeAgendamentoNoMes(int mes, int ano) {
-        Integer novosClientes = clienteService.clientesNovosNoMes(mes, ano);
-        Integer agendamentosDeNovosCliente = atendimentoRealizadoService.buscarNumeroDeAtendimentoRealizadoComClientesNovos(mes, ano);
-        if (novosClientes == 0) return 0;
+    private Double calcularTaxaDeAgendamentoNoMes(int mes, int ano) {
+        Double novosClientes = (double) clienteService.clientesNovosNoMes(mes, ano);
+        Double agendamentosDeNovosCliente = (double) atendimentoRealizadoService.buscarNumeroDeAtendimentoRealizadoComClientesNovos(mes, ano);
+        if (novosClientes <= 0.0) return 0.0;
         return (agendamentosDeNovosCliente/novosClientes) * 100;
     }
 

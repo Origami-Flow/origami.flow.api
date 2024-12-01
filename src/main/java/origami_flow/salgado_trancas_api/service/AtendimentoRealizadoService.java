@@ -43,7 +43,7 @@ public class AtendimentoRealizadoService {
             produtosUtilizado.addAll(produtosUtilizadoRequestDTOS.stream()
                     .map(dto -> {
                         Produto produto = produtos.stream()
-                                .filter(p -> p.getId().equals(dto.getId()))
+                                 .filter(p -> p.getId().equals(dto.getId()))
                                 .findFirst()
                                 .orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
                         return ProdutoUtilizadoMapper.toEntity(dto, produto);
@@ -51,8 +51,8 @@ public class AtendimentoRealizadoService {
         }
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
-        atendimentoRealizado.setCaixa(buscarCaixaDoMes());
-        atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes());
+        atendimentoRealizado.setCaixa(buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
+        atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
         AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
         produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);
         return atendimentoSalvo;
@@ -63,7 +63,7 @@ public class AtendimentoRealizadoService {
     }
 
     public void apagarAtendimentoRealizado(Integer id){
-        if (!atendimentoRealizadoRepository.existsById(id)) throw  new EntidadeNaoEncontradaException("atnedimento realizado");
+        if (!atendimentoRealizadoRepository.existsById(id)) throw  new EntidadeNaoEncontradaException("atendimento realizado");
         atendimentoRealizadoRepository.deleteById(id);
     }
 
@@ -79,15 +79,14 @@ public class AtendimentoRealizadoService {
         return atendimentoRealizadoRepository.buscarTrancaMaisRealizadaNoMes(mes,ano);
     }
 
-    private Caixa buscarCaixaDoMes() {
-        LocalDate localDate = LocalDate.now(ZoneOffset.of("-03:00"));
-        Caixa caixa = caixaService.buscarCaixaPorMes(localDate.getMonth().getValue(), localDate.getYear());
+    private Caixa buscarCaixaDoMes(LocalDate data) {
+        Caixa caixa = caixaService.buscarCaixaPorMes(data.getMonth().getValue(), data.getYear());
         if (caixa == null) throw new CaixaNaoAbertoException("O caixa do mes ainda não foi aberto!");
         return caixa;
     }
 
     private void atualizarReceitaDespesaDoCaixa(AtendimentoRealizado atendimento, Caixa caixa) {
-//        if (caixa.getDataFechamento().isBefore(LocalDate.now(ZoneOffset.of("-03:00")))) throw new  CaixaFechadoException("O caixa já está fecha do!");
+        if (caixa.getDataFechamento().isBefore(LocalDate.now(ZoneOffset.of("-03:00")))) throw new  CaixaFechadoException("O caixa já está fechado!");
         caixa.setReceitaTotal(caixa.getReceitaTotal() + atendimento.getReceita());
         if (atendimento.getEvento().getAuxiliar() != null) {
             caixa.setDespesaTotal(caixa.getDespesaTotal() + atendimento.getEvento().getAuxiliar().getValorMaoDeObra());
