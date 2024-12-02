@@ -66,6 +66,10 @@ public class AtendimentoRealizadoService {
         return atendimentoSalvo;
     }
 
+    public List<AtendimentoRealizado> atendimentoPorCliente(Integer idCliente){
+        return atendimentoRealizadoRepository.findAllByCliente(clienteService.clientePorId(idCliente));
+    }
+
     public AtendimentoRealizado atendimentoRealizadoPorId(Integer id){
         return atendimentoRealizadoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("atendimento realizado"));
     }
@@ -101,4 +105,6 @@ public class AtendimentoRealizadoService {
         }
         caixaService.atualizarCaixa(caixa.getId(), caixa, null);
     }
+
+
 }

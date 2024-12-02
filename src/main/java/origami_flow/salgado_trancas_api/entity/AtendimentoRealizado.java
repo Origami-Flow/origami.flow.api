@@ -26,6 +26,6 @@ public class AtendimentoRealizado {
     @ManyToOne
     private Cliente cliente;
 
-    @ManyToOne
+    @OneToOne
     private Avaliacao avaliacao;
 }

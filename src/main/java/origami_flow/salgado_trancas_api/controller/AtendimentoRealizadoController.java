@@ -55,4 +55,12 @@ public class AtendimentoRealizadoController {
         atendimentoRealizadoService.apagarAtendimentoRealizado(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("por/cliente/{idCliente}")
+    public ResponseEntity<List<AtendimentoRealizadoDetalheResponseDTO>> porCliente(@PathVariable Integer idCliente){
+        List<AtendimentoRealizado> atendimentoRealizados = atendimentoRealizadoService.atendimentoPorCliente(idCliente);
+        if (atendimentoRealizados.isEmpty()) return  ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(atendimentoRealizados.stream().map(atendimentoRealizadoMapper::toDto).toList());
+    }
 }
+
