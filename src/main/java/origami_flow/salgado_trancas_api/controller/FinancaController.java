@@ -13,6 +13,8 @@ import origami_flow.salgado_trancas_api.dto.response.FinancaResponseDTO;
 import origami_flow.salgado_trancas_api.service.FinancaService;
 
 import java.time.LocalDate;
+import java.util.Queue;
+import java.util.Stack;
 
 @RestController
 @RequestMapping("/financas")
@@ -45,4 +47,15 @@ public class FinancaController {
         FinancaResponseDTO financa = financaService.gerarRelatorioMensal(mes, ano);
         return ResponseEntity.ok(financa);
     }
+
+    @GetMapping("/pilha-despesas")
+    public String exibirPilhaDespesas() {
+        return financaService.exibirPilhaDespesas();
+    }
+
+    @GetMapping("/fila-atendimentos")
+    public String exibirFilaAtendimentos() {
+        return financaService.exibirFilaAtendimentos();
+    }
+
 }
