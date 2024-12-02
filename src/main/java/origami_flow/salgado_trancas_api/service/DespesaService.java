@@ -51,6 +51,7 @@ public class DespesaService {
         despesaAtualizar.setCaixa(idCaixa != null? caixaService.caixaPorId(idCaixa):despesaAtualizar.getCaixa());
         despesaAtualizar.setData(despesa.getData() != null? despesa.getData():despesaAtualizar.getData());
         despesaAtualizar.setDescricao(despesa.getDescricao() != null? despesa.getDescricao():despesaAtualizar.getDescricao());
+        despesaAtualizar.setNome(despesa.getNome() != null? despesa.getNome():despesaAtualizar.getNome());
 
         return despesaRepository.save(despesaAtualizar);
     }

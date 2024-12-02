@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import origami_flow.salgado_trancas_api.dto.request.AvaliacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.AvaliacaoDetalheResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Avaliacao;
+import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.mapper.AvaliacaoMapper;
 import origami_flow.salgado_trancas_api.service.AvaliacaoClienteService;
 
@@ -78,5 +79,17 @@ public class AvaliacaoClienteController {
     public ResponseEntity<Void> deletarAvaliacao(@PathVariable Integer id){
         avaliacaoClienteService.deletarAvaliacao(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Listar avaliações do usuário especifico", description = "Retorna a lista de todas as avaliações de uum usuário")
+    @ApiResponse(responseCode = "200", description = "Lista de avaliações retornada com sucesso",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AvaliacaoDetalheResponseDTO.class)))
+    @ApiResponse(responseCode = "204", description = "Nenhuma avaliação encontrada")
+    @GetMapping("/por/cliente/{id}")
+    public ResponseEntity<List<AvaliacaoDetalheResponseDTO>> porCliente(@RequestParam Integer id){
+        List<Avaliacao> avaliacaos = avaliacaoClienteService.avaliacoesPorCliente(id);
+        if (avaliacaos.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(avaliacaos.stream().map(avaliacaoMapper::toAvaliacaoDetalheResponseDTO).toList());
     }
 }

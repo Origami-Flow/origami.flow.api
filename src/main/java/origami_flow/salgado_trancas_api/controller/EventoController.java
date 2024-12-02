@@ -136,4 +136,20 @@ public class EventoController {
         if (eventos.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(eventos.stream().map(eventoMapper::toDto).toList());
     }
+
+
+
+    @Operation(summary = "Listar todos os eventos por usuário", description = "Retorna uma lista de todos os eventos de um usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de eventos retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventoDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "204", description = "Nenhum evento encontrado")
+    })
+    @GetMapping("/por/cliente/{id}")
+    public ResponseEntity<List<EventoDetalheResponseDTO>> porCliente(@PathVariable Integer id ){
+        List<Evento> eventos = eventoService.buscarEventosPorCliente(id);
+        if (eventos.isEmpty() ) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(eventos.stream().map(eventoMapper::toDto).toList());
+    }
 }
