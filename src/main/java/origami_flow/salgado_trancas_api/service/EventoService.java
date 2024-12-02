@@ -8,6 +8,7 @@ import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
 import origami_flow.salgado_trancas_api.dto.request.ProdutoUtilizadoRequestDTO;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
+import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
@@ -92,5 +93,9 @@ public class EventoService {
 
     public List<Evento> buscarPorData(LocalDate dataInicio, LocalDate dataFim) {
         return eventoRepository.findByData(dataInicio, dataFim);
+    }
+
+    public List<Evento> buscarEventosPorCliente(Integer idCliente){
+        return eventoRepository.findAllByCliente(clienteService.clientePorId(idCliente));
     }
 }

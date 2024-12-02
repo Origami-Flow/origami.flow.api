@@ -30,7 +30,7 @@ public class EventoRequestDTO {
     private LocalDateTime dataHoraTermino;
 
     @Schema(description = "Tipo do evento (CONSULTA, CORTE, etc.)",
-            example = "CONSULTA",
+            example = "ATENDIMENTO",
             required = true)
     @NotNull
     private TipoEventoEnum tipoEvento;
