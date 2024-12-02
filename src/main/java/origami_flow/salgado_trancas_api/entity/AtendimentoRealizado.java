@@ -22,4 +22,10 @@ public class AtendimentoRealizado {
 
     @ManyToOne
     private Caixa caixa;
+
+    @ManyToOne
+    private Cliente cliente;
+
+    @ManyToOne
+    private Avaliacao avaliacao;
 }

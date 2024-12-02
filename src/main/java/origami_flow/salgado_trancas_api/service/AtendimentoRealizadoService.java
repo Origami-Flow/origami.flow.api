@@ -9,6 +9,7 @@ import origami_flow.salgado_trancas_api.exceptions.CaixaNaoAbertoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.mapper.ProdutoUtilizadoMapper;
 import origami_flow.salgado_trancas_api.repository.AtendimentoRealizadoRepository;
+import origami_flow.salgado_trancas_api.repository.AvaliacaoClienteRepository;
 import origami_flow.salgado_trancas_api.utils.Calculos;
 
 import java.time.LocalDate;
@@ -27,6 +28,10 @@ public class AtendimentoRealizadoService {
     private final ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
 
     private final CaixaService caixaService;
+
+    private final ClienteService clienteService;
+
+    private final AvaliacaoClienteRepository avaliacaoClienteRepository;
 
     public List<AtendimentoRealizado> listarAtendimentosRealizados(){
         return atendimentoRealizadoRepository.findAll();
@@ -49,6 +54,9 @@ public class AtendimentoRealizadoService {
                         return ProdutoUtilizadoMapper.toEntity(dto, produto);
                     }).toList());
         }
+
+        atendimentoRealizado.setAvaliacao(atendimentoRealizado.getAvaliacao() != null?avaliacaoClienteRepository.findAvaliacaoByAtendimentoRealizadoId(atendimentoRealizado.getId()): null);
+        atendimentoRealizado.setCliente(clienteService.clientePorId(evento.getCliente().getId()));
         atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
         atendimentoRealizado.setCaixa(buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));

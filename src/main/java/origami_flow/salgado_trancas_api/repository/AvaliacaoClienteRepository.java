@@ -12,4 +12,6 @@ public interface AvaliacaoClienteRepository extends JpaRepository<Avaliacao,Inte
     List<Avaliacao> findAllByCliente(Cliente cliente);
 
     Boolean existsByAtendimentoRealizado(AtendimentoRealizado atendimentoRealizado);
+
+    Avaliacao findAvaliacaoByAtendimentoRealizadoId(Integer id);
 }

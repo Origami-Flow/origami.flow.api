@@ -2,6 +2,7 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
 import origami_flow.salgado_trancas_api.entity.Avaliacao;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
@@ -35,16 +36,22 @@ public class AvaliacaoClienteService {
             throw new RequisicaoErradaException();
 
         if (avaliacaoClienteRepository.existsByAtendimentoRealizado(atendimentoRealizadoService.atendimentoRealizadoPorId(idAtendimentoRealizado))) throw new EntidadeComConflitoException("atendimento já avaliado");
+        AtendimentoRealizado atendimentoRealizado = atendimentoRealizadoService.atendimentoRealizadoPorId(idAtendimentoRealizado);
 
         avaliacao.setSalao(salaoService.salaoPorId(idSalao));
         avaliacao.setCliente(clienteService.clientePorId(idCliente));
-        avaliacao.setAtendimentoRealizado(atendimentoRealizadoService.atendimentoRealizadoPorId(idAtendimentoRealizado));
+        avaliacao.setAtendimentoRealizado(atendimentoRealizado);
+        atendimentoRealizado.setAvaliacao(avaliacao);
 
         return avaliacaoClienteRepository.save(avaliacao);
     }
 
     public List<Avaliacao> avaliacoesPorCliente(Integer id){
         return avaliacaoClienteRepository.findAllByCliente(clienteService.clientePorId(id));
+    }
+
+    public Avaliacao avaliacaoPorAtendimento(Integer id){
+        return avaliacaoClienteRepository.findAvaliacaoByAtendimentoRealizadoId(id);
     }
 
     public Avaliacao atualizarAvaliacao(Integer id, Avaliacao avaliacao, Integer idAtendimentoRealizado, Integer idCliente, Integer idSalao) {

@@ -2,12 +2,15 @@ package origami_flow.salgado_trancas_api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import origami_flow.salgado_trancas_api.constans.StatusEventoEnum;
 import origami_flow.salgado_trancas_api.constans.TipoEventoEnum;
+import origami_flow.salgado_trancas_api.entity.Cliente;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +28,36 @@ public class AtendimentoRealizadoDetalheResponseDTO  {
 
     @Schema(description = "Detalhes do evento relacionado ao atendimento", implementation = EventoResponseDTO.class)
     private EventoResponseDTO evento;
+
+    @Schema(description = "Nota do atendimento", implementation = AvaliacaoResponseDTO.class)
+    private AvaliacaoResponseDTO avaliacao;
+
+    @Schema(description = "Cliente atendido", implementation = ClienteAtendimentoDTO.class)
+    private ClienteAtendimentoDTO cliente;
+
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ClienteAtendimentoDTO {
+
+        private String nome;
+
+        private String email;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AvaliacaoResponseDTO{
+
+        private String comentario;
+
+        private Double nota;
+
+    }
 
     @Data
     @Builder
