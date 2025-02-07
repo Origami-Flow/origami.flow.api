@@ -83,4 +83,9 @@ public class GlobaExceptionHandler {
         return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
     }
 
+    @ExceptionHandler(CepNaoEncontradoException.class)
+    public ResponseEntity tratarCepNaoEncontrado(CepNaoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
 }

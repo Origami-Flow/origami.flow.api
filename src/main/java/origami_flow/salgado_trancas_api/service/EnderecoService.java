@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.clients.ViaCepHttpClient;
 import origami_flow.salgado_trancas_api.dto.CepDTO;
 import origami_flow.salgado_trancas_api.entity.Endereco;
+import origami_flow.salgado_trancas_api.exceptions.CepNaoEncontradoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.mapper.EnderecoMapper;
 import origami_flow.salgado_trancas_api.repository.EnderecoRepository;
@@ -22,7 +23,7 @@ public class EnderecoService {
     private CepDTO findByCep(String cep) {
         CepDTO cepEncontrado = viaCepHttpClient.findByCep(cep);
         if (cepEncontrado.getCep() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new CepNaoEncontradoException("CEP não encontrado");
         }
         return cepEncontrado;
     }
