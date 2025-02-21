@@ -43,6 +43,9 @@ public class Imagem {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @Column(name = "public_id")
+    private String publicId;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

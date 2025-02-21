@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import origami_flow.salgado_trancas_api.dto.FileDTO;
 import origami_flow.salgado_trancas_api.dto.request.FileRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Imagem;
 import origami_flow.salgado_trancas_api.service.ImagemService;
@@ -21,7 +20,7 @@ import origami_flow.salgado_trancas_api.service.ImagemService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class FileController {
+public class ImageController {
 
     private final ImagemService imagemService;
 
@@ -36,7 +35,7 @@ public class FileController {
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FileDTO> updateFile(@ModelAttribute FileRequestDTO fileRequestDTO,
+    public ResponseEntity<Imagem> updateFile(@ModelAttribute FileRequestDTO fileRequestDTO,
           @PathVariable Integer id) {
         log.info("Updating Files to Storage");
         return ResponseEntity.status(HttpStatus.OK)
