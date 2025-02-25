@@ -19,7 +19,7 @@ public class Calculos{
                 }
             }
         }
-        total += evento.getServico().getValorServico() + evento.getServico().getValorSinal();
+        total += evento.getValorCobrado() + evento.getServico().getValorSinal();
         return  total;
     }
 

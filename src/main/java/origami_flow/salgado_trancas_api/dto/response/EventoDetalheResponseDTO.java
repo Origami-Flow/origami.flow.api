@@ -28,6 +28,9 @@ public class EventoDetalheResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataHoraTermino;
 
+    @Schema(description = "Valor cobrado do cliente", example = "120,00")
+    private Double valorCobrado;
+
     @Schema(description = "Tipo de evento", example = "Corte")
     private TipoEventoEnum tipoEvento;
 
@@ -77,8 +80,11 @@ public class EventoDetalheResponseDTO {
         @Schema(description = "Nome do serviço", example = "Corte de cabelo")
         private String nome;
 
-        @Schema(description = "Valor do serviço", example = "50.00")
-        private Double valorServico;
+        @Schema(description = "Valor minimo do serviço", example = "50.00")
+        private Double valorMinimoServico;
+
+        @Schema(description = "Valor máximo do serviço", example = "150.00")
+        private Double valorMaximoServico;
 
         @Schema(description = "Descrição do serviço", example = "Corte simples de cabelo")
         private String descricao;

@@ -53,15 +53,15 @@ public class EventoService {
         return eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
     }
 
-    public Evento finalizarEvento(Integer id, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO){
+    public Evento finalizarEvento(Integer id, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO, Double valorCobrado) {
         Evento evento = eventoPorId(id);
         if (evento.getStatusEvento() == StatusEventoEnum.FINALIZADO) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"evento já finalizado");
         }else {
             evento.setStatusEvento(StatusEventoEnum.FINALIZADO);
             if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+                evento.setValorCobrado(valorCobrado);
                 AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
-                atendimentoRealizado.setReceita(evento.getServico().getValorServico());
                 atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado, evento, produtosUtilizadoRequestDTO);
             }
         }
