@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +41,12 @@ public class ImageController {
         log.info("Updating Files to Storage");
         return ResponseEntity.status(HttpStatus.OK)
               .body(imagemService.updateFile(fileRequestDTO, id));
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteFile(@PathVariable Integer id) {
+        log.info("Deleting Files from Storage");
+        imagemService.deleteFile(id);
+        return ResponseEntity.noContent().build();
     }
 }
