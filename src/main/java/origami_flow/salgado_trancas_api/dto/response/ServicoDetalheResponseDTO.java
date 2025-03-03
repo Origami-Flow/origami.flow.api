@@ -24,4 +24,6 @@ public class ServicoDetalheResponseDTO {
     private Double valorServico;
 
     private Double valorSinal;
+
+    private String imagemUrl;
 }

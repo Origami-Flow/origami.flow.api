@@ -93,7 +93,7 @@ class ServicoServiceTest {
         when(servicoRepository.existsByNome("Trança Box")).thenReturn(false);
         when(servicoRepository.save(mockServico)).thenReturn(mockServico);
 
-        Servico servico = servicoService.criarServico(mockServico);
+        Servico servico = servicoService.criarServico(mockServico, null);
 
         assertNotNull(servico);
         assertEquals("Trança Box", servico.getNome());
@@ -107,7 +107,7 @@ class ServicoServiceTest {
 
         EntidadeComConflitoException exception = assertThrows(
                 EntidadeComConflitoException.class,
-                () -> servicoService.criarServico(mockServico)
+                () -> servicoService.criarServico(mockServico, null)
         );
 
         assertEquals("Este serviço já existe", exception.getMessage());
@@ -125,7 +125,7 @@ class ServicoServiceTest {
         when(servicoRepository.findById(1)).thenReturn(Optional.of(mockServico));
         when(servicoRepository.save(any(Servico.class))).thenReturn(mockServico);
 
-        Servico servicoAtualizado = servicoService.atualizarServico(novoServico, 1);
+        Servico servicoAtualizado = servicoService.atualizarServico(novoServico, 1, null);
 
         assertNotNull(servicoAtualizado);
         assertEquals("Trança Box Atualizada", servicoAtualizado.getNome());
@@ -144,7 +144,7 @@ class ServicoServiceTest {
 
         EntidadeNaoEncontradaException exception = assertThrows(
                 EntidadeNaoEncontradaException.class,
-                () -> servicoService.atualizarServico(novoServico, 1)
+                () -> servicoService.atualizarServico(novoServico, 1, null)
         );
 
         assertEquals("servico não encontrado (a)", exception.getMessage());
