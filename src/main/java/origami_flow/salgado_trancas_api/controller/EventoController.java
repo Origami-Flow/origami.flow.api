@@ -119,7 +119,7 @@ public class EventoController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventoDetalheResponseDTO.class)))
     })
     @PutMapping("/finalizar/{id}")
-    public ResponseEntity<EventoDetalheResponseDTO> finalizarEvento(@PathVariable Integer id, @RequestBody List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO , @RequestParam Double valorCobrado){
+    public ResponseEntity<EventoDetalheResponseDTO> finalizarEvento(@PathVariable Integer id, @RequestBody List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO , @RequestParam(required = false) Double valorCobrado){
         Evento eventoAtualizado = eventoService.finalizarEvento(id, produtosUtilizadoRequestDTO, valorCobrado);
         return ResponseEntity.ok(eventoMapper.toDto(eventoAtualizado));
     }

@@ -32,7 +32,7 @@ public class CaixaService {
         return caixaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("caixa"));
     }
 
-    public Caixa abrirCaixa( Integer idSalao){
+    public Caixa abrirCaixa(Integer idSalao){
         YearMonth anoMesAtual = YearMonth.now();
         LocalDate inicioAtual = anoMesAtual.atDay(1);
         LocalDate terminoAtual = anoMesAtual.atEndOfMonth();

@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.service;
 
+import com.cloudinary.api.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import origami_flow.salgado_trancas_api.exceptions.RequisicaoErradaException;
 import origami_flow.salgado_trancas_api.repository.EventoRepository;
 import origami_flow.salgado_trancas_api.utils.ValidacaoHorario;
 
@@ -60,6 +62,7 @@ public class EventoService {
         }else {
             evento.setStatusEvento(StatusEventoEnum.FINALIZADO);
             if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+                if (valorCobrado == null) throw new RequisicaoErradaException("não há valor cobrado");
                 evento.setValorCobrado(valorCobrado);
                 AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
                 atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado, evento, produtosUtilizadoRequestDTO);
