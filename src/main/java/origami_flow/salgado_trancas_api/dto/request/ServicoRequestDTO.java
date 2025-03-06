@@ -29,7 +29,11 @@ public class ServicoRequestDTO {
 
     @NotNull
     @Positive
-    private Double valorServico;
+    private Double valorMinimoServico;
+
+    @NotNull
+    @Positive
+    private Double valorMaximoServico;
 
     @NotNull
     @Positive

@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.service;
 
+import com.cloudinary.api.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Evento;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import origami_flow.salgado_trancas_api.exceptions.RequisicaoErradaException;
 import origami_flow.salgado_trancas_api.repository.EventoRepository;
 import origami_flow.salgado_trancas_api.utils.ValidacaoHorario;
 
@@ -53,15 +55,16 @@ public class EventoService {
         return eventoRepository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException("evento"));
     }
 
-    public Evento finalizarEvento(Integer id, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO){
+    public Evento finalizarEvento(Integer id, List<ProdutoUtilizadoRequestDTO> produtosUtilizadoRequestDTO, Double valorCobrado) {
         Evento evento = eventoPorId(id);
         if (evento.getStatusEvento() == StatusEventoEnum.FINALIZADO) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"evento já finalizado");
         }else {
             evento.setStatusEvento(StatusEventoEnum.FINALIZADO);
             if (evento.getTipoEvento().equals(TipoEventoEnum.ATENDIMENTO)){
+                if (valorCobrado == null) throw new RequisicaoErradaException("não há valor cobrado");
+                evento.setValorCobrado(valorCobrado);
                 AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
-                atendimentoRealizado.setReceita(evento.getServico().getValorServico());
                 atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado, evento, produtosUtilizadoRequestDTO);
             }
         }

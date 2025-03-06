@@ -23,5 +23,4 @@ public class CaixaRequestDTO {
     private LocalDate dataAbertura;
 
     private Integer salaoId;
-
 }

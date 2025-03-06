@@ -26,8 +26,11 @@ public class Servico {
     @Column(name = "tempo_duracao")
     private LocalTime tempoDuracao;
 
-    @Column(name = "valor_servico")
-    private Double valorServico;
+    @Column(name = "valor_minimo_servico")
+    private Double valorMinimoServico;
+
+    @Column(name = "valor_maximo_servico")
+    private Double valorMaximoervico;
 
     @Column(name = "valor_sinal")
     private Double valorSinal;

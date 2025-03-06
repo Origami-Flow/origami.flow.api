@@ -32,6 +32,9 @@ public class Evento {
     @Enumerated(EnumType.STRING)
     private TipoEventoEnum tipoEvento;
 
+    @Column(name="valor_cobrado")
+    private Double valorCobrado;
+
     @Enumerated(EnumType.STRING)
     @Column(name= "status_evento")
     private StatusEventoEnum statusEvento;

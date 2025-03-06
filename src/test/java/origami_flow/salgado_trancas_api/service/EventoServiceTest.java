@@ -74,7 +74,7 @@ class EventoServiceTest {
         when(eventoRepository.findById(1)).thenReturn(Optional.of(eventoBase));
         when(eventoRepository.save(any(Evento.class))).thenReturn(eventoBase);
 
-        Evento resultado = eventoService.finalizarEvento(1, List.of());
+        Evento resultado = eventoService.finalizarEvento(1, List.of(),120.0);
 
         assertNotNull(resultado);
         assertEquals(StatusEventoEnum.FINALIZADO, resultado.getStatusEvento());
@@ -88,7 +88,7 @@ class EventoServiceTest {
         when(eventoRepository.findById(1)).thenReturn(Optional.of(eventoBase));
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> eventoService.finalizarEvento(1, List.of()));
+                () -> eventoService.finalizarEvento(1, List.of(),120.0));
 
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
         assertEquals("evento já finalizado", exception.getReason());

@@ -55,11 +55,11 @@ public class AtendimentoRealizadoService {
                     }).toList());
         }
 
-        atendimentoRealizado.setAvaliacao(atendimentoRealizado.getAvaliacao() != null?avaliacaoClienteRepository.findAvaliacaoByAtendimentoRealizadoId(atendimentoRealizado.getId()): null);
-        atendimentoRealizado.setCliente(clienteService.clientePorId(evento.getCliente().getId()));
-        atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atendimentoRealizado.setEvento(evento);
         atendimentoRealizado.setCaixa(buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
+        atendimentoRealizado.setCliente(clienteService.clientePorId(evento.getCliente().getId()));
+        atendimentoRealizado.setAvaliacao(atendimentoRealizado.getAvaliacao() != null?avaliacaoClienteRepository.findAvaliacaoByAtendimentoRealizadoId(atendimentoRealizado.getId()): null);
+        atendimentoRealizado.setReceita(Calculos.calcularReceita(evento, produtosUtilizado));
         atualizarReceitaDespesaDoCaixa(atendimentoRealizado, buscarCaixaDoMes(atendimentoRealizado.getEvento().getDataHoraTermino().toLocalDate()));
         AtendimentoRealizado atendimentoSalvo = atendimentoRealizadoRepository.save(atendimentoRealizado);
         produtoAtendimentoUtilizadoService.registrarProdutoUtilizado(produtosUtilizado, atendimentoSalvo);

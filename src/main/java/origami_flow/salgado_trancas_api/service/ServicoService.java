@@ -33,7 +33,8 @@ public class ServicoService {
         servico.setNome(novoServico.getNome() != null ? novoServico.getNome() : servico.getNome());
         servico.setDescricao(novoServico.getDescricao() != null ? novoServico.getDescricao() : servico.getDescricao());
         servico.setTempoDuracao(novoServico.getTempoDuracao() != null ? novoServico.getTempoDuracao() : servico.getTempoDuracao());
-        servico.setValorServico(novoServico.getValorServico() != null ? novoServico.getValorServico() : servico.getValorServico());
+        servico.setValorMinimoServico(novoServico.getValorMinimoServico() != null ? novoServico.getValorMinimoServico() : servico.getValorMinimoServico());
+        servico.setValorMaximoervico(novoServico.getValorMaximoervico() != null ? novoServico.getValorMaximoervico() : servico.getValorMaximoervico());
         servico.setValorSinal(novoServico.getValorSinal() != null ? novoServico.getValorSinal() : servico.getValorSinal());
         return servicoRepository.save(servico);
     }
