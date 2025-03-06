@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.Salao;
+import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
+import origami_flow.salgado_trancas_api.exceptions.RequisicaoErradaException;
 import origami_flow.salgado_trancas_api.repository.CaixaRepository;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -29,12 +33,13 @@ public class CaixaService {
     }
 
     public Caixa abrirCaixa( Integer idSalao){
-        Caixa caixa = new Caixa();
-        Salao salao = salaoService.salaoPorId(idSalao);
-        caixa.setSalao(salao);
         YearMonth anoMesAtual = YearMonth.now();
         LocalDate inicioAtual = anoMesAtual.atDay(1);
         LocalDate terminoAtual = anoMesAtual.atEndOfMonth();
+        if (caixaRepository.verificarCaixaMes(inicioAtual.getMonth().getValue(),inicioAtual.getYear())) throw new RequisicaoErradaException("caixa já criado");
+        Caixa caixa = new Caixa();
+        Salao salao = salaoService.salaoPorId(idSalao);
+        caixa.setSalao(salao);
         caixa.setDataAbertura(inicioAtual);
         caixa.setDataFechamento(terminoAtual);
         caixa.setReceitaTotal(0.0);

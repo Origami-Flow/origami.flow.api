@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import origami_flow.salgado_trancas_api.entity.AtendimentoRealizado;
+import origami_flow.salgado_trancas_api.entity.Cliente;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,4 +42,5 @@ public interface AtendimentoRealizadoRepository extends JpaRepository<Atendiment
             "AND FUNCTION('YEAR', e.dataHoraInicio) = :ano")
     List<AtendimentoRealizado> atendimentosPorMes(@Param("mes") int mes, @Param("ano") int ano);
 
+    List<AtendimentoRealizado> findAllByCliente(Cliente cliente);
 }
