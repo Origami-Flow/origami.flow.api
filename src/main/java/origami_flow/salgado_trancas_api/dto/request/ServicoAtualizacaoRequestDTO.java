@@ -21,7 +21,9 @@ public class ServicoAtualizacaoRequestDTO {
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime tempoDuracao;
 
-    private Double valorServico;
+    private Double valorminimoServico;
+
+    private Double valormaximoServico;
 
     private Double valorSinal;
 }

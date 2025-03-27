@@ -33,10 +33,14 @@ class AtendimentoRealizadoServiceTest {
     @Mock
     private ProdutoAtendimentoUtilizadoService produtoAtendimentoUtilizadoService;
 
+    @Mock ClienteService clienteService;
+
     @Mock
     private CaixaService caixaService;
 
     private Servico servico;
+
+    private Cliente cliente;
 
     private Caixa caixa;
 
@@ -50,6 +54,7 @@ class AtendimentoRealizadoServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
+
         auxiliar = new Auxiliar();
 
         produto = new Produto();
@@ -59,6 +64,9 @@ class AtendimentoRealizadoServiceTest {
         caixa = new Caixa();
 
         evento = new Evento();
+
+        cliente = new Cliente();
+
         evento.setServico(servico);
     }
 
@@ -81,17 +89,21 @@ class AtendimentoRealizadoServiceTest {
 
         AtendimentoRealizado atendimento = new AtendimentoRealizado();
 
+        evento.setServico(servico);
+        evento.setDataHoraTermino(LocalDateTime.now());
+        evento.setValorCobrado(50.0);
+        evento.setCliente(cliente);
+
         produto.setId(1);
         produto.setValorVenda(30.0);
 
-        servico.setValorServico(130.0);
+        servico.setValorMinimoServico(50.0);
+        servico.setValorMaximoervico(130.0);
         servico.setValorSinal(15.0);
 
         caixa.setDataAbertura(LocalDate.now());
         caixa.setDataFechamento(LocalDate.now());
         caixa.setReceitaTotal(0.0);
-
-        evento.setDataHoraTermino(LocalDateTime.now());
 
         when(produtoService.listarTodosPorId(List.of(1))).thenReturn(List.of(produto));
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenReturn(caixa);
@@ -122,14 +134,20 @@ class AtendimentoRealizadoServiceTest {
     @Test
     void cadastrarAtendimentoRealizado_DeveLancarExcecaoSeCaixaNaoEstiverAberto() {
 
-        servico.setValorServico(130.0);
+        AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
+
+
+        servico.setValorMinimoServico(50.0);
+        servico.setValorMaximoervico(130.0);
         servico.setValorSinal(15.0);
         evento.setDataHoraTermino(LocalDateTime.now());
+        evento.setCliente(cliente);
+        evento.setValorCobrado(50.0);
 
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenThrow(new CaixaNaoAbertoException(""));
 
         assertThrows(CaixaNaoAbertoException.class, () ->
-                atendimentoRealizadoService.cadastrarAtendimentoRealizado(new AtendimentoRealizado(), evento, List.of())
+                atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado, evento, List.of())
         );
 
         verify(caixaService, times(1)).buscarCaixaPorMes(anyInt(), anyInt());
@@ -158,15 +176,18 @@ class AtendimentoRealizadoServiceTest {
 
     @Test
     void buscarCaixaDoMes_DeveLancarExcecaoQuandoCaixaNaoExistir() {
-        servico.setValorServico(130.0);
+
+        AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
+
+        servico.setValorMinimoServico(50.0);
+        servico.setValorMaximoervico(130.0);
         servico.setValorSinal(15.0);
         evento.setDataHoraTermino(LocalDateTime.now());
+        evento.setCliente(cliente);
 
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenReturn(null);
 
-        assertThrows(CaixaNaoAbertoException.class, () -> atendimentoRealizadoService.cadastrarAtendimentoRealizado(
-                new AtendimentoRealizado(), evento, List.of())
-        );
+        assertThrows(CaixaNaoAbertoException.class, () -> atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimentoRealizado , evento, List.of()));
 
         verify(caixaService, times(1)).buscarCaixaPorMes(anyInt(), anyInt());
     }
@@ -175,27 +196,30 @@ class AtendimentoRealizadoServiceTest {
     void atualizarReceitaDespesaDoCaixa_DeveAtualizarValores() {
         AtendimentoRealizado atendimento = new AtendimentoRealizado();
 
-        servico.setValorServico(0.0);
+        caixa.setReceitaTotal(1000.0);
+        caixa.setDespesaTotal(300.0);
+
+        servico.setValorMinimoServico(0.0);
+        servico.setValorMaximoervico(0.0);
         servico.setValorSinal(0.0);
 
-        atendimento.setReceita(500.0);
         auxiliar.setValorMaoDeObra(200.0);
         evento.setAuxiliar(auxiliar);
         evento.setDataHoraTermino(LocalDateTime.now());
+        evento.setCliente(cliente);
+        evento.setValorCobrado(200.0);
         atendimento.setEvento(evento);
 
         caixa.setDataAbertura(LocalDate.now());
         caixa.setDataFechamento(LocalDate.now());
 
-        caixa.setReceitaTotal(1000.0);
-        caixa.setDespesaTotal(300.0);
 
         when(caixaService.buscarCaixaPorMes(anyInt(), anyInt())).thenReturn(caixa);
         when(caixaService.atualizarCaixa(anyInt(), any(Caixa.class), eq(null))).thenReturn(caixa);
 
         atendimentoRealizadoService.cadastrarAtendimentoRealizado(atendimento, evento, List.of());
 
-        assertEquals(1000.0, caixa.getReceitaTotal());
+        assertEquals(1200.0, caixa.getReceitaTotal());
         assertEquals(500.0, caixa.getDespesaTotal());
     }
 }
