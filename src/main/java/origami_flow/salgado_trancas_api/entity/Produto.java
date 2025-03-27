@@ -34,4 +34,8 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     private TipoProdutoEnum tipo;
+
+    @ManyToOne
+    @JoinColumn(name = "imagem_id")
+    private Imagem imagem;
 }

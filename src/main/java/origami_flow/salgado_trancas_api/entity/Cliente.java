@@ -52,4 +52,8 @@ public class Cliente extends UsuarioAbstract {
 
     @OneToOne
     private Endereco endereco;
+
+    @ManyToOne
+    @JoinColumn(name = "imagem_id")
+    private Imagem imagem;
 }

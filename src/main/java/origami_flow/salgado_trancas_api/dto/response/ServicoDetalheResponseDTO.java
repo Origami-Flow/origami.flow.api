@@ -26,4 +26,6 @@ public class ServicoDetalheResponseDTO {
     private Double valormaximoServico;
 
     private Double valorSinal;
+
+    private String imagemUrl;
 }

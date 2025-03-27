@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,17 @@ import origami_flow.salgado_trancas_api.repository.ImagemRepository;
 @Slf4j
 public class ImagemService {
 
+    public static final String IMAGEM_NAO_ENCONTRADA = "Imagem não encontrada";
     private final Cloudinary cloudinary;
     private final ImagemMapper imagemMapper;
     private final ImagemRepository imagemRepository;
 
     public Imagem uploadFile(FileRequestDTO file) {
+        if (Objects.isNull(file)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Arquivo não pode ser nulo");
+        }
         FileDTO fileDto = cloudnaryUpload(file);
+
         return imagemRepository.save(imagemMapper.toEntity(fileDto));
     }
 
@@ -51,7 +57,7 @@ public class ImagemService {
 
     public Imagem findById(Integer id) {
         return imagemRepository.findById(id)
-              .orElseThrow(() -> new EntidadeNaoEncontradaException("Imagem não encontrada"));
+              .orElseThrow(() -> new EntidadeNaoEncontradaException(IMAGEM_NAO_ENCONTRADA));
     }
 
     public List<Imagem> findAll() {
@@ -59,6 +65,9 @@ public class ImagemService {
     }
 
     public void deleteFile(Integer id) {
+        if (!imagemRepository.existsById(id)) {
+            throw new EntidadeNaoEncontradaException(IMAGEM_NAO_ENCONTRADA);
+        }
         cloudinaryDelete(id);
         imagemRepository.deleteById(id);
     }
@@ -73,6 +82,12 @@ public class ImagemService {
     }
 
     public Imagem updateFile(FileRequestDTO file, Integer id) {
+        if (!imagemRepository.existsById(id)) {
+            throw new EntidadeNaoEncontradaException(IMAGEM_NAO_ENCONTRADA);
+        }
+        if (Objects.isNull(file)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Arquivo não pode ser nulo");
+        }
         FileDTO fileDto = cloudnaryUpload(file);
         cloudinaryDelete(id);
         var updatedImage = imagemMapper.toEntity(fileDto);

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import origami_flow.salgado_trancas_api.constans.GeneroEnum;
 import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
 
@@ -39,4 +40,6 @@ public class ClienteAtualizacaoRequestDTO {
 
     @Schema(description = "Tipo de cabelo do usuário", example = "4A")
     private TipoCabeloEnum tipoCabelo;
+
+    private MultipartFile imagem;
 }

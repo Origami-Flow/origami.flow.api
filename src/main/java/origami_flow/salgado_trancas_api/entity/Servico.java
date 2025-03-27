@@ -34,4 +34,8 @@ public class Servico {
 
     @Column(name = "valor_sinal")
     private Double valorSinal;
+
+    @ManyToOne
+    @JoinColumn(name = "imagem_id")
+    private Imagem imagem;
 }

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import origami_flow.salgado_trancas_api.constans.TipoProdutoEnum;
 
 
@@ -57,4 +58,7 @@ public class ProdutoRequestDTO {
     @Positive
     @Schema(description = "ID do salão associado ao produto", example = "1")
     private Integer idSalao;
+
+    @Schema(description = "Imagem do produto")
+    private MultipartFile imagem;
 }
