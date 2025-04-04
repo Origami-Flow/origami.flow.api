@@ -29,6 +29,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ConexaoApiJwt conexaoApiJwt;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -37,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
             try {
-                ResponseEntity<String> responseToken = ConexaoApiJwt.validationToke(token);
+                ResponseEntity<String> responseToken = conexaoApiJwt.validationToke(token);
                 String login = responseToken.getBody();
                 HttpStatusCode code = responseToken.getStatusCode();
                 if (code == HttpStatus.UNAUTHORIZED) {
