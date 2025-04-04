@@ -28,6 +28,8 @@ public class LoginService {
 
     private final TrancistaService trancistaService;
 
+    private final ConexaoApiJwt conexaoApiJwt;
+
     public JwtTokenResponse autenticarUsuario(LoginRequestDTO loginRequestDTO) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getSenha());
         Authentication authentication = authenticationManager.authenticate(usernamePassword);
@@ -35,7 +37,7 @@ public class LoginService {
         usuario = clienteService.buscarPorEmail(loginRequestDTO.getEmail());
         if (usuario == null) usuario = trancistaService.buscarPorEmail(loginRequestDTO.getEmail());
         if (usuario == null) throw new EntidadeNaoEncontradaException("usuário");
-        String token = ConexaoApiJwt.generateToken(loginRequestDTO);
+        String token = conexaoApiJwt.generateToken(loginRequestDTO);
         return JwtTokenMapper.jwtTokenResponse(usuario, token, authentication.getAuthorities().toString());
     }
 }
