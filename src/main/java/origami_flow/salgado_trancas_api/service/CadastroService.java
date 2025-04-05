@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
-import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.mapper.CadastroMapper;
-import origami_flow.salgado_trancas_api.repository.TrancistaRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +16,12 @@ public class CadastroService {
 
     private final TrancistaService trancistaService;
 
-    private final CadastroMapper CadastroMapper;
+    private final CadastroMapper cadastroMapper;
 
     public Cliente cadastrarCliente(CadastroRequestDTO cadastroRequestDTO, String cep){
         String senhaCriptografada = new BCryptPasswordEncoder().encode(cadastroRequestDTO.getSenha());
         cadastroRequestDTO.setSenha(senhaCriptografada);
-        Cliente clienteCadastrado = clienteService.cadastrarCliente(CadastroMapper.toEntity(cadastroRequestDTO));
+        Cliente clienteCadastrado = clienteService.cadastrarCliente(cadastroMapper.toEntity(cadastroRequestDTO));
         return clienteService.cadastrarEndereco(clienteCadastrado.getId(), cep);
     }
 

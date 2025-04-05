@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import origami_flow.salgado_trancas_api.constans.TipoProdutoEnum;
 
 @Data
@@ -46,4 +47,6 @@ public class ProdutoAtualizacaoRequestDTO {
     @NotNull
     @Schema(description = "Finalidade do produto", example = "LOJA")
     private TipoProdutoEnum tipo;
+
+    private MultipartFile imagem;
 }

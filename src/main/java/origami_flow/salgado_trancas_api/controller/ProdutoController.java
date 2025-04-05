@@ -62,8 +62,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "409", description = "Entidade duplicada")
     })
     @PostMapping
-    public ResponseEntity<ProdutoDetalheResponseDTO> adicionarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
-        Produto produtoRetorno = produtoService.cadastrarProduto(produtoMapper.toProdutoEntity(produtoRequestDTO), produtoRequestDTO.getIdSalao(), produtoRequestDTO.getQuantidade());
+    public ResponseEntity<ProdutoDetalheResponseDTO> adicionarProduto(@ModelAttribute @Valid ProdutoRequestDTO produtoRequestDTO) {
+        Produto produtoRetorno = produtoService.cadastrarProduto(produtoMapper.toProdutoEntity(produtoRequestDTO), produtoRequestDTO.getIdSalao(), produtoRequestDTO.getQuantidade(), produtoRequestDTO.getImagem());
         return ResponseEntity.created(null).body(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 
@@ -74,8 +74,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoDetalheResponseDTO> atualizarProduto(@RequestBody @Valid ProdutoAtualizacaoRequestDTO produtoAtualizacaoRequestDTO, @PathVariable Integer id) {
-        Produto produtoRetorno = produtoService.atualizarProduto(id, produtoMapper.toProdutoEntity(produtoAtualizacaoRequestDTO));
+    public ResponseEntity<ProdutoDetalheResponseDTO> atualizarProduto(@ModelAttribute @Valid ProdutoAtualizacaoRequestDTO produtoAtualizacaoRequestDTO, @PathVariable Integer id) {
+        Produto produtoRetorno = produtoService.atualizarProduto(id, produtoMapper.toProdutoEntity(produtoAtualizacaoRequestDTO), produtoAtualizacaoRequestDTO.getImagem());
         return ResponseEntity.ok(produtoMapper.toProdutoDetalheResponseDTO(produtoRetorno));
     }
 

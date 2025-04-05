@@ -104,7 +104,7 @@ class ProdutoServiceTest {
         when(produtoRepository.save(produto)).thenReturn(produto);
         doNothing().when(estoqueService).cadastrarProdutoNoEstoque(estoque);
 
-        Produto resultado = produtoService.cadastrarProduto(produto, 1, 10);
+        Produto resultado = produtoService.cadastrarProduto(produto, 1, 10, null);
 
         assertNotNull(resultado);
         assertEquals("Produto Teste", resultado.getNome());
@@ -120,7 +120,7 @@ class ProdutoServiceTest {
 
         EntidadeComConflitoException exception = assertThrows(
                 EntidadeComConflitoException.class,
-                () -> produtoService.cadastrarProduto(produto, 1, 10)
+                () -> produtoService.cadastrarProduto(produto, 1, 10, null)
         );
 
         assertEquals("Este produto já existe", exception.getMessage());
@@ -134,7 +134,7 @@ class ProdutoServiceTest {
         when(produtoRepository.existsById(1)).thenReturn(true);
         when(produtoRepository.save(produto)).thenReturn(produto);
 
-        Produto resultado = produtoService.atualizarProduto(1, produto);
+        Produto resultado = produtoService.atualizarProduto(1, produto, null);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.getId());
@@ -149,7 +149,7 @@ class ProdutoServiceTest {
 
         EntidadeNaoEncontradaException exception = assertThrows(
                 EntidadeNaoEncontradaException.class,
-                () -> produtoService.atualizarProduto(1, produto)
+                () -> produtoService.atualizarProduto(1, produto, null)
         );
 
         assertEquals("produto não encontrado (a)", exception.getMessage());
@@ -225,7 +225,7 @@ class ProdutoServiceTest {
 
         RequisicaoErradaException exception = assertThrows(
                 RequisicaoErradaException.class,
-                () -> produtoService.cadastrarProduto(novoProduto, 1, -5)
+                () -> produtoService.cadastrarProduto(novoProduto, 1, -5, null)
         );
 
         assertEquals("Quantidade de produtos inválida", exception.getMessage());
@@ -267,7 +267,7 @@ class ProdutoServiceTest {
         when(produtoRepository.existsById(1)).thenReturn(true);
         when(produtoRepository.save(produtoAtual)).thenReturn(produtoAtual);
 
-        Produto resultado = produtoService.atualizarProduto(1, produtoAtual);
+        Produto resultado = produtoService.atualizarProduto(1, produtoAtual, null);
 
         assertNotNull(resultado);
         assertEquals("Produto Atual", resultado.getNome());
