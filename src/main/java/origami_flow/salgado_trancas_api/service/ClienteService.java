@@ -1,11 +1,15 @@
 package origami_flow.salgado_trancas_api.service;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import origami_flow.salgado_trancas_api.dto.request.FileRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
+import origami_flow.salgado_trancas_api.entity.Servico;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeComConflitoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.repository.ClienteRepository;
@@ -22,6 +26,9 @@ public class ClienteService {
 
     private final EnderecoService enderecoService;
 
+    private final ImagemService imagemService;
+
+
     public List<Cliente> listarCliente() {
         return clienteRepository.findAll();
     }
@@ -30,13 +37,21 @@ public class ClienteService {
         return clienteRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("cliente"));
     }
 
+    private FileRequestDTO buildImagem(Cliente cliente, MultipartFile imagem) {
+        return FileRequestDTO.builder()
+              .name(Objects.requireNonNullElse(cliente.getNome(), "defaultName"))
+              .file(imagem)
+              .path("/clientes")
+              .build();
+    }
+
     public Cliente cadastrarCliente(Cliente cliente) {
         if(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("cliente");
         cliente.setDataCriacao(LocalDate.now(ZoneOffset.of("-03:00")));
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarCliente(Integer id, Cliente clienteAtualizado) {
+    public Cliente atualizarCliente(Integer id, Cliente clienteAtualizado, MultipartFile imagem) {
         Cliente cliente = clientePorId(id);
         cliente.setNome(clienteAtualizado.getNome() != null ? clienteAtualizado.getNome() : cliente.getNome());
         cliente.setEmail(clienteAtualizado.getEmail() != null ? clienteAtualizado.getEmail() : cliente.getEmail());
@@ -47,6 +62,8 @@ public class ClienteService {
         cliente.setOcupacao(clienteAtualizado.getOcupacao() != null ? clienteAtualizado.getOcupacao() : cliente.getOcupacao());
         cliente.setGenero(clienteAtualizado.getGenero() != null ? clienteAtualizado.getGenero() : cliente.getGenero());
         cliente.setTipoCabelo(clienteAtualizado.getTipoCabelo() != null ? clienteAtualizado.getTipoCabelo() : cliente.getTipoCabelo());
+        cliente.setImagem(Objects.nonNull(imagem) && !imagem.isEmpty() ? imagemService.uploadFile(buildImagem(clienteAtualizado, imagem)) : cliente.getImagem());
+
         return clienteRepository.save(cliente);
     }
 
