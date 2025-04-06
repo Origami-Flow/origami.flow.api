@@ -20,40 +20,35 @@ INSERT INTO cliente (
              null
          );
 
+INSERT INTO salgadotrancas.imagem
+(id, asset_id, created_at, format, nome, `path`, url, public_id)
+VALUES
+(1, 'b28338168d98c82b0e53b693b1608765', '2025-04-05 19:26:42.775721', 'png', 'imagem_default_tranca', 'servicos', 'https://res.cloudinary.com/dt5smeslb/image/upload/v1743892304/servicos/fia65bmkbcxd7pkxqrhy.png', 'servicos/chdrnv0ggcw1oxwq5uq2'),
+(2, '1c1f3df35e16834825dcf9b96e5d21d4', '2025-04-05 20:07:27.531854', 'jpg', 'gypsy', 'servicos', 'http://res.cloudinary.com/dt5smeslb/image/upload/v1743894446/servicos/pxwqfwh3wmjwxyrjfege.jpg', 'servicos/pxwqfwh3wmjwxyrjfege'),
+(3, '04c89212459ae4b0ce12bfc574b20587', '2025-04-05 20:10:19.875098', 'jpg', 'barrel-twist', 'servicos', 'http://res.cloudinary.com/dt5smeslb/image/upload/v1743894619/servicos/zxiwewlleqrwhndfgunp.jpg', 'servicos/zxiwewlleqrwhndfgunp'),
+(4, 'c2c1eed6ad0963ca0a4df1dac0bfcb52', '2025-04-05 20:13:02.900885', 'jpg', 'nago-9', 'servicos', 'http://res.cloudinary.com/dt5smeslb/image/upload/v1743894782/servicos/ddfqnpwcqmdds8ka9qhf.jpg', 'servicos/ddfqnpwcqmdds8ka9qhf'),
+(5, '8727dbbb975ab56b1ea6312908945002', '2025-04-05 20:13:46.918687', 'jpg', 'twist-1', 'servicos', 'http://res.cloudinary.com/dt5smeslb/image/upload/v1743894826/servicos/dnvhbe4vintts6slvfym.jpg', 'servicos/dnvhbe4vintts6slvfym');
+
 INSERT INTO servico (
-    nome, descricao, tempo_duracao, valor_servico, valor_sinal
-) VALUES (
-             'Corte de Cabelo',
-             'Corte estilo degradê com finalização',
-             '01:30:00',
-             50.00,
-             10.00
-         ),
+    nome, descricao, tempo_duracao, valor_servico, valor_sinal, imagem_id
+) VALUES
          (
              'Naggo',
              'Trança no estilo naggo',
              '02:00:00',
              100.00,
-             20.00
+             20.00,
+             4
          ),
-         ('Nagô', 'nago-2', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-3', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-4', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-5', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-6', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-7', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-8', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-9', '01:30:00', 150.00, 30.00),
-         ('Nagô', 'nago-10', '01:30:00', 150.00, 30.00),
-         ('Twist', 'twist-1', '01:30:00', 200.00, 50.00),
-         ('Box Braids', 'Trança', '01:30:00', 300.00, 70.00),
-         ('Barrel Twist', 'barrel-twist-1', '01:30:00', 220.00, 60.00),
-         ('Fulani Braids', 'Trança', '01:30:00', 330.00, 60.00),
-         ('Boho Braids', 'Trança', '01:30:00', 380.00, 60.00),
-         ('Lemonade', 'Trança', '01:30:00', 300.00, 50.00),
-         ('Ghana Braids', 'Trança', '01:30:00', 350.00, 70.00),
-         ('Gypsy Braids', 'gypsy-1', '01:30:00', 400.00, 80.00),
-         ('Knotles', 'Trança', '01:30:00', 330.00, 60.00);
+         ('Twist', 'twist-1', '01:30:00', 200.00, 50.00, 5),
+         ('Box Braids', 'Trança', '01:30:00', 300.00, 70.00, 1),
+         ('Barrel Twist', 'barrel-twist-1', '01:30:00', 220.00, 60.00, 3),
+         ('Fulani Braids', 'Trança', '01:30:00', 330.00, 60.00, 1),
+         ('Boho Braids', 'Trança', '01:30:00', 380.00, 60.00, 1),
+         ('Lemonade', 'Trança', '01:30:00', 300.00, 50.00, 1),
+         ('Ghana Braids', 'Trança', '01:30:00', 350.00, 70.00, 1),
+         ('Gypsy Braids', 'gypsy-1', '01:30:00', 400.00, 80.00, 2),
+         ('Knotles', 'Trança', '01:30:00', 330.00, 60.00, 1);
 ;
 
 INSERT INTO trancista (
