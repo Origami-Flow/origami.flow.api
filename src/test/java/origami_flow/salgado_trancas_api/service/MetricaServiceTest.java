@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import origami_flow.salgado_trancas_api.dto.response.MetricasResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.metrica.MetricasResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.ProdutoAtendimentoUtilizado;
 

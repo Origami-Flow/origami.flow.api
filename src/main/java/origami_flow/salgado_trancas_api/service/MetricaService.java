@@ -2,7 +2,7 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import origami_flow.salgado_trancas_api.dto.response.MetricasResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.metrica.MetricasResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Caixa;
 import origami_flow.salgado_trancas_api.entity.ProdutoAtendimentoUtilizado;
 
@@ -26,12 +26,19 @@ public class MetricaService {
                 .vendasDoMes(contarTotalVendasNoMes(mes, ano))
                 .agendamentosDoMes(atendimentoRealizadoService.buscarNumeroDeAtendimentoRealizado(mes, ano))
                 .clientesNovosNoMes(clienteService.clientesNovosNoMes(mes, ano))
-                //Necessário testar a busca do serviço mais feito de forma adequada
                 .trancaMaisFeitaNoMes(atendimentoRealizadoService.trancaMaisRealizadaoNoMes(mes, ano))
                 .taxaDeClienteQueAgendaramNoMes(calcularTaxaDeAgendamentoNoMes(mes, ano))
                 .lucroDoMesAtual(calcularLucroDoMes(mes, ano))
                 .lucroDoMesPassado(mes == 1 ? calcularLucroDoMes(12, ano-1) : calcularLucroDoMes(mes-1, ano))
                 .build();
+    }
+
+    public int buscarTotcalDeVendasNoMes(int mes, int ano) {
+        return contarTotalVendasNoMes(mes, ano);
+    }
+
+    public Double buscarLucrosDoMeS(int mes, int ano) {
+        return calcularLucroDoMes(mes, ano);
     }
 
 
