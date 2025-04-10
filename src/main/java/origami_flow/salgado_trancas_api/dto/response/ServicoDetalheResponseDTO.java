@@ -21,9 +21,11 @@ public class ServicoDetalheResponseDTO {
 
     private LocalTime tempoDuracao;
 
-    private Double valorminimoServico;
+    private Double valorMinimoServico;
 
-    private Double valormaximoServico;
+    private Double valorMaximoServico;
 
     private Double valorSinal;
+
+    private String imagemUrl;
 }

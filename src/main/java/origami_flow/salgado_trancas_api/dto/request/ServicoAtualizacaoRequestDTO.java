@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -26,4 +27,6 @@ public class ServicoAtualizacaoRequestDTO {
     private Double valormaximoServico;
 
     private Double valorSinal;
+
+    private MultipartFile imagem;
 }

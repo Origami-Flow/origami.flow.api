@@ -36,4 +36,6 @@ public class ProdutoDetalheResponseDTO {
 
     @Schema(description = "Finalidade do produto", example = "LOJA")
     private TipoProdutoEnum tipo;
+
+    private String imagemUrl;
 }

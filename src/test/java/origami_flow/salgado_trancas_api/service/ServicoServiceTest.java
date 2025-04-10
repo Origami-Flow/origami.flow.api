@@ -39,7 +39,7 @@ class ServicoServiceTest {
         mockServico.setDescricao("Trança box básica");
         mockServico.setTempoDuracao(LocalTime.of(1,20));
         mockServico.setValorMinimoServico(50.0);
-        mockServico.setValorMaximoervico(200.00);
+        mockServico.setValorMaximoServico(200.00);
         mockServico.setValorSinal(50.00);
     }
 
@@ -94,7 +94,7 @@ class ServicoServiceTest {
         when(servicoRepository.existsByNome("Trança Box")).thenReturn(false);
         when(servicoRepository.save(mockServico)).thenReturn(mockServico);
 
-        Servico servico = servicoService.criarServico(mockServico);
+        Servico servico = servicoService.criarServico(mockServico, null);
 
         assertNotNull(servico);
         assertEquals("Trança Box", servico.getNome());
@@ -108,7 +108,7 @@ class ServicoServiceTest {
 
         EntidadeComConflitoException exception = assertThrows(
                 EntidadeComConflitoException.class,
-                () -> servicoService.criarServico(mockServico)
+                () -> servicoService.criarServico(mockServico, null)
         );
 
         assertEquals("Este serviço já existe", exception.getMessage());
@@ -122,18 +122,18 @@ class ServicoServiceTest {
         novoServico.setNome("Trança Box Atualizada");
         novoServico.setDescricao(null);
         novoServico.setValorMinimoServico(50.0);
-        novoServico.setValorMaximoervico(250.00);
+        novoServico.setValorMaximoServico(250.00);
 
         when(servicoRepository.findById(1)).thenReturn(Optional.of(mockServico));
         when(servicoRepository.save(any(Servico.class))).thenReturn(mockServico);
 
-        Servico servicoAtualizado = servicoService.atualizarServico(novoServico, 1);
+        Servico servicoAtualizado = servicoService.atualizarServico(novoServico, 1, null);
 
         assertNotNull(servicoAtualizado);
         assertEquals("Trança Box Atualizada", servicoAtualizado.getNome());
         assertEquals("Trança box básica", servicoAtualizado.getDescricao());
         assertEquals(50.0, servicoAtualizado.getValorMinimoServico());
-        assertEquals(250.00, servicoAtualizado.getValorMaximoervico());
+        assertEquals(250.00, servicoAtualizado.getValorMaximoServico());
         verify(servicoRepository, times(1)).findById(1);
         verify(servicoRepository, times(1)).save(mockServico);
     }
@@ -147,7 +147,7 @@ class ServicoServiceTest {
 
         EntidadeNaoEncontradaException exception = assertThrows(
                 EntidadeNaoEncontradaException.class,
-                () -> servicoService.atualizarServico(novoServico, 1)
+                () -> servicoService.atualizarServico(novoServico, 1, null)
         );
 
         assertEquals("servico não encontrado (a)", exception.getMessage());

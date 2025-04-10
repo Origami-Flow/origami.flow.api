@@ -58,8 +58,8 @@ public class ServicoController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ServicoDetalheResponseDTO.class)))
     })
     @PostMapping
-    public ResponseEntity<ServicoDetalheResponseDTO> criarServico(@RequestBody @Valid ServicoRequestDTO servicoRequestDTO) {
-        Servico servico = servicoService.criarServico(servicoMapper.toEntity(servicoRequestDTO));
+    public ResponseEntity<ServicoDetalheResponseDTO> criarServico(@ModelAttribute @Valid ServicoRequestDTO servicoRequestDTO) {
+        Servico servico = servicoService.criarServico(servicoMapper.toEntity(servicoRequestDTO), servicoRequestDTO.getImagem());
         return ResponseEntity.created(null).body(servicoMapper.toResponseDTO(servico));
     }
 
@@ -70,8 +70,11 @@ public class ServicoController {
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ServicoDetalheResponseDTO> atualizarServico(@PathVariable Integer id, @RequestBody ServicoAtualizacaoRequestDTO servicoAtualizacaoRequestDTO) {
-        Servico servico = servicoService.atualizarServico(servicoMapper.toEntity(servicoAtualizacaoRequestDTO), id);
+    public ResponseEntity<ServicoDetalheResponseDTO> atualizarServico(@PathVariable Integer id,
+          @ModelAttribute ServicoAtualizacaoRequestDTO servicoAtualizacaoRequestDTO) {
+        Servico servico = servicoService.atualizarServico(
+              servicoMapper.toEntity(servicoAtualizacaoRequestDTO), id,
+              servicoAtualizacaoRequestDTO.getImagem());
         return ResponseEntity.ok(servicoMapper.toResponseDTO(servico));
     }
 
