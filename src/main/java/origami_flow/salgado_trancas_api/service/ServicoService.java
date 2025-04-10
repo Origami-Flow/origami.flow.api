@@ -52,7 +52,7 @@ public class ServicoService {
         servico.setDescricao(novoServico.getDescricao() != null ? novoServico.getDescricao() : servico.getDescricao());
         servico.setTempoDuracao(novoServico.getTempoDuracao() != null ? novoServico.getTempoDuracao() : servico.getTempoDuracao());
         servico.setValorMinimoServico(novoServico.getValorMinimoServico() != null ? novoServico.getValorMinimoServico() : servico.getValorMinimoServico());
-        servico.setValorMaximoervico(novoServico.getValorMaximoervico() != null ? novoServico.getValorMaximoervico() : servico.getValorMaximoervico());
+        servico.setValorMaximoServico(novoServico.getValorMaximoServico() != null ? novoServico.getValorMaximoServico() : servico.getValorMaximoServico());
         servico.setValorSinal(novoServico.getValorSinal() != null ? novoServico.getValorSinal() : servico.getValorSinal());
         servico.setImagem(Objects.nonNull(imagem) && !imagem.isEmpty() ? imagemService.uploadFile(buildImagem(servico, imagem)) : servico.getImagem());
 

@@ -98,7 +98,7 @@ class AtendimentoRealizadoServiceTest {
         produto.setValorVenda(30.0);
 
         servico.setValorMinimoServico(50.0);
-        servico.setValorMaximoervico(130.0);
+        servico.setValorMaximoServico(130.0);
         servico.setValorSinal(15.0);
 
         caixa.setDataAbertura(LocalDate.now());
@@ -138,7 +138,7 @@ class AtendimentoRealizadoServiceTest {
 
 
         servico.setValorMinimoServico(50.0);
-        servico.setValorMaximoervico(130.0);
+        servico.setValorMaximoServico(130.0);
         servico.setValorSinal(15.0);
         evento.setDataHoraTermino(LocalDateTime.now());
         evento.setCliente(cliente);
@@ -180,7 +180,7 @@ class AtendimentoRealizadoServiceTest {
         AtendimentoRealizado atendimentoRealizado = new AtendimentoRealizado();
 
         servico.setValorMinimoServico(50.0);
-        servico.setValorMaximoervico(130.0);
+        servico.setValorMaximoServico(130.0);
         servico.setValorSinal(15.0);
         evento.setDataHoraTermino(LocalDateTime.now());
         evento.setCliente(cliente);
@@ -200,7 +200,7 @@ class AtendimentoRealizadoServiceTest {
         caixa.setDespesaTotal(300.0);
 
         servico.setValorMinimoServico(0.0);
-        servico.setValorMaximoervico(0.0);
+        servico.setValorMaximoServico(0.0);
         servico.setValorSinal(0.0);
 
         auxiliar.setValorMaoDeObra(200.0);

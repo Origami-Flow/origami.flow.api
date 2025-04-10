@@ -30,7 +30,7 @@ public class Servico {
     private Double valorMinimoServico;
 
     @Column(name = "valor_maximo_servico")
-    private Double valorMaximoervico;
+    private Double valorMaximoServico;
 
     @Column(name = "valor_sinal")
     private Double valorSinal;

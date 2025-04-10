@@ -39,7 +39,7 @@ class ServicoServiceTest {
         mockServico.setDescricao("Trança box básica");
         mockServico.setTempoDuracao(LocalTime.of(1,20));
         mockServico.setValorMinimoServico(50.0);
-        mockServico.setValorMaximoervico(200.00);
+        mockServico.setValorMaximoServico(200.00);
         mockServico.setValorSinal(50.00);
     }
 
@@ -122,7 +122,7 @@ class ServicoServiceTest {
         novoServico.setNome("Trança Box Atualizada");
         novoServico.setDescricao(null);
         novoServico.setValorMinimoServico(50.0);
-        novoServico.setValorMaximoervico(250.00);
+        novoServico.setValorMaximoServico(250.00);
 
         when(servicoRepository.findById(1)).thenReturn(Optional.of(mockServico));
         when(servicoRepository.save(any(Servico.class))).thenReturn(mockServico);
@@ -133,7 +133,7 @@ class ServicoServiceTest {
         assertEquals("Trança Box Atualizada", servicoAtualizado.getNome());
         assertEquals("Trança box básica", servicoAtualizado.getDescricao());
         assertEquals(50.0, servicoAtualizado.getValorMinimoServico());
-        assertEquals(250.00, servicoAtualizado.getValorMaximoervico());
+        assertEquals(250.00, servicoAtualizado.getValorMaximoServico());
         verify(servicoRepository, times(1)).findById(1);
         verify(servicoRepository, times(1)).save(mockServico);
     }

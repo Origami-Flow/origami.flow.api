@@ -20,7 +20,7 @@ INSERT INTO cliente (
              null
          );
 
-INSERT INTO salgadotrancas.imagem
+INSERT INTO imagem
 (id, asset_id, created_at, format, nome, `path`, url, public_id)
 VALUES
 (1, 'b28338168d98c82b0e53b693b1608765', '2025-04-05 19:26:42.775721', 'png', 'imagem_default_tranca', 'servicos', 'https://res.cloudinary.com/dt5smeslb/image/upload/v1743892304/servicos/fia65bmkbcxd7pkxqrhy.png', 'servicos/chdrnv0ggcw1oxwq5uq2'),
@@ -45,19 +45,19 @@ INSERT INTO servico (
              'Trança no estilo naggo',
              '02:00:00',
              100.00,
-             100.00
+             100.00,
              20.00,
              4
          ),
-         ('Nagô', 'nago-2', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-3', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-4', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-5', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-6', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-7', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-8', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-9', '01:30:00', 150.00, 150.00, 30.00),
-         ('Nagô', 'nago-10', '01:30:00', 150.00, 150.00, 30.00),
+         ('Nagô', 'nago-2', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-3', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-4', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-5', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-6', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-7', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-8', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-9', '01:30:00', 150.00, 150.00, 30.00, 1),
+         ('Nagô', 'nago-10', '01:30:00', 150.00, 150.00, 30.00, 1),
          ('Twist', 'twist-1', '01:30:00', 200.00, 200.00, 50.00, 5),
          ('Box Braids', 'Trança', '01:30:00', 300.00, 300.00,70.00, 1),
          ('Barrel Twist', 'barrel-twist-1', '01:30:00', 220.00, 220.00,60.00, 3),
@@ -67,7 +67,7 @@ INSERT INTO servico (
          ('Ghana Braids', 'Trança', '01:30:00', 350.00, 350.00,70.00, 1),
          ('Gypsy Braids', 'gypsy-1', '01:30:00', 400.00, 400.00,80.00, 2),
          ('Knotles', 'Trança', '01:30:00', 330.00, 330.00,60.00, 1);
-;
+
 
 INSERT INTO trancista (
     nome, email, senha, role, tipo
