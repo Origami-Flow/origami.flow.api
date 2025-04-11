@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import origami_flow.salgado_trancas_api.dto.response.MetricasResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.metrica.LucroResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.metrica.MetricasResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.metrica.VendaResponseDTO;
 import origami_flow.salgado_trancas_api.service.MetricaService;
 
 @RestController
@@ -44,4 +46,15 @@ public class MetricaController {
         return ResponseEntity.ok(metricaService.buscarDadosParaMetrica(mes, ano));
     }
 
+    @GetMapping("/vendas")
+    public ResponseEntity<VendaResponseDTO> buscarVendasDoMes(@RequestParam int mes, @RequestParam int ano) {
+        int venda = metricaService.buscarTotcalDeVendasNoMes(mes, ano);
+        return ResponseEntity.ok(VendaResponseDTO.builder().vendasMes(venda).build());
+    }
+
+    @GetMapping("/lucros")
+    public ResponseEntity<LucroResponseDTO> buscarLucrosDoMeS(@RequestParam int mes, @RequestParam int ano) {
+        Double lucro = metricaService.buscarLucrosDoMeS(mes, ano);
+        return ResponseEntity.ok(LucroResponseDTO.builder().lucroMes(lucro).build());
+    }
 }

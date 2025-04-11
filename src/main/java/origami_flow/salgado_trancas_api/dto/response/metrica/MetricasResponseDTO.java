@@ -1,4 +1,4 @@
-package origami_flow.salgado_trancas_api.dto.response;
+package origami_flow.salgado_trancas_api.dto.response.metrica;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
