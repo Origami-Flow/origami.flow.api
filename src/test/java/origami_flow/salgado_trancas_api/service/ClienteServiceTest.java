@@ -113,7 +113,7 @@ class ClienteServiceTest {
         when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
         when(clienteRepository.save(cliente)).thenReturn(cliente);
 
-        Cliente resultado = clienteService.atualizarCliente(1, cliente);
+        Cliente resultado = clienteService.atualizarCliente(1, cliente, null);
 
         assertNotNull(resultado);
         verify(clienteRepository, times(1)).findById(1);
@@ -124,7 +124,7 @@ class ClienteServiceTest {
     void atualizarCliente_IdInexistente_LancaExcecao() {
         when(clienteRepository.existsById(1)).thenReturn(false);
 
-        assertThrows(EntidadeNaoEncontradaException.class, () -> clienteService.atualizarCliente(1, cliente));
+        assertThrows(EntidadeNaoEncontradaException.class, () -> clienteService.atualizarCliente(1, cliente, null));
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
@@ -216,7 +216,7 @@ class ClienteServiceTest {
         when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
         when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
 
-        Cliente resultado = clienteService.atualizarCliente(1, clienteAtualizado);
+        Cliente resultado = clienteService.atualizarCliente(1, clienteAtualizado, null);
 
         assertNotNull(resultado);
         assertEquals("Novo Nome", resultado.getNome());
@@ -230,7 +230,7 @@ class ClienteServiceTest {
         when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
         when(clienteRepository.save(cliente)).thenReturn(cliente);
 
-        Cliente resultado = clienteService.atualizarCliente(1, atualizado);
+        Cliente resultado = clienteService.atualizarCliente(1, atualizado, null);
 
         assertNotNull(resultado);
         assertEquals(cliente.getNome(), resultado.getNome());

@@ -31,15 +31,7 @@ VALUES
 
 INSERT INTO servico (
     nome, descricao, tempo_duracao, valor_minimo_servico, valor_maximo_servico, valor_sinal, imagem_id
-) VALUES (
-             'Corte de Cabelo',
-             'Corte estilo degradê com finalização',
-             '01:30:00',
-             50.00,
-             50.00,
-             10.00,
-             4
-         ),
+) VALUES
          (
              'Naggo',
              'Trança no estilo naggo',
