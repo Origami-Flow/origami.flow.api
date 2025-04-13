@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: origami-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "salgadotrancas"
+    networks:
+      - default
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-proot" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ENV_BD_URL=jdbc:mysql://mysql:3306/salgadotrancas
+      - ENV_API_KEY=
+      - ENV_API_SECRET=
+      - ENV_CLOUD_NAME=
+      - ENV_URL_JWT=http://localhost:8081/auth/
+      - ENV_ALLOWED_ORIGINS=http://localhost:5173
+    networks:
+      - default
+    depends_on:
+      mysql:
+        condition: service_healthy
+    entrypoint: ["java", "-jar", "app.jar"]
+
+    ports:
+      - "8080:8080"
+volumes:
+  db:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
