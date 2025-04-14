@@ -1,6 +1,8 @@
 services:
   mysql:
-    image: mysql:8.0
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
     container_name: origami-mysql
     restart: always
     environment:
@@ -12,7 +14,6 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-proot" ]
       interval: 10s
@@ -35,7 +36,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    entrypoint: ["java", "-jar", "app.jar"]
+    entrypoint: [ "java", "-jar", "app.jar" ]
 
     ports:
       - "8080:8080"
