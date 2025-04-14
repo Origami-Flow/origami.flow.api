@@ -92,7 +92,7 @@ class ClienteServiceTest {
         when(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())).thenReturn(false);
         when(clienteRepository.save(cliente)).thenReturn(cliente);
 
-        Cliente resultado = clienteService.cadastrarCliente(cliente);
+        Cliente resultado = clienteService.cadastrarCliente(cliente, null);
 
         assertNotNull(resultado);
         verify(clienteRepository, times(1)).existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail());
@@ -103,7 +103,7 @@ class ClienteServiceTest {
     void cadastrarCliente_Conflito_LancaExcecao() {
         when(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())).thenReturn(true);
 
-        assertThrows(EntidadeComConflitoException.class, () -> clienteService.cadastrarCliente(cliente));
+        assertThrows(EntidadeComConflitoException.class, () -> clienteService.cadastrarCliente(cliente, null));
         verify(clienteRepository, times(1)).existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail());
         verify(clienteRepository, never()).save(any(Cliente.class));
     }
@@ -145,14 +145,6 @@ class ClienteServiceTest {
         assertThrows(EntidadeNaoEncontradaException.class, () -> clienteService.deletarCliente(1));
         verify(clienteRepository, times(1)).existsById(1);
         verify(clienteRepository, never()).deleteById(anyInt());
-    }
-
-    @Test
-    void cadastrarEndereco_ClienteInexistente_LancaExcecao() {
-        when(clienteRepository.findById(1)).thenReturn(Optional.empty());
-
-        assertThrows(EntidadeNaoEncontradaException.class, () -> clienteService.cadastrarEndereco(1, "12345678"));
-        verify(clienteRepository, never()).save(any(Cliente.class));
     }
 
     @Test

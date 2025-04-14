@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import origami_flow.salgado_trancas_api.dto.CepDTO;
 import origami_flow.salgado_trancas_api.dto.request.FileRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Endereco;
@@ -45,7 +46,8 @@ public class ClienteService {
               .build();
     }
 
-    public Cliente cadastrarCliente(Cliente cliente) {
+    public Cliente cadastrarCliente(Cliente cliente, String cep) {
+        cliente.setEndereco(cadastrarEndereco(cep));
         if(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("cliente");
         cliente.setDataCriacao(LocalDate.now(ZoneOffset.of("-03:00")));
         return clienteRepository.save(cliente);
@@ -72,10 +74,9 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public Cliente cadastrarEndereco(Integer id, String cep) {
-        Cliente cliente = clientePorId(id);
-        cliente.setEndereco(enderecoService.cadastrar(cep));
-        return clienteRepository.save(cliente);
+    public Endereco cadastrarEndereco(String cep) {
+        Endereco endereco = enderecoService.cadastrar(cep);
+        return endereco;
     }
 
     public Cliente atualizarEndereco(Integer idCliente, String cep) {

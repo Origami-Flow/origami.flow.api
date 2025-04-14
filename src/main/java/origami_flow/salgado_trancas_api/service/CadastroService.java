@@ -21,8 +21,7 @@ public class CadastroService {
     public Cliente cadastrarCliente(CadastroRequestDTO cadastroRequestDTO, String cep){
         String senhaCriptografada = new BCryptPasswordEncoder().encode(cadastroRequestDTO.getSenha());
         cadastroRequestDTO.setSenha(senhaCriptografada);
-        Cliente clienteCadastrado = clienteService.cadastrarCliente(cadastroMapper.toEntity(cadastroRequestDTO));
-        return clienteService.cadastrarEndereco(clienteCadastrado.getId(), cep);
+        return clienteService.cadastrarCliente(cadastroMapper.toEntity(cadastroRequestDTO), cep);
     }
 
     public Trancista cadastrarTrancista(Trancista trancista) {
