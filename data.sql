@@ -258,7 +258,9 @@ INSERT INTO cliente (
              'Engenheiro',
              null
          );
-
+INSERT INTO cliente
+(email, nome, `role`, senha, comprimento_cabelo, cor_cabelo, data_criacao, data_nascimento, genero, ocupacao, primeira_tranca, progressiva, telefone, tipo_cabelo, endereco_id, imagem_id)
+VALUES('davi@a.com', 'Davi', 'ADMIN', '$2a$10$NePTPnuRP23QEtNDY6v4e.z596oFLG9bCQWulk8jeHZcNPipdrirS', NULL, 'Verde', '2025-04-09', '2005-06-23', 'MASCULINO', 'Estag', 0, 0, '11912946045', 'A1', NULL, NULL);
 INSERT INTO imagem
 (id, asset_id, created_at, format, nome, `path`, url, public_id)
 VALUES
@@ -362,6 +364,17 @@ INSERT INTO caixa (
              0,
              0
          );
+
+INSERT INTO caixa (
+    data_abertura, data_fechamento, salao_id, receita_total, despesa_total
+) VALUES
+    ('2025-01-01', '2025-01-31', 1, 0, 0),
+    ('2025-02-01', '2025-02-28', 1, 0, 0),
+    ('2025-03-01', '2025-03-31', 1, 0, 0),
+    ('2025-04-01', '2025-04-30', 1, 0, 0),
+    ('2025-05-01', '2025-05-31', 1, 0, 0),
+    ('2025-06-01', '2025-06-30', 1, 0, 0),
+    ('2025-07-01', '2025-07-31', 1, 0, 0);
 
 INSERT INTO produto (
     quantidade_embalagem, valor_compra, valor_venda, marca, nome, tipo, unidade_medida
