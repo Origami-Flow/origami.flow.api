@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.ClienteAtualizacaoRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteResponseDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 
 @Mapper(componentModel = "spring")
@@ -14,4 +15,6 @@ public interface ClienteMapper {
     Cliente toClienteEntity(ClienteAtualizacaoRequestDTO clienteAtualizacaoRequestDTO);
 
     ClienteDetalheResponseDTO toClienteDetalheResponseDTO(Cliente cliente);
+
+    ClienteResponseDTO toClienteResponseDTO(Cliente cliente);
 }

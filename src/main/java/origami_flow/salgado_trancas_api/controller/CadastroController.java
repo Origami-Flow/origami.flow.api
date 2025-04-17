@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import origami_flow.salgado_trancas_api.dto.request.CadastroClienteSimplesRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.TrancistaRequestDTO;
 import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteDetalheResponseDTO;
+import origami_flow.salgado_trancas_api.dto.response.cliente.ClienteResponseDTO;
 import origami_flow.salgado_trancas_api.dto.response.trancista.TrancistaDetalheResposeDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
@@ -57,5 +59,11 @@ public class CadastroController {
     public ResponseEntity<TrancistaDetalheResposeDTO> cadastrarTrancista(@RequestBody @Valid TrancistaRequestDTO trancistaRequestDTO) {
         Trancista trancistaRetorno = cadastroService.cadastrarTrancista(trancistaMapper.toEntity(trancistaRequestDTO));
         return ResponseEntity.created(null).body(trancistaMapper.toDTO(trancistaRetorno));
+    }
+
+    @PostMapping("/cliente-simples")
+    public ResponseEntity<ClienteResponseDTO> cadastroSimplesCliente(@RequestBody @Valid CadastroClienteSimplesRequestDTO cadastroClienteSimplesRequestDTO) {
+        Cliente clienteRetorno = cadastroService.cadastrarClienteSimples(cadastroClienteSimplesRequestDTO);
+        return ResponseEntity.created(null).body(clienteMapper.toClienteResponseDTO(clienteRetorno));
     }
 }

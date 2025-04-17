@@ -1,6 +1,7 @@
 package origami_flow.salgado_trancas_api.mapper;
 
 import org.mapstruct.Mapper;
+import origami_flow.salgado_trancas_api.dto.request.CadastroClienteSimplesRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 
@@ -8,5 +9,7 @@ import origami_flow.salgado_trancas_api.entity.Cliente;
 public interface CadastroMapper {
 
     Cliente toEntity(CadastroRequestDTO cadastroRequestDTO);
+
+    Cliente toEntity(CadastroClienteSimplesRequestDTO cadastroClienteSimplesRequestDTO);
 }
 

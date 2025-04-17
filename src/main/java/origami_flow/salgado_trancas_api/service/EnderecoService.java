@@ -34,7 +34,6 @@ public class EnderecoService {
         return enderecoRepository.save(endereco);
     }
 
-
     public Endereco atualizar(Integer idEndereco, String cep) {
         if (!enderecoRepository.existsById(idEndereco)) {
             throw new EntidadeNaoEncontradaException("endereço");

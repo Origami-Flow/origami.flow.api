@@ -44,15 +44,13 @@ class CadastroServiceTest {
         clienteMock.setId(1);
 
         when(cadastroMapper.toEntity(cadastroRequestDTO)).thenReturn(clienteMock);
-        when(clienteService.cadastrarCliente(clienteMock)).thenReturn(clienteMock);
-        when(clienteService.cadastrarEndereco(1, "01001000")).thenReturn(clienteMock);
+        when(clienteService.cadastrarCliente(clienteMock, "01001000")).thenReturn(clienteMock);
 
         Cliente clienteCadastrado = cadastroService.cadastrarCliente(cadastroRequestDTO, "01001000");
 
         assertNotNull(clienteCadastrado);
         assertEquals(1, clienteCadastrado.getId());
-        verify(clienteService, times(1)).cadastrarCliente(clienteMock);
-        verify(clienteService, times(1)).cadastrarEndereco(1, "01001000");
+        verify(clienteService, times(1)).cadastrarCliente(clienteMock, "01001000");
     }
 
     @Test
@@ -83,8 +81,7 @@ class CadastroServiceTest {
         clienteMock.setId(1);
 
         when(cadastroMapper.toEntity(cadastroRequestDTO)).thenReturn(clienteMock);
-        when(clienteService.cadastrarCliente(clienteMock)).thenReturn(clienteMock);
-        when(clienteService.cadastrarEndereco(1, "01001000")).thenReturn(clienteMock);
+        when(clienteService.cadastrarCliente(clienteMock, "01001000")).thenReturn(clienteMock);
 
         cadastroService.cadastrarCliente(cadastroRequestDTO, "01001000");
 
@@ -117,13 +114,11 @@ class CadastroServiceTest {
         clienteMock.setId(1);
 
         when(cadastroMapper.toEntity(cadastroRequestDTO)).thenReturn(clienteMock);
-        when(clienteService.cadastrarCliente(clienteMock)).thenReturn(clienteMock);
-        when(clienteService.cadastrarEndereco(1, "cep-invalido"))
+        when(clienteService.cadastrarCliente(clienteMock, "cep-invalido")).thenReturn(clienteMock)
                 .thenThrow(new RuntimeException("CEP inválido"));
 
         assertThrows(RuntimeException.class, () -> cadastroService.cadastrarCliente(cadastroRequestDTO, "cep-invalido"));
-        verify(clienteService, times(1)).cadastrarCliente(clienteMock);
-        verify(clienteService, times(1)).cadastrarEndereco(1, "cep-invalido");
+        verify(clienteService, times(1)).cadastrarCliente(clienteMock, "cep-invalido");
     }
 
     @Test

@@ -3,6 +3,7 @@ package origami_flow.salgado_trancas_api.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import origami_flow.salgado_trancas_api.dto.request.CadastroClienteSimplesRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
@@ -21,13 +22,19 @@ public class CadastroService {
     public Cliente cadastrarCliente(CadastroRequestDTO cadastroRequestDTO, String cep){
         String senhaCriptografada = new BCryptPasswordEncoder().encode(cadastroRequestDTO.getSenha());
         cadastroRequestDTO.setSenha(senhaCriptografada);
-        Cliente clienteCadastrado = clienteService.cadastrarCliente(cadastroMapper.toEntity(cadastroRequestDTO));
-        return clienteService.cadastrarEndereco(clienteCadastrado.getId(), cep);
+        return clienteService.cadastrarCliente(cadastroMapper.toEntity(cadastroRequestDTO), cep);
     }
 
     public Trancista cadastrarTrancista(Trancista trancista) {
         String senhaCriptografada = new BCryptPasswordEncoder().encode(trancista.getSenha());
         trancista.setSenha(senhaCriptografada);
         return trancistaService.cadastrarTrancista(trancista);
+    }
+
+    public Cliente cadastrarClienteSimples(CadastroClienteSimplesRequestDTO cadastroClienteSimplesRequestDTO) {
+        String senhaCriptografada = new BCryptPasswordEncoder().encode("12345678");
+        Cliente cliente = cadastroMapper.toEntity(cadastroClienteSimplesRequestDTO);
+        cliente.setSenha(senhaCriptografada);
+        return clienteService.cadastrarCliente(cliente);
     }
 }
