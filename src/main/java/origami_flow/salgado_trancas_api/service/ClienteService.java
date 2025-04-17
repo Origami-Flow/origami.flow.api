@@ -53,6 +53,12 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
+    public Cliente cadastrarCliente(Cliente cliente) {
+        if(clienteRepository.existsByTelefoneOrEmail(cliente.getTelefone(), cliente.getEmail())) throw new EntidadeComConflitoException("cliente");
+        cliente.setDataCriacao(LocalDate.now(ZoneOffset.of("-03:00")));
+        return clienteRepository.save(cliente);
+    }
+
     public Cliente atualizarCliente(Integer id, Cliente clienteAtualizado, MultipartFile imagem) {
         Cliente cliente = clientePorId(id);
         cliente.setNome(clienteAtualizado.getNome() != null ? clienteAtualizado.getNome() : cliente.getNome());

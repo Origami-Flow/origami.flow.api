@@ -3,6 +3,7 @@ package origami_flow.salgado_trancas_api.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import origami_flow.salgado_trancas_api.dto.request.CadastroClienteSimplesRequestDTO;
 import origami_flow.salgado_trancas_api.dto.request.CadastroRequestDTO;
 import origami_flow.salgado_trancas_api.entity.Cliente;
 import origami_flow.salgado_trancas_api.entity.Trancista;
@@ -28,5 +29,12 @@ public class CadastroService {
         String senhaCriptografada = new BCryptPasswordEncoder().encode(trancista.getSenha());
         trancista.setSenha(senhaCriptografada);
         return trancistaService.cadastrarTrancista(trancista);
+    }
+
+    public Cliente cadastrarClienteSimples(CadastroClienteSimplesRequestDTO cadastroClienteSimplesRequestDTO) {
+        String senhaCriptografada = new BCryptPasswordEncoder().encode("12345678");
+        Cliente cliente = cadastroMapper.toEntity(cadastroClienteSimplesRequestDTO);
+        cliente.setSenha(senhaCriptografada);
+        return clienteService.cadastrarCliente(cliente);
     }
 }
