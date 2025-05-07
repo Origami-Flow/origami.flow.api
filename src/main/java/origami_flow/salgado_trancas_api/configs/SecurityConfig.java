@@ -76,7 +76,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/cadastros/cliente").permitAll()
                         .requestMatchers(HttpMethod.POST, "/logins").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/cadastros/trancista").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
