@@ -86,9 +86,15 @@ public class EventoService {
         evento.setDataHoraInicio(eventoAtualizado.getDataHoraInicio() != null ? eventoAtualizado.getDataHoraInicio() : evento.getDataHoraInicio());
         evento.setDataHoraTermino(eventoAtualizado.getDataHoraTermino() != null ? eventoAtualizado.getDataHoraTermino() : evento.getDataHoraTermino());
         evento.setTipoEvento(eventoAtualizado.getTipoEvento() != null ? eventoAtualizado.getTipoEvento() : evento.getTipoEvento());
-        evento.setServico(idServico != null ? servicoService.servicoPorId(idServico) : evento.getServico());
         evento.setTrancista(idTrancista != null ? trancistaService.trancistaPorId(idTrancista) : evento.getTrancista());
-        evento.setAuxiliar(idAuxiliar != null ? auxiliarService.auxiliarPorId(idAuxiliar) : evento.getAuxiliar());
+        if (eventoAtualizado.getTipoEvento().equals(TipoEventoEnum.PESSOAL)) {
+            evento.setCliente(null);
+            evento.setAuxiliar(null);
+            evento.setServico(null);
+        }else {
+            evento.setServico(idServico != null ? servicoService.servicoPorId(idServico) : evento.getServico());
+            evento.setAuxiliar(idAuxiliar != null ? auxiliarService.auxiliarPorId(idAuxiliar) : evento.getAuxiliar());
+        }
         List<Evento> eventos = eventoRepository.findByData(evento.getDataHoraInicio().toLocalDate());
         if (!ValidacaoHorario.validarHorario(eventos ,evento)) throw new EntidadeComConflitoException("evento");
         return eventoRepository.save(evento);

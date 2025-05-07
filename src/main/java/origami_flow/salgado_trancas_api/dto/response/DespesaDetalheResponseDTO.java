@@ -1,4 +1,5 @@
 package origami_flow.salgado_trancas_api.dto.response;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class DespesaDetalheResponseDTO {
     private Double valor;
 
     @Schema(description = "Data da despesa", example = "2024-11-01")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate data;
 
     @Schema(description = "Informações do caixa associado à despesa")
