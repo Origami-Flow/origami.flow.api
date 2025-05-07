@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.exceptions.*;
 
@@ -25,6 +26,11 @@ public class GlobaExceptionHandler {
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
+    }
+
+    @ExceptionHandler(RestClientException.class)
+    public ResponseEntity tratarErroRestClientException(RestClientException ex) {
+        return ResponseEntity.status(502).body(ex.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
