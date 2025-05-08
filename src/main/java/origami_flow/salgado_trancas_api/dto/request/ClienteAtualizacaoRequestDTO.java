@@ -25,7 +25,6 @@ public class ClienteAtualizacaoRequestDTO {
     @Schema(description = "Senha do usuário", example = "jean1234")
     private String senha;
 
-    @PastOrPresent
     @Schema(description = "Data de nascimento do usuário no formato 'YYYY-MM-DD'", example = "2000-03-13")
     private String dataNascimento;
 
@@ -40,6 +39,12 @@ public class ClienteAtualizacaoRequestDTO {
 
     @Schema(description = "Tipo de cabelo do usuário", example = "4A")
     private TipoCabeloEnum tipoCabelo;
+
+    private String corCabelo;
+
+    private boolean primeiraTranca;
+
+    private boolean progressiva;
 
     private MultipartFile imagem;
 }
