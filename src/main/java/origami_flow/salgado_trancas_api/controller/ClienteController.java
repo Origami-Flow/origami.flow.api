@@ -60,9 +60,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable Integer id, @ModelAttribute @Valid ClienteAtualizacaoRequestDTO clienteAtualizacaoRequestDTO) {
+    public ResponseEntity<ClienteDetalheResponseDTO> atualizar(@PathVariable Integer id, @ModelAttribute @Valid ClienteAtualizacaoRequestDTO clienteAtualizacaoRequestDTO) {
         Cliente clienteRetorno = clienteService.atualizarCliente(id, clienteMapper.toClienteEntity(clienteAtualizacaoRequestDTO), clienteAtualizacaoRequestDTO.getImagem());
-        return ResponseEntity.ok(clienteRetorno);
+        return ResponseEntity.ok(clienteMapper.toClienteDetalheResponseDTO(clienteRetorno));
     }
 
     @Operation(summary = "Deleta um cliente", description = "Remove um cliente do sistema com base em seu ID.")

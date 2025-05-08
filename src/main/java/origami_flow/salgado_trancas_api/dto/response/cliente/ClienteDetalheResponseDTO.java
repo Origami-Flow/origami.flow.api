@@ -1,5 +1,6 @@
 package origami_flow.salgado_trancas_api.dto.response.cliente;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import origami_flow.salgado_trancas_api.constans.GeneroEnum;
 import origami_flow.salgado_trancas_api.constans.TipoCabeloEnum;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -18,13 +21,14 @@ public class ClienteDetalheResponseDTO {
     @Schema(description = "Identificador único do usuário", example = "1")
     private Integer id;
 
-
     @Schema(description = "Nome completo do usuário", example = "Jean Santos")
     private String nome;
 
     @Schema(description = "Endereço de e-mail do usuário", example = "jean.santos@example.com")
     private String email;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dataNascimento;
 
     @Schema(description = "Número de telefone do usuário", example = "(11) 98765-4321")
     private String telefone;
@@ -38,10 +42,12 @@ public class ClienteDetalheResponseDTO {
     @Schema(description = "Cor do cabelo do usuário", example = "CASTANHO")
     private String corCabelo;
 
-
     @Schema(description = "Ocupação do usuário", example = "Estagiario")
     private String ocupacao;
 
+    private boolean primeiraTranca;
+
+    private boolean progressiva;
 
     @Schema(description = "Endereço do usuário", implementation = EnderecoDetalheResponseDTO.class)
     private EnderecoDetalheResponseDTO endereco;
