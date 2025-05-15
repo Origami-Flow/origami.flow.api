@@ -65,16 +65,9 @@ INSERT INTO servico (
          ('Knotles', 'Trança', '01:30:00', 330.00, 330.00,60.00, 1);
 
 
-INSERT INTO trancista (
-    nome, email, senha, role, tipo
-) VALUES (
-             'Maria Silva',
-             'maria.silva@exemplo.com',
-             'senhaSegura123',
-             'ADMIN',
-             'Trancista'
-         );
-
+INSERT INTO trancista
+(id, email, nome, `role`, senha, telefone, tipo)
+VALUES(2, 'string@gmail.com', 'string', 'ADMIN', '$2a$10$Ak1Ir5HYg52D.DcHrmRcK.M6jsKAQwfwKOGQPVVv4MSrP4P1dek7G', '11951939012', 'Trancista');
 
 INSERT INTO auxiliar (
      nome, email, valor_mao_de_obra
@@ -173,3 +166,4 @@ INSERT INTO estoque (
              30,
              1
       );
+

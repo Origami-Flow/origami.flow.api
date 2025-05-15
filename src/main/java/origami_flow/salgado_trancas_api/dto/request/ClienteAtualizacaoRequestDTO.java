@@ -1,7 +1,7 @@
 package origami_flow.salgado_trancas_api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.PastOrPresent;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class ClienteAtualizacaoRequestDTO {
     private String senha;
 
     @Schema(description = "Data de nascimento do usuário no formato 'YYYY-MM-DD'", example = "2000-03-13")
-    private String dataNascimento;
+    private LocalDate dataNascimento;
 
     @Schema(description = "Telefone do usuário", example = "(11) 94002-8922")
     private String telefone;
