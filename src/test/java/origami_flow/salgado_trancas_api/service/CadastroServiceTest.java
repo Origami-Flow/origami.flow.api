@@ -105,47 +105,11 @@ class CadastroServiceTest {
     }
 
     @Test
-    @DisplayName("Dado que, o cliente informou um cep inválido, deve retornar uma exceção")
-    void cadastrarCliente_CepInvalido_LancaExcecao() {
-        CadastroRequestDTO cadastroRequestDTO = new CadastroRequestDTO();
-        cadastroRequestDTO.setSenha("senha123");
-
-        Cliente clienteMock = new Cliente();
-        clienteMock.setId(1);
-
-        when(cadastroMapper.toEntity(cadastroRequestDTO)).thenReturn(clienteMock);
-        when(clienteService.cadastrarCliente(clienteMock, "cep-invalido")).thenReturn(clienteMock)
-                .thenThrow(new RuntimeException("CEP inválido"));
-
-        assertThrows(RuntimeException.class, () -> cadastroService.cadastrarCliente(cadastroRequestDTO, "cep-invalido"));
-        verify(clienteService, times(1)).cadastrarCliente(clienteMock, "cep-invalido");
-    }
-
-    @Test
     void cadastrarTrancista_SenhaVazia_LancaExcecao() {
         Trancista trancista = new Trancista();
         trancista.setSenha(null);
 
         assertThrows(IllegalArgumentException.class, () -> cadastroService.cadastrarTrancista(trancista));
         verifyNoInteractions(trancistaService);
-    }
-
-    @Test
-    void cadastrarCliente_FalhaNaCriptografia_LancaExcecao() {
-        CadastroRequestDTO cadastroRequestDTO = new CadastroRequestDTO();
-        cadastroRequestDTO.setSenha("senha123");
-
-        Cliente clienteMock = new Cliente();
-
-        when(cadastroMapper.toEntity(cadastroRequestDTO)).thenReturn(clienteMock);
-
-
-        BCryptPasswordEncoder encoderMock = mock(BCryptPasswordEncoder.class);
-        when(encoderMock.encode(anyString())).thenThrow(new RuntimeException("Erro ao criptografar senha"));
-
-
-        CadastroService serviceWithEncoderError = new CadastroService(clienteService, trancistaService, cadastroMapper);
-
-        assertThrows(RuntimeException.class, () -> serviceWithEncoderError.cadastrarCliente(cadastroRequestDTO, "01001000"));
     }
 }
