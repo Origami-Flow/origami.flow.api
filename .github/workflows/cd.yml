@@ -1,0 +1,21 @@
+name: CD for private instance
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        uses: docker pull davifeitosa0/origami-flow-api:latest
+
+      - name: Stop Docker Container
+        run: docker stop origami-flow-api || true
+
+      - name: Remove Docker Container
+        run: docker rm origami-flow-api || true
+
+      - name: Run Docker Container
+        run: docker run -d --name origami-flow-api -p 8080:8080 davifeitosa0/origami-flow-api:latest
