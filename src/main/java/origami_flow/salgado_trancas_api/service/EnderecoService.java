@@ -1,9 +1,9 @@
 package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import origami_flow.salgado_trancas_api.clients.ViaCepHttpClient;
 import origami_flow.salgado_trancas_api.dto.CepDTO;
 import origami_flow.salgado_trancas_api.entity.Endereco;
@@ -14,22 +14,16 @@ import origami_flow.salgado_trancas_api.repository.EnderecoRepository;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EnderecoService {
 
     private final EnderecoMapper enderecoMapper;
     private final EnderecoRepository enderecoRepository;
     private final ViaCepHttpClient viaCepHttpClient;
-
-    private CepDTO findByCep(String cep) {
-        CepDTO cepEncontrado = viaCepHttpClient.findByCep(cep);
-        if (cepEncontrado.getCep() == null) {
-            throw new CepNaoEncontradoException("CEP não encontrado");
-        }
-        return cepEncontrado;
-    }
+    private final CepService cepService;
 
     public Endereco cadastrar(String cep) {
-        CepDTO cepEncontrado = findByCep(cep);
+        CepDTO cepEncontrado = cepService.findByCep(cep);
         Endereco endereco = enderecoMapper.toEnderecoEntity(cepEncontrado);
         return enderecoRepository.save(endereco);
     }
@@ -39,7 +33,7 @@ public class EnderecoService {
             throw new EntidadeNaoEncontradaException("endereço");
         }
 
-        CepDTO cepEncontrado = findByCep(cep);
+        CepDTO cepEncontrado = cepService.findByCep(cep);
         Endereco endereco = enderecoMapper.toEnderecoEntity(cepEncontrado);
         endereco.setId(idEndereco);
         return enderecoRepository.save(endereco);
