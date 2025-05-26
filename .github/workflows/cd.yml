@@ -2,7 +2,7 @@ name: CD for private instance
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -18,4 +18,16 @@ jobs:
         run: sudo docker rm origami-flow-api || true
 
       - name: Run Docker Container
-        run: sudo docker run -d --name origami-flow-api -p 8080:8080 davifeitosa0/origami-flow-api:latest
+        run: |
+          sudo docker run -d \
+          --name origami-flow-api \
+          -p 8080:8080 \
+          -e ENV_BD_URL=${{ secrets.DB_URL }} \
+          -e ENV_API_KEY=${{ secrets.API_KEY }} \
+          -e ENV_BD_USER=${{ secrets.BD_USER }} \
+          -e ENV_BD_PASSWORD=${{ secrets.BD_PASSWORD }} \
+          -e ENV_API_SECRET=${{ secrets.API_SECRET }} \
+          -e ENV_CLOUD_NAME=${{ secrets.CLOUD_NAME }} \
+          -e ENV_URL_JWT=${{ secrets.URL_JWT }} \
+          -e ENV_ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }} \
+          davifeitosa0/origami-flow-api:latest
