@@ -64,7 +64,7 @@ public class ProdutoService {
         if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto");
         produto.setId(id);
         Produto produtoExistente = produtoRepository.findById(id).orElseThrow();
-        if (file != null && !file.isEmpty()) {
+        if (Objects.nonNull(file) && !file.isEmpty()) {
             Imagem novaImagem = imagemService.uploadFile(buildImagem(produto, file));
             produto.setImagem(novaImagem);
         } else {
