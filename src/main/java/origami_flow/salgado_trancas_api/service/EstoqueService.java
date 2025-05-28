@@ -28,15 +28,17 @@ public class EstoqueService {
         return estoqueRepository.findByProdutoId(id).orElseThrow(() -> new EntidadeNaoEncontradaException("produto"));
     }
 
-    public Estoque atualizarEstoque(Integer id, Integer quantidade) {
+    public Estoque atualizarEstoque(Integer id, Integer quantidade, boolean quantidadeFixa) {
         Estoque produto = estoquePorId(id);
-        if(produto.getQuantidade() >= 0) {
-            produto.setQuantidade(produto.getQuantidade() + quantidade);
-        }else {
-            produto.setQuantidade(produto.getQuantidade() - quantidade);
+        if (quantidadeFixa) {
+            produto.setQuantidade(quantidade);
+        } else {
+            int novaQuantidade = produto.getQuantidade() + quantidade;
+            produto.setQuantidade(Math.max(novaQuantidade, 0));
         }
         return estoqueRepository.save(produto);
     }
+
 
     public void removerDoEstoque(Integer id) {
         if (!estoqueRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto");

@@ -63,11 +63,14 @@ public class ProdutoService {
     public Produto atualizarProduto(Integer id, Produto produto, MultipartFile file){
         if (!produtoRepository.existsById(id)) throw new EntidadeNaoEncontradaException("produto");
         produto.setId(id);
-        var image = produto.getImagem();
-        if (Objects.nonNull(file) && !file.isEmpty()) {
-            image = imagemService.uploadFile(buildImagem(produto, file));
+        Produto produtoExistente = produtoRepository.findById(id).orElseThrow();
+        if (file != null && !file.isEmpty()) {
+            Imagem novaImagem = imagemService.uploadFile(buildImagem(produto, file));
+            produto.setImagem(novaImagem);
+        } else {
+            produto.setImagem(produtoExistente.getImagem());
         }
-        produto.setImagem(image);
+
         return produtoRepository.save(produto);
     }
 
