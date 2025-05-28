@@ -103,7 +103,7 @@ class EstoqueServiceTest {
         when(estoqueRepository.findByProdutoId(produto.getId())).thenReturn(Optional.of(estoque));
         when(estoqueRepository.save(any(Estoque.class))).thenReturn(estoque);
 
-        Estoque resultado = estoqueService.atualizarEstoque(produto.getId(), 5);
+        Estoque resultado = estoqueService.atualizarEstoque(produto.getId(), 5, false);
 
         assertEquals(15, resultado.getQuantidade());
         verify(estoqueRepository, times(1)).findByProdutoId(produto.getId());
@@ -115,7 +115,7 @@ class EstoqueServiceTest {
         when(estoqueRepository.findByProdutoId(produto.getId())).thenReturn(Optional.of(estoque));
         when(estoqueRepository.save(any(Estoque.class))).thenReturn(estoque);
 
-        Estoque resultado = estoqueService.atualizarEstoque(produto.getId(), -5);
+        Estoque resultado = estoqueService.atualizarEstoque(produto.getId(), -5, false);
 
         assertEquals(5, resultado.getQuantidade());
         verify(estoqueRepository, times(1)).findByProdutoId(produto.getId());

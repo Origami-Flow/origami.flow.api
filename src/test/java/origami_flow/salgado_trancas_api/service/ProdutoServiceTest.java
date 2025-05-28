@@ -132,6 +132,7 @@ class ProdutoServiceTest {
     @Test
     void atualizarProduto_ComSucesso() {
         when(produtoRepository.existsById(1)).thenReturn(true);
+        when(produtoRepository.findById(1)).thenReturn(Optional.of(produto));
         when(produtoRepository.save(produto)).thenReturn(produto);
 
         Produto resultado = produtoService.atualizarProduto(1, produto, null);
@@ -140,6 +141,7 @@ class ProdutoServiceTest {
         assertEquals(1, resultado.getId());
         assertEquals("Produto Teste", resultado.getNome());
         verify(produtoRepository, times(1)).existsById(1);
+        verify(produtoRepository, times(1)).findById(1);
         verify(produtoRepository, times(1)).save(produto);
     }
 
@@ -265,6 +267,7 @@ class ProdutoServiceTest {
                 .build();
 
         when(produtoRepository.existsById(1)).thenReturn(true);
+        when(produtoRepository.findById(1)).thenReturn(Optional.of(produtoAtual));
         when(produtoRepository.save(produtoAtual)).thenReturn(produtoAtual);
 
         Produto resultado = produtoService.atualizarProduto(1, produtoAtual, null);
@@ -273,6 +276,7 @@ class ProdutoServiceTest {
         assertEquals("Produto Atual", resultado.getNome());
         assertEquals(100.0, resultado.getValorVenda());
         verify(produtoRepository, times(1)).existsById(1);
+        verify(produtoRepository, times(1)).findById(1);
         verify(produtoRepository, times(1)).save(produtoAtual);
     }
 
