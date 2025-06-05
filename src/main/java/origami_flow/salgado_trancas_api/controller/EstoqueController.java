@@ -63,8 +63,8 @@ public class EstoqueController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstoqueDetalheResponseDTO.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<EstoqueDetalheResponseDTO> atualizarEstoque(@PathVariable Integer id, @RequestParam Integer quantidade) {
-        Estoque produto = estoqueService.atualizarEstoque(id, quantidade);
+    public ResponseEntity<EstoqueDetalheResponseDTO> atualizarEstoque(@PathVariable Integer id, @RequestParam Integer quantidade, @RequestParam Boolean quantidadeFixa) {
+        Estoque produto = estoqueService.atualizarEstoque(id, quantidade, quantidadeFixa);
         return ResponseEntity.ok(estoqueMapper.toEstoqueDetalheResponseDTO(produto));
     }
     @Operation(summary = "Remove um estoque", description = "Remove um estoque do sistema com base em seu ID")
