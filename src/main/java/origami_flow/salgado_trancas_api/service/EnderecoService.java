@@ -2,12 +2,10 @@ package origami_flow.salgado_trancas_api.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import origami_flow.salgado_trancas_api.clients.ViaCepHttpClient;
 import origami_flow.salgado_trancas_api.dto.CepDTO;
 import origami_flow.salgado_trancas_api.entity.Endereco;
-import origami_flow.salgado_trancas_api.exceptions.CepNaoEncontradoException;
 import origami_flow.salgado_trancas_api.exceptions.EntidadeNaoEncontradaException;
 import origami_flow.salgado_trancas_api.mapper.EnderecoMapper;
 import origami_flow.salgado_trancas_api.repository.EnderecoRepository;
